@@ -28,6 +28,26 @@ namespace Strategia
                     }
                 }
             }
+            else if (id == "PlanetaryProgram")
+            {
+                foreach (CelestialBody body in FlightGlobals.Bodies[0].orbitingBodies)
+                {
+                    if (body != home && body.pqsController != null)
+                    {
+                        yield return body;
+                    }
+                }
+            }
+            else if (id == "GasGiantProgram")
+            {
+                foreach (CelestialBody body in FlightGlobals.Bodies[0].orbitingBodies)
+                {
+                    if (body.pqsController == null && !body.orbitingBodies.Contains(home) && body.orbitingBodies.Count() >= 2)
+                    {
+                        yield return body;
+                    }
+                }
+            }
             else
             {
                 foreach (CelestialBody body in FlightGlobals.Bodies)
@@ -37,7 +57,7 @@ namespace Strategia
             }
         }
 
-        public static string BodyList(IEnumerable<CelestialBody> bodies)
+        public static string BodyList(IEnumerable<CelestialBody> bodies, string conjunction)
         {
             CelestialBody first = bodies.First();
             CelestialBody last = bodies.Last();
@@ -48,7 +68,7 @@ namespace Strategia
             }
             if (last != first)
             {
-                result += ", or " + last.theName;
+                result += " " + conjunction + " " + last.theName;
             }
             return result;
         }

@@ -19,7 +19,7 @@ namespace Strategia
         {
             get
             {
-                return "Cannot activate " + (invert ? "after" : "before") + " " + Verb() + " " + CelestialBodyUtil.BodyList(bodies) + ".";
+                return "Cannot activate " + (invert ? "after" : "before") + " " + Verb() + " " + CelestialBodyUtil.BodyList(bodies, "or") + ".";
             }
         }
 

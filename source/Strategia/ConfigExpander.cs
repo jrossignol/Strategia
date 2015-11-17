@@ -74,17 +74,58 @@ namespace Strategia
                     }
                 }
 
-                newNode.AddValue(pair.name, FormatBodyString(value, body));
+                if (value.StartsWith("@"))
+                {
+                    foreach (string listValue in ExpandList(value, body))
+                    {
+                        newNode.AddValue(pair.name, listValue);
+                    }
+                }
+                else
+                {
+                    newNode.AddValue(pair.name, FormatBodyString(value, body));
+                }
             }
 
             return newNode;
         }
 
+        public IEnumerable<string> ExpandList(string list, CelestialBody body)
+        {
+            if (list == "@bodies")
+            {
+                yield return body.name;
+                foreach (CelestialBody child in body.orbitingBodies)
+                {
+                    yield return child.name;
+                }
+            }
+            else
+            {
+                throw new Exception("Unhandled tag: " + list);
+            }
+        }
+
         public string FormatBodyString(string input, CelestialBody body)
         {
-            return input.
+            string result = input.
                 Replace("$body", body.name).
                 Replace("$theBody", body.theName);
+
+            if (result.Contains("$theBodies"))
+            {
+                result = result.Replace("$theBodies", CelestialBodyUtil.BodyList(Enumerable.Repeat(body, 1).Union(body.orbitingBodies), "and"));
+            }
+            if (result.Contains("$childBodies"))
+            {
+                result = result.Replace("$childBodies", CelestialBodyUtil.BodyList(body.orbitingBodies, "and"));
+            }
+            if (result.Contains("$childBodyCount"))
+            {
+                result = result.Replace("$childBodyCount", StringUtil.IntegerToRoman(body.orbitingBodies.Count()));
+            }
+
+            return result;
         }
     }
 }

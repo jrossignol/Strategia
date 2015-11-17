@@ -11,7 +11,8 @@ namespace Strategia
 {
     public class KerbalOnBodyGoal : StrategyEffect, IHiddenEffect, IExtraTextEffect
     {
-        private CelestialBody body;
+        private List<CelestialBody> bodies;
+        private List<CelestialBody> landedBodies = new List<CelestialBody>();
         public double reputationAward;
         public double fundsAward;
         public string requirementMsg;
@@ -48,7 +49,7 @@ namespace Strategia
 
         protected override void OnLoadFromConfig(ConfigNode node)
         {
-            body = ConfigNodeUtil.ParseValue<CelestialBody>(node, "body");
+            bodies = ConfigNodeUtil.ParseValue<List<CelestialBody>>(node, "body");
             reputationAward = ConfigNodeUtil.ParseValue<double>(node, "reputationAward");
             fundsAward = ConfigNodeUtil.ParseValue<double>(node, "fundsAward");
             requirementMsg = ConfigNodeUtil.ParseValue<string>(node, "requirementMsg");
@@ -74,6 +75,16 @@ namespace Strategia
 
             if (fta.host.vesselType == VesselType.EVA)
             {
+                CheckCompletion(fta.host.mainBody);
+            }
+        }
+
+        private void CheckCompletion(CelestialBody body)
+        {
+            landedBodies.AddUnique(body);
+
+            if (landedBodies.Count() == bodies.Count())
+            {
                 DoCompletion();
             }
         }
@@ -94,6 +105,19 @@ namespace Strategia
                 msg, MessageSystemButton.MessageButtonColor.GREEN, MessageSystemButton.ButtonIcons.ACHIEVE));
 
             Parent.Deactivate();
+        }
+
+        protected override void OnSave(ConfigNode node)
+        {
+            foreach (CelestialBody body in landedBodies)
+            {
+                node.AddValue("landedBody", body.name);
+            }
+        }
+
+        protected override void OnLoad(ConfigNode node)
+        {
+            landedBodies = ConfigNodeUtil.ParseValue<List<CelestialBody>>(node, "landedBody", new List<CelestialBody>());
         }
     }
 }

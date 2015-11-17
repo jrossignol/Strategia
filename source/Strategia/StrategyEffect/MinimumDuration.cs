@@ -117,7 +117,7 @@ namespace Strategia
 
         protected override void OnLoadFromConfig(ConfigNode node)
         {
-            duration = ConfigNodeUtil.ParseValue<double>(node, "duration");
+            duration = ConfigNodeUtil.ParseValue<Duration>(node, "duration").Value;
             reputationPenalty = ConfigNodeUtil.ParseValue<double>(node, "reputationPenalty");
             fundsPenalty = ConfigNodeUtil.ParseValue<double>(node, "fundsPenalty");
             failureMsg = ConfigNodeUtil.ParseValue<string>(node, "failureMsg");

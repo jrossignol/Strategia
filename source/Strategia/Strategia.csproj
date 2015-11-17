@@ -57,6 +57,8 @@
     <Compile Include="StrategyEffect\MinimumDuration.cs" />
     <Compile Include="EffectModifier\IHiddenEffect.cs" />
     <Compile Include="Strategy\CelestialBodyProgram.cs" />
+    <Compile Include="Util\DurationUtil.cs" />
+    <Compile Include="Util\StringUtil.cs" />
     <Compile Include="Util\CelestialBodyUtil.cs" />
     <Compile Include="Util\ConfigNodeUtil.cs" />
   </ItemGroup>
