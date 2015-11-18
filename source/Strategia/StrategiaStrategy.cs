@@ -170,8 +170,6 @@ namespace Strategia
                 }
             }
 
-            Debug.Log("### The text is: " + result);
-
             return result;
         }
 
@@ -239,11 +237,11 @@ namespace Strategia
         {
             if (!HasFactorSlider)
             {
-                if (FactorSliderDefault > 0.60)
+                if (FactorSliderDefault > 0.70)
                 {
                     return 3;
                 }
-                if (FactorSliderDefault > 0.25)
+                if (FactorSliderDefault > 0.40)
                 {
                     return 2;
                 }
