@@ -45,7 +45,7 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="EffectModifier\IExtraTextEffect.cs" />
+    <Compile Include="EffectModifier\IObjectiveEffect.cs" />
     <Compile Include="EffectModifier\ICanDeactivateEffect.cs" />
     <Compile Include="EffectModifier\IRequirementEffect.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
@@ -55,7 +55,6 @@
     <Compile Include="StrategyEffect\CelestialBodyRequirement.cs" />
     <Compile Include="StrategyEffect\KerbalOnBodyGoal.cs" />
     <Compile Include="StrategyEffect\MinimumDuration.cs" />
-    <Compile Include="EffectModifier\IHiddenEffect.cs" />
     <Compile Include="Strategy\CelestialBodyProgram.cs" />
     <Compile Include="Util\DurationUtil.cs" />
     <Compile Include="Util\StringUtil.cs" />

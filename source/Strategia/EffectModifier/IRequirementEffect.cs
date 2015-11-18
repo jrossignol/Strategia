@@ -13,5 +13,6 @@ namespace Strategia
     {
         string Reason { get; }
         bool RequirementMet();
+        string RequirementText();
     }
 }

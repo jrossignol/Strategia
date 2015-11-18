@@ -10,7 +10,7 @@ using Strategies.Effects;
 
 namespace Strategia
 {
-    public abstract class CelestialBodyRequirement : StrategyEffect, IHiddenEffect, IRequirementEffect
+    public abstract class CelestialBodyRequirement : StrategyEffect, IRequirementEffect
     {
         private IEnumerable<CelestialBody> bodies;
         private string id;
@@ -19,7 +19,7 @@ namespace Strategia
         {
             get
             {
-                return "Cannot activate " + (invert ? "after" : "before") + " " + Verb() + " " + CelestialBodyUtil.BodyList(bodies, "or") + ".";
+                return "Cannot activate " + (invert ? "after" : "before") + " " + Verbing() + " " + CelestialBodyUtil.BodyList(bodies, "or") + ".";
             }
         }
 
@@ -46,13 +46,19 @@ namespace Strategia
             invert = ConfigNodeUtil.ParseValue<bool>(node, "invert", false);
         }
 
+        public string RequirementText()
+        {
+            return "Must " + (invert ? "not " : "") + "have " + Verbed() + " " + CelestialBodyUtil.BodyList(bodies, "or");
+        }
+
         public bool RequirementMet()
         {
             return ProgressTracking.Instance.celestialBodyNodes.Where(node => bodies.Contains(node.Body)).Any(cbs => Check(cbs) ^ invert);
         }
 
         protected abstract bool Check(CelestialBodySubtree cbs);
-        protected abstract string Verb();
+        protected abstract string Verbing();
+        protected abstract string Verbed();
     }
 
     public class ReachedBodyRequirement : CelestialBodyRequirement
@@ -67,9 +73,14 @@ namespace Strategia
             return cbs.IsReached;
         }
 
-        protected override string Verb()
+        protected override string Verbing()
         {
             return "reaching";
+        }
+
+        protected override string Verbed()
+        {
+            return "reached";
         }
     }
 
@@ -85,9 +96,14 @@ namespace Strategia
             return cbs.orbit.IsReached;
         }
 
-        protected override string Verb()
+        protected override string Verbing()
         {
             return "orbiting";
+        }
+
+        protected override string Verbed()
+        {
+            return "orbited";
         }
     }
 
@@ -103,9 +119,13 @@ namespace Strategia
             return cbs.landing.IsReached;
         }
 
-        protected override string Verb()
+        protected override string Verbing()
         {
             return "landing on";
+        }
+        protected override string Verbed()
+        {
+            return "landed on";
         }
     }
 
@@ -121,9 +141,13 @@ namespace Strategia
             return cbs.returnFromOrbit.IsReached;
         }
 
-        protected override string Verb()
+        protected override string Verbing()
         {
-            return "returning from orbit of ";
+            return "returning from orbit of";
+        }
+        protected override string Verbed()
+        {
+            return "returned from orbit of";
         }
     }
 
@@ -139,9 +163,14 @@ namespace Strategia
             return cbs.returnFromSurface.IsReached;
         }
 
-        protected override string Verb()
+        protected override string Verbing()
         {
-            return "returning from the surface of ";
+            return "returning from the surface of";
+        }
+
+        protected override string Verbed()
+        {
+            return "returned from the surface of";
         }
     }
 }

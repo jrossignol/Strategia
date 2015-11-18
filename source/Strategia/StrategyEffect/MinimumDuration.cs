@@ -9,10 +9,10 @@ using Strategies.Effects;
 
 namespace Strategia
 {
-    public class MinimumDuration : StrategyEffect, IHiddenEffect, ICanDeactivateEffect, IExtraTextEffect
+    public class MinimumDuration : StrategyEffect, ICanDeactivateEffect, IObjectiveEffect
     {
         /// <summary>
-        /// Seperate MonoBehaviour for checking, as the strategy system only gets update calls in flight.
+        /// Separate MonoBehaviour for checking, as the strategy system only gets update calls in flight.
         /// </summary>
         [KSPAddon(KSPAddon.Startup.SpaceCentre, true)]
         public class DurationChecker : MonoBehaviour
@@ -51,12 +51,12 @@ namespace Strategia
                         if (minimumDuration.fundsPenalty > 0 && Funding.Instance != null)
                         {
                             Funding.Instance.AddFunds(-minimumDuration.fundsPenalty, TransactionReasons.Strategies);
-                            penalties += "<#B4D455>£-" + minimumDuration.fundsPenalty.ToString("N0") + "</>    ";
+                            penalties += "<#B4D455>£-" + minimumDuration.fundsPenalty.ToString("N0") + "    </>";
                         }
                         if (minimumDuration.reputationPenalty > 0 && Reputation.Instance != null)
                         {
                             Reputation.Instance.AddReputation((float)-minimumDuration.reputationPenalty, TransactionReasons.Strategies);
-                            penalties += "<#E0D503>¡-" + minimumDuration.reputationPenalty.ToString("N0") + "</>    ";
+                            penalties += "<#E0D503>¡-" + minimumDuration.reputationPenalty.ToString("N0") + "    </>";
                         }
 
                         MessageSystem.Instance.AddMessage(new MessageSystem.Message("Failed to complete strategy '" + minimumDuration.Parent.Title + "'",
@@ -69,8 +69,12 @@ namespace Strategia
         }
 
         public double duration;
-        public double reputationPenalty;
-        public double fundsPenalty;
+        public double fundsAward { get; private set; }
+        public float scienceAward { get; private set; }
+        public float reputationAward { get; private set; }
+        public double fundsPenalty { get; private set; }
+        public float sciencePenalty { get; private set; }
+        public float reputationPenalty { get; private set; }
         public string failureMsg;
 
         public MinimumDuration(Strategy parent)
@@ -78,33 +82,14 @@ namespace Strategia
         {
         }
 
-        public string ExtraText()
+        public string ObjectiveText()
         {
             string text = string.IsNullOrEmpty(failureMsg) ?
                 "Must be active for at least " :
                 "Must complete objective within ";
-            text += KSPUtil.PrintDateDelta((int)duration, false);
+            text += KSPUtil.PrintDateDelta((int)duration, false) + ".";
 
-            return BuildText(text);
-        }
-
-        public string BuildText(string msg)
-        {
-            string penalties = "";
-            if (reputationPenalty > 0 || fundsPenalty > 0)
-            {
-                penalties = "\n\n<b><#ED0B0B>Penalties: </></>";
-                if (fundsPenalty > 0)
-                {
-                    penalties += "<#B4D455>£-" + fundsPenalty.ToString("N0") + "</>    ";
-                }
-                if (reputationPenalty > 0)
-                {
-                    penalties += "<#E0D503>¡-" + reputationPenalty.ToString("N0") + "</>    ";
-                }
-            }
-
-            return "<" + XKCDColors.HexFormat.KSPNotSoGoodOrange + ">" + msg + "</>" + penalties + "\n";
+            return text;
         }
 
         protected string MinimumDurationText()
@@ -118,8 +103,9 @@ namespace Strategia
         protected override void OnLoadFromConfig(ConfigNode node)
         {
             duration = ConfigNodeUtil.ParseValue<Duration>(node, "duration").Value;
-            reputationPenalty = ConfigNodeUtil.ParseValue<double>(node, "reputationPenalty");
-            fundsPenalty = ConfigNodeUtil.ParseValue<double>(node, "fundsPenalty");
+            fundsPenalty = ConfigNodeUtil.ParseValue<double>(node, "fundsPenalty", 0.0);
+            sciencePenalty = ConfigNodeUtil.ParseValue<float>(node, "sciencePenalty", 0.0f);
+            reputationPenalty = ConfigNodeUtil.ParseValue<float>(node, "reputationPenalty", 0.0f);
             failureMsg = ConfigNodeUtil.ParseValue<string>(node, "failureMsg");
         }
 
