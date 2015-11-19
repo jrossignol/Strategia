@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Reflection;
 using System.Text;
 using System.Text.RegularExpressions;
 using UnityEngine;
@@ -11,6 +12,9 @@ namespace Strategia
 {
     public class StrategiaStrategy : Strategy
     {
+        static FieldInfo configTitleField;
+        static string originalTitle;
+
         protected override string GetText()
         {
             Debug.Log("StrategiaStrategy.GetText");
@@ -205,6 +209,11 @@ namespace Strategia
         {
             Debug.Log("StrategiaStrategy.CanActivate");
 
+            if (hasFactorSlider)
+            {
+                SetDynamicTitle();
+            }
+
             foreach (StrategyEffect effect in Effects)
             {
                 IRequirementEffect requirement = effect as IRequirementEffect;
@@ -266,6 +275,31 @@ namespace Strategia
             }
 
             return 1;
+        }
+
+        private void SetDynamicTitle()
+        {
+            if (configTitleField == null)
+            {
+                IEnumerable<FieldInfo> fields = typeof(StrategyConfig).GetFields(BindingFlags.NonPublic | BindingFlags.Instance).
+                    Where(fi => fi.FieldType == typeof(string));
+                foreach (FieldInfo field in fields)
+                {
+                    string value = field.GetValue(Config) as string;
+                    if (value == Config.Title)
+                    {
+                        originalTitle = value;
+                        configTitleField = field;
+                        break;
+                    }
+                }
+            }
+
+            int num = (int)Math.Round(factor * factorSliderSteps);
+            string newTitle = originalTitle + " " + StringUtil.IntegerToRoman(num);
+            configTitleField.SetValue(Config, newTitle);
+
+            Debug.Log("title set to " + newTitle);
         }
     }
 }
