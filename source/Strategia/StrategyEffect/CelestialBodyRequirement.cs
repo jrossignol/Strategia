@@ -15,13 +15,6 @@ namespace Strategia
         private IEnumerable<CelestialBody> bodies;
         private string id;
         public bool invert;
-        public string Reason
-        {
-            get
-            {
-                return "Cannot activate " + (invert ? "after" : "before") + " " + Verbing() + " " + CelestialBodyUtil.BodyList(bodies, "or") + ".";
-            }
-        }
 
         public CelestialBodyRequirement(Strategy parent)
             : base(parent)
@@ -51,13 +44,13 @@ namespace Strategia
             return "Must " + (invert ? "not " : "") + "have " + Verbed() + " " + CelestialBodyUtil.BodyList(bodies, "or");
         }
 
-        public bool RequirementMet()
+        public bool RequirementMet(out string unmetReason)
         {
+            unmetReason = null;
             return ProgressTracking.Instance.celestialBodyNodes.Where(node => bodies.Contains(node.Body)).Any(cbs => Check(cbs) ^ invert);
         }
 
         protected abstract bool Check(CelestialBodySubtree cbs);
-        protected abstract string Verbing();
         protected abstract string Verbed();
     }
 
@@ -71,11 +64,6 @@ namespace Strategia
         protected override bool Check(CelestialBodySubtree cbs)
         {
             return cbs.IsReached;
-        }
-
-        protected override string Verbing()
-        {
-            return "reaching";
         }
 
         protected override string Verbed()
@@ -96,11 +84,6 @@ namespace Strategia
             return cbs.orbit.IsReached;
         }
 
-        protected override string Verbing()
-        {
-            return "orbiting";
-        }
-
         protected override string Verbed()
         {
             return "orbited";
@@ -119,10 +102,6 @@ namespace Strategia
             return cbs.landing.IsReached;
         }
 
-        protected override string Verbing()
-        {
-            return "landing on";
-        }
         protected override string Verbed()
         {
             return "landed on";
@@ -141,10 +120,6 @@ namespace Strategia
             return cbs.returnFromOrbit.IsReached;
         }
 
-        protected override string Verbing()
-        {
-            return "returning from orbit of";
-        }
         protected override string Verbed()
         {
             return "returned from orbit of";
@@ -161,11 +136,6 @@ namespace Strategia
         protected override bool Check(CelestialBodySubtree cbs)
         {
             return cbs.returnFromSurface.IsReached;
-        }
-
-        protected override string Verbing()
-        {
-            return "returning from the surface of";
         }
 
         protected override string Verbed()

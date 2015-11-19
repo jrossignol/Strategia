@@ -11,8 +11,7 @@ namespace Strategia
 {
     public interface IRequirementEffect
     {
-        string Reason { get; }
-        bool RequirementMet();
+        bool RequirementMet(out string unmetReason);
         string RequirementText();
     }
 }

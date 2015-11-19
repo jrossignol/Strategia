@@ -29,14 +29,6 @@ namespace Strategia
             facilityNames[SpaceCenterFacility.VehicleAssemblyBuilding] = "Vehicle Assembly Building";
         }
 
-        public string Reason
-        {
-            get
-            {
-                return "Requires " + facilityNames[facility] + " Level " + level + " or greater.";
-            }
-        }
-
         public MinimumFacilityLevelRequirement(Strategy parent)
             : base(parent)
         {
@@ -50,12 +42,13 @@ namespace Strategia
 
         public string RequirementText()
         {
-            return facilityNames[facility] + " Level " + level;
+            return facilityNames[facility] + " must be at least level " + level;
         }
 
-        public bool RequirementMet()
+        public bool RequirementMet(out string unmetReason)
         {
             int currentLevel = (int)ScenarioUpgradeableFacilities.GetFacilityLevel(facility) * ScenarioUpgradeableFacilities.GetFacilityLevelCount(facility) + 1;
+            unmetReason = "Current level: " + currentLevel;
             return currentLevel >= level;
         }
     }

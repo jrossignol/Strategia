@@ -156,8 +156,13 @@ namespace Strategia
             if (RequiredReputation > -1000)
             {
                 float currentReputation = Reputation.Instance.reputation;
-                result += RequirementText("At least " + RequiredReputation + " reputation",
-                    currentReputation >= RequiredReputation);
+                bool repMet = currentReputation >= RequiredReputation;
+                string text = "At least " + RequiredReputation + " reputation";
+                if (!repMet)
+                {
+                    text += " (Current reputation: " + currentReputation + ")";
+                }
+                result += RequirementText(text, repMet);
             }
 
             // Requirements from strategies
@@ -166,7 +171,14 @@ namespace Strategia
                 IRequirementEffect requirementEffect = effect as IRequirementEffect;
                 if (requirementEffect != null)
                 {
-                    result += RequirementText(requirementEffect.RequirementText(), requirementEffect.RequirementMet());
+                    string unmetReason;
+                    bool requirementMet = requirementEffect.RequirementMet(out unmetReason);
+                    string text = requirementEffect.RequirementText();
+                    if (!requirementMet && !string.IsNullOrEmpty(unmetReason))
+                    {
+                        text += " (" + unmetReason + ")";
+                    }
+                    result += RequirementText(text, requirementMet);
                 }
             }
 
@@ -198,9 +210,15 @@ namespace Strategia
                 IRequirementEffect requirement = effect as IRequirementEffect;
                 if (requirement != null)
                 {
-                    if (!requirement.RequirementMet())
+                    string unmetReason;
+                    if (!requirement.RequirementMet(out unmetReason))
                     {
-                        reason = requirement.Reason;
+                        reason = requirement.RequirementText();
+                        if (!string.IsNullOrEmpty(unmetReason))
+                        {
+                            reason += " (" + unmetReason + ")";
+                        }
+
                         return false;
                     }
                 }
