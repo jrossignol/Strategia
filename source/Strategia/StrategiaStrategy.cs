@@ -160,8 +160,8 @@ namespace Strategia
             if (RequiredReputation > -1000)
             {
                 float currentReputation = Reputation.Instance.reputation;
-                bool repMet = currentReputation >= RequiredReputation;
-                string text = "At least " + RequiredReputation + " reputation";
+                bool repMet = Math.Round(currentReputation) >= Math.Round(RequiredReputation);
+                string text = "At least " + RequiredReputation.ToString("N0") + " reputation";
                 if (!repMet)
                 {
                     text += " (Current reputation: " + currentReputation + ")";

@@ -45,6 +45,7 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="StrategyNotifier.cs" />
     <Compile Include="EffectModifier\IObjectiveEffect.cs" />
     <Compile Include="EffectModifier\ICanDeactivateEffect.cs" />
     <Compile Include="EffectModifier\IRequirementEffect.cs" />
