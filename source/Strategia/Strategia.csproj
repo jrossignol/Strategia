@@ -50,6 +50,7 @@
     <Compile Include="EffectModifier\IRequirementEffect.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="ConfigExpander.cs" />
+    <Compile Include="StrategyEffect\MinimumFacilityLevelRequirement.cs" />
     <Compile Include="StrategyEffect\CurrencyOperationByBody.cs" />
     <Compile Include="StrategiaStrategy.cs" />
     <Compile Include="StrategyEffect\CelestialBodyRequirement.cs" />
