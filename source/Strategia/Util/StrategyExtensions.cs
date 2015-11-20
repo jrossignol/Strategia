@@ -11,7 +11,7 @@ namespace Strategia
     {
         public static int Level(this Strategy strategy)
         {
-            return strategy.HasFactorSlider ? (int)Math.Round(strategy.Factor * strategy.FactorSliderSteps) : 1;
+            return (int)Math.Round(strategy.Factor * strategy.FactorSliderSteps);
         }
 
         public static T GetLeveledListItem<T>(this Strategy strategy, IEnumerable<T> list, int offset = 0)

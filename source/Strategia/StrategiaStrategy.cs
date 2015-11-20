@@ -12,9 +12,6 @@ namespace Strategia
 {
     public class StrategiaStrategy : Strategy
     {
-        static FieldInfo configTitleField;
-        static string originalTitle;
-
         protected override string GetText()
         {
             Debug.Log("StrategiaStrategy.GetText");
@@ -153,7 +150,7 @@ namespace Strategia
             int minFacilityLevel = MinimumFacilityLevel();
             if (minFacilityLevel > 1)
             {
-                int currentLevel = ScenarioUpgradeableFacilities.GetFacilityLevelCount(SpaceCenterFacility.Administration) + 1;
+                int currentLevel = (int)ScenarioUpgradeableFacilities.GetFacilityLevel(facility) * ScenarioUpgradeableFacilities.GetFacilityLevelCount(facility) + 1;
                 result += RequirementText("Administration Facility Level " + minFacilityLevel,
                     currentLevel >= minFacilityLevel);
             }
@@ -209,11 +206,6 @@ namespace Strategia
         {
             Debug.Log("StrategiaStrategy.CanActivate");
 
-            if (hasFactorSlider)
-            {
-                SetDynamicTitle();
-            }
-
             foreach (StrategyEffect effect in Effects)
             {
                 IRequirementEffect requirement = effect as IRequirementEffect;
@@ -262,44 +254,16 @@ namespace Strategia
 
         public int MinimumFacilityLevel()
         {
-            if (!HasFactorSlider)
+            if (FactorSliderDefault > 0.70)
             {
-                if (FactorSliderDefault > 0.70)
-                {
-                    return 3;
-                }
-                if (FactorSliderDefault > 0.40)
-                {
-                    return 2;
-                }
+                return 3;
+            }
+            if (FactorSliderDefault > 0.40)
+            {
+                return 2;
             }
 
             return 1;
-        }
-
-        private void SetDynamicTitle()
-        {
-            if (configTitleField == null)
-            {
-                IEnumerable<FieldInfo> fields = typeof(StrategyConfig).GetFields(BindingFlags.NonPublic | BindingFlags.Instance).
-                    Where(fi => fi.FieldType == typeof(string));
-                foreach (FieldInfo field in fields)
-                {
-                    string value = field.GetValue(Config) as string;
-                    if (value == Config.Title)
-                    {
-                        originalTitle = value;
-                        configTitleField = field;
-                        break;
-                    }
-                }
-            }
-
-            int num = (int)Math.Round(factor * factorSliderSteps);
-            string newTitle = originalTitle + " " + StringUtil.IntegerToRoman(num);
-            configTitleField.SetValue(Config, newTitle);
-
-            Debug.Log("title set to " + newTitle);
         }
     }
 }

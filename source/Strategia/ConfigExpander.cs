@@ -24,14 +24,13 @@ namespace Strategia
 
         public void DoLoad()
         {
+            // Do Celestial Body expansion
             foreach (UrlDir.UrlConfig config in GameDatabase.Instance.GetConfigs("STRATEGY_BODY_EXPAND"))
             {
                 ConfigNode node = config.config;
-                Debug.Log("    doing " + node.GetValue("name"));
+                Debug.Log("Strategia: Expanding  " + node.GetValue("id"));
                 foreach (CelestialBody body in CelestialBodyUtil.GetBodiesForStrategy(node.GetValue("id")))
                 {
-                    Debug.Log("        doing " + body.name);
-
                     // Duplicate the node
                     ConfigNode newStrategy = ExpandNode(node, body);
                     newStrategy.name = "STRATEGY";
@@ -52,10 +51,76 @@ namespace Strategia
                     }
 
                     // Add the cloned strategy to the config file
-                    Debug.Log("Generated strategy '" + newStrategy.GetValue("title") + "'");
+                    Debug.Log("Strategia: Generated strategy '" + newStrategy.GetValue("title") + "'");
                     config.parent.configs.Add(new UrlDir.UrlConfig(config.parent, newStrategy));
                 }
             }
+
+            // Do level-based expansion
+            foreach (UrlDir.UrlConfig config in GameDatabase.Instance.GetConfigs("STRATEGY_LEVEL_EXPAND"))
+            {
+                ConfigNode node = config.config;
+                Debug.Log("Strategia: Expanding  " + node.GetValue("name"));
+
+                int count = ConfigNodeUtil.ParseValue<int>(node, "factorSliderSteps");
+                for (int level = 1; level <= count; level++)
+                {
+                    // Duplicate the node
+                    ConfigNode newStrategy = ExpandNode(node, level);
+                    newStrategy.name = "STRATEGY";
+
+                    // Name must be unique
+                    newStrategy.SetValue("name", newStrategy.GetValue("name") + level);
+
+                    // Set the title
+                    newStrategy.SetValue("title", newStrategy.GetValue("title") + " " + StringUtil.IntegerToRoman(level));
+
+                    // Set the factor slider
+                    newStrategy.SetValue("factorSliderDefault", ((float)level / ConfigNodeUtil.ParseValue<int>(node, "factorSliderSteps")).ToString(), true);
+
+                    if (newStrategy.HasValue("requiredReputation"))
+                    {
+                        float requiredReputation = ConfigNodeUtil.ParseValue<float>(newStrategy, "requiredReputation");
+                        newStrategy.SetValue("requiredReputationMin", requiredReputation.ToString(), true);
+                        newStrategy.SetValue("requiredReputationMax", requiredReputation.ToString(), true);
+                    }
+
+                    // Duplicate effect nodes
+                    foreach (ConfigNode effect in node.GetNodes("EFFECT"))
+                    {
+                        ConfigNode newEffect = ExpandNode(effect, level);
+                        newStrategy.AddNode(newEffect);
+                    }
+
+                    // Add the cloned strategy to the config file
+                    Debug.Log("Strategia: Generated strategy '" + newStrategy.GetValue("title") + "'");
+                    config.parent.configs.Add(new UrlDir.UrlConfig(config.parent, newStrategy));
+
+                    foreach (ConfigNode.Value pair in newStrategy.values)
+                    {
+                        Debug.Log("    " + pair.name + " = " + pair.value);
+                    }
+                }
+            }
+        }
+
+        public ConfigNode ExpandNode(ConfigNode node, int level)
+        {
+            ConfigNode newNode = new ConfigNode(node.name);
+
+            foreach (ConfigNode.Value pair in node.values)
+            {
+                newNode.AddValue(pair.name, pair.value);
+            }
+
+            foreach (ConfigNode expandNode in node.GetNodes("EXPAND"))
+            {
+                string[] nodes = expandNode.GetValues();
+                int index = level > nodes.Count() ? nodes.Count() - 1 : level - 1;
+                newNode.AddValue(expandNode.values.DistinctNames().First(), nodes[index]);
+            }
+
+            return newNode;
         }
 
         public ConfigNode ExpandNode(ConfigNode node, CelestialBody body)
@@ -89,7 +154,7 @@ namespace Strategia
 
             return newNode;
         }
-
+        
         public IEnumerable<string> ExpandList(string list, CelestialBody body)
         {
             if (list == "@bodies")

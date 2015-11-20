@@ -8,7 +8,13 @@ using Strategies;
 
 namespace Strategia
 {
-    public class AstronautTrainingProgram : StrategiaStrategy { }
-    public class SlotMachine : StrategiaStrategy { }
-    public class TechStagnation : StrategiaStrategy { }
+    public class AstronautTrainingProgram1 : StrategiaStrategy { }
+    public class AstronautTrainingProgram2 : StrategiaStrategy { }
+    public class AstronautTrainingProgram3 : StrategiaStrategy { }
+    public class SlotMachine1 : StrategiaStrategy { }
+    public class SlotMachine2 : StrategiaStrategy { }
+    public class SlotMachine3 : StrategiaStrategy { }
+    public class TechStagnation1 : StrategiaStrategy { }
+    public class TechStagnation2 : StrategiaStrategy { }
+    public class TechStagnation3 : StrategiaStrategy { }
 }
