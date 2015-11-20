@@ -164,7 +164,7 @@ namespace Strategia
                 string text = "At least " + RequiredReputation.ToString("N0") + " reputation";
                 if (!repMet)
                 {
-                    text += " (Current reputation: " + currentReputation + ")";
+                    text += " (Current reputation: " + Math.Round(currentReputation) + ")";
                 }
                 result += RequirementText(text, repMet);
             }
@@ -260,7 +260,7 @@ namespace Strategia
             Debug.Log("StrategiaStrategy.OnRegister");
         }
 
-        protected int MinimumFacilityLevel()
+        public int MinimumFacilityLevel()
         {
             if (!HasFactorSlider)
             {

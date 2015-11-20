@@ -42,12 +42,23 @@ namespace Strategia
                 foreach (StrategiaStrategy strategy in StrategySystem.Instance.Strategies.OfType<StrategiaStrategy>())
                 {
                     bool met = true;
+
+                    // Check admin building level
+                    int minFacilityLevel = strategy.MinimumFacilityLevel();
+                    if (minFacilityLevel > 1)
+                    {
+                        int currentLevel = ScenarioUpgradeableFacilities.GetFacilityLevelCount(SpaceCenterFacility.Administration) + 1;
+                        met &= currentLevel >= minFacilityLevel;
+                    }
+
+                    // Check Reputation
                     if (strategy.RequiredReputation > -1000)
                     {
                         float currentReputation = Reputation.Instance.reputation;
-                        met = Math.Round(currentReputation) >= Math.Round(strategy.RequiredReputation);
+                        met &= Math.Round(currentReputation) >= Math.Round(strategy.RequiredReputation);
                     }
 
+                    // Check effects
                     foreach (StrategyEffect effect in strategy.Effects)
                     {
                         if (!met)

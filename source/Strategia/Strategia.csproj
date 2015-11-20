@@ -45,6 +45,10 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="StrategyEffect\CareerParameterOverride.cs" />
+    <Compile Include="StrategyEffect\CurrencyOperationPerTech.cs" />
+    <Compile Include="StrategyEffect\CurrencyOperationRandomized.cs" />
+    <Compile Include="StrategyEffect\CurrencyOperationNonZero.cs" />
     <Compile Include="StrategyNotifier.cs" />
     <Compile Include="EffectModifier\IObjectiveEffect.cs" />
     <Compile Include="EffectModifier\ICanDeactivateEffect.cs" />
@@ -60,7 +64,9 @@
     <Compile Include="StrategyEffect\MinimumDuration.cs" />
     <Compile Include="Strategy\Generic.cs" />
     <Compile Include="Strategy\CelestialBodyProgram.cs" />
+    <Compile Include="Util\LRUCache.cs" />
     <Compile Include="Util\DurationUtil.cs" />
+    <Compile Include="Util\StrategyExtensions.cs" />
     <Compile Include="Util\StringUtil.cs" />
     <Compile Include="Util\CelestialBodyUtil.cs" />
     <Compile Include="Util\ConfigNodeUtil.cs" />

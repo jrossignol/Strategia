@@ -91,7 +91,7 @@ namespace Strategia
             string genderStr = gender != null ? gender.Value.ToString().ToLower() + " " : "";
             string astronautStr = string.IsNullOrEmpty(trait) ? "astronauts" : (trait.ToLower() + "s");
 
-            return "Hired " + genderStr + astronautStr + " start with experience at level " + StartingLevel() + ".";
+            return "Hired " + genderStr + astronautStr + " start at level " + Parent.Level() + ".";
         }
 
         protected override void OnLoadFromConfig(ConfigNode node)
@@ -109,11 +109,6 @@ namespace Strategia
         protected override void OnUnregister()
         {
             GameEvents.onKerbalTypeChange.Remove(new EventData<ProtoCrewMember, ProtoCrewMember.KerbalType, ProtoCrewMember.KerbalType>.OnEvent(OnKerbalTypeChange));
-        }
-
-        private int StartingLevel()
-        {
-            return level != 0 ? level : (int)Math.Round(Parent.Factor * Parent.FactorSliderSteps); ;
         }
 
         private void OnKerbalTypeChange(ProtoCrewMember pcm, ProtoCrewMember.KerbalType oldType, ProtoCrewMember.KerbalType newType)
@@ -146,7 +141,7 @@ namespace Strategia
                 }
 
                 // Get the experience level
-                int value = StartingLevel();
+                int value = Parent.Level();
                 string type = SPECIAL_XP + value.ToString();
 
                 // Do the awarding

@@ -9,4 +9,6 @@ using Strategies;
 namespace Strategia
 {
     public class AstronautTrainingProgram : StrategiaStrategy { }
+    public class SlotMachine : StrategiaStrategy { }
+    public class TechStagnation : StrategiaStrategy { }
 }
