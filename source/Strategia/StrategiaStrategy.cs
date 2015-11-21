@@ -151,7 +151,7 @@ namespace Strategia
             if (minFacilityLevel > 1)
             {
                 int currentLevel = (int)ScenarioUpgradeableFacilities.GetFacilityLevel(SpaceCenterFacility.Administration) *
-                    ScenarioUpgradeableFacilities.GetFacilityLevelCount(SpaceCenterFacility.Administration) + 1;
+                    ScenarioUpgradeableFacilities.GetFacilityLevelCount(SpaceCenterFacility.Administration);
                 result += RequirementText("Administration Facility Level " + minFacilityLevel,
                     currentLevel >= minFacilityLevel);
             }
