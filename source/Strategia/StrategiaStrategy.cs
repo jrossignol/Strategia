@@ -147,24 +147,47 @@ namespace Strategia
 
             // Write out stock-based requirements
             result += "\n<b><#feb200>Requirements:</></>\n\n";
-            int minFacilityLevel = MinimumFacilityLevel();
-            if (minFacilityLevel > 1)
+            if (InitialCostFunds > 0)
             {
-                int currentLevel = (int)ScenarioUpgradeableFacilities.GetFacilityLevel(SpaceCenterFacility.Administration) *
-                    ScenarioUpgradeableFacilities.GetFacilityLevelCount(SpaceCenterFacility.Administration);
-                result += RequirementText("Administration Facility Level " + minFacilityLevel,
-                    currentLevel >= minFacilityLevel);
+                double currentFunds = Funding.Instance.Funds;
+                bool fundsMet = Math.Round(currentFunds) >= Math.Round(InitialCostFunds);
+                string text = "At least " + InitialCostFunds.ToString("N0") + " funds";
+                if (!fundsMet)
+                {
+                    text += " (Current funds: " + Math.Round(currentFunds) + ")";
+                }
+                result += RequirementText(text, fundsMet);
             }
-            if (RequiredReputation > -1000)
+            if (InitialCostScience > 0)
             {
+                double currentScience = ResearchAndDevelopment.Instance.Science;
+                bool scienceMet = Math.Round(currentScience) >= Math.Round(InitialCostScience);
+                string text = "At least " + InitialCostScience.ToString("N0") + " science";
+                if (!scienceMet)
+                {
+                    text += " (Current science: " + Math.Round(currentScience) + ")";
+                }
+                result += RequirementText(text, scienceMet);
+            }
+            if (RequiredReputation > -1000 || InitialCostReputation > 0)
+            {
+                float reputationNeeded = Math.Max(RequiredReputation, InitialCostReputation > 0 ? InitialCostReputation : -1000);
                 float currentReputation = Reputation.Instance.reputation;
-                bool repMet = Math.Round(currentReputation) >= Math.Round(RequiredReputation);
-                string text = "At least " + RequiredReputation.ToString("N0") + " reputation";
+                bool repMet = Math.Round(currentReputation) >= Math.Round(reputationNeeded);
+                string text = "At least " + reputationNeeded.ToString("N0") + " reputation";
                 if (!repMet)
                 {
                     text += " (Current reputation: " + Math.Round(currentReputation) + ")";
                 }
                 result += RequirementText(text, repMet);
+            }
+            int minFacilityLevel = MinimumFacilityLevel();
+            if (minFacilityLevel > 1)
+            {
+                int currentLevel = (int)Math.Round(ScenarioUpgradeableFacilities.GetFacilityLevel(SpaceCenterFacility.Administration) *
+                    ScenarioUpgradeableFacilities.GetFacilityLevelCount(SpaceCenterFacility.Administration)) + 1;
+                result += RequirementText("Administration Facility Level " + minFacilityLevel,
+                    currentLevel >= minFacilityLevel);
             }
 
             // Requirements from strategies

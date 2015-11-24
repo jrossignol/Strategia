@@ -47,16 +47,18 @@ namespace Strategia
                     int minFacilityLevel = strategy.MinimumFacilityLevel();
                     if (minFacilityLevel > 1)
                     {
-                        int currentLevel = (int)ScenarioUpgradeableFacilities.GetFacilityLevel(SpaceCenterFacility.Administration) *
-                            ScenarioUpgradeableFacilities.GetFacilityLevelCount(SpaceCenterFacility.Administration);
+                        int currentLevel = (int)Math.Round(ScenarioUpgradeableFacilities.GetFacilityLevel(SpaceCenterFacility.Administration) *
+                            ScenarioUpgradeableFacilities.GetFacilityLevelCount(SpaceCenterFacility.Administration)) + 1;
                         met &= currentLevel >= minFacilityLevel;
                     }
 
                     // Check Reputation
-                    if (strategy.RequiredReputation > -1000)
+                    if (strategy.RequiredReputation > -1000 || strategy.InitialCostReputation > 0)
                     {
                         float currentReputation = Reputation.Instance.reputation;
-                        met &= Math.Round(currentReputation) >= Math.Round(strategy.RequiredReputation);
+                        float reputationNeeded = Math.Max(strategy.RequiredReputation,
+                            strategy.InitialCostReputation > 0 ? strategy.InitialCostReputation : -1000);
+                        met &= Math.Round(currentReputation) >= Math.Round(reputationNeeded);
                     }
 
                     // Check effects

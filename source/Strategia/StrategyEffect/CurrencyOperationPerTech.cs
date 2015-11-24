@@ -13,7 +13,7 @@ namespace Strategia
     /// <summary>
     /// Special CurrencyOperation that multiplies by the number of unresearched technologies.
     /// </summary>
-    public class CurrencyOperationPerTech : StrategyEffect
+    public class CurrencyOperationPerTech : StrategyEffect, IRequirementEffect
     {
         private static List<string> allTech = null;
 
@@ -121,13 +121,27 @@ namespace Strategia
 
             // Check if it's non-zero
             float value = qry.GetInput(currency);
-            if (Math.Abs(value) < 0.01)
+            if (Math.Abs(qry.GetInput(Currency.Funds)) < 0.01 &&
+                Math.Abs(qry.GetInput(Currency.Science)) < 0.01 &&
+                Math.Abs(qry.GetInput(Currency.Reputation)) < 0.01)
             {
                 return;
             }
 
             // Calculate the delta
             qry.AddDelta(currency, CurrentMultiplier());
+        }
+
+        public string RequirementText()
+        {
+            return "Must not have researched all technology";
+        }
+
+        public bool RequirementMet(out string unmetReason)
+        {
+            
+            unmetReason = "All technology is researched";
+            return CurrentMultiplier() > 0.0;
         }
     }
 }

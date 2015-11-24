@@ -47,8 +47,8 @@ namespace Strategia
 
         public bool RequirementMet(out string unmetReason)
         {
-            int currentLevel = (int)ScenarioUpgradeableFacilities.GetFacilityLevel(facility) *
-                ScenarioUpgradeableFacilities.GetFacilityLevelCount(facility);
+            int currentLevel = (int)Math.Round(ScenarioUpgradeableFacilities.GetFacilityLevel(facility) *
+                ScenarioUpgradeableFacilities.GetFacilityLevelCount(facility)) + 1;
             unmetReason = "Current level: " + currentLevel;
             return currentLevel >= level;
         }
