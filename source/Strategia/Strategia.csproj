@@ -45,6 +45,7 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="DepartmentFixer.cs" />
     <Compile Include="StrategyEffect\CareerParameterOverride.cs" />
     <Compile Include="StrategyEffect\VesselEnrouteRequirement.cs" />
     <Compile Include="StrategyEffect\CurrencyOperationPerTech.cs" />
