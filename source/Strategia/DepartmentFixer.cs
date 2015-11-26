@@ -12,7 +12,7 @@ namespace Strategia
     /// <summary>
     /// Special MonoBehaviour to fix up the departments.
     /// </summary>
-    [KSPAddon(KSPAddon.Startup.SpaceCentre, true)]
+    [KSPAddon(KSPAddon.Startup.SpaceCentre, false)]
     public class DepartmentFixer : MonoBehaviour
     {
         public void Awake()

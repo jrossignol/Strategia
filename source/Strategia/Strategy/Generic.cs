@@ -17,4 +17,13 @@ namespace Strategia
     public class TechStagnation1 : StrategiaStrategy { }
     public class TechStagnation2 : StrategiaStrategy { }
     public class TechStagnation3 : StrategiaStrategy { }
+    public class EngineerFocus1 : StrategiaStrategy { }
+    public class EngineerFocus2 : StrategiaStrategy { }
+    public class EngineerFocus3 : StrategiaStrategy { }
+    public class PilotFocus1 : StrategiaStrategy { }
+    public class PilotFocus2 : StrategiaStrategy { }
+    public class PilotFocus3 : StrategiaStrategy { }
+    public class ScientistFocus1 : StrategiaStrategy { }
+    public class ScientistFocus2 : StrategiaStrategy { }
+    public class ScientistFocus3 : StrategiaStrategy { }
 }
