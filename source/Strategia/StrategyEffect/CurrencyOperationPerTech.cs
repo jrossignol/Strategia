@@ -33,8 +33,8 @@ namespace Strategia
             float multiplier = Parent.GetLeveledListItem(multipliers);
             float currentValue = CurrentMultiplier();
 
-            return (multiplier > 0.0 ? "+" :"") + multiplier.ToString("F1") + " " + currency + " " + effectDescription +
-                " per unresearched technology (currently adds " + (multiplier > 0.0 ? "+" :"") + currentValue.ToString("F1") + " " + currency + ").";
+            return (multiplier > 0.0 ? "+" : "") + currentValue.ToString("F1") + " " + currency + " " + effectDescription + " (" +
+                (multiplier > 0.0 ? "+" : "") + multiplier.ToString("F1") + " per unresearched technology).";
         }
 
         protected override void OnLoadFromConfig(ConfigNode node)

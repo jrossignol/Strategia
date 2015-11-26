@@ -101,13 +101,14 @@ namespace Strategia
             }
 
             // Check if it's non-zero
+            float total = 0.0f;
             foreach (Currency currency in currencies)
             {
-                float value = qry.GetInput(currency);
-                if (Math.Abs(value) < 0.01)
-                {
-                    return;
-                }
+                total += Math.Abs(qry.GetInput(currency));
+            }
+            if (total < 0.01f)
+            {
+                return;
             }
 
             string hash = string.Join("|", new string[]{
@@ -121,7 +122,6 @@ namespace Strategia
             float multiplier = 0.0f;
             if (!valueCache.ContainsKey(hash))
             {
-                int level = Parent.Level();
                 float lowerValue = Parent.GetLeveledListItem(lowerValues);
                 float upperValue = Parent.GetLeveledListItem(upperValues);
 

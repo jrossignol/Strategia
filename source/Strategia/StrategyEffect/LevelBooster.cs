@@ -76,7 +76,7 @@ namespace Strategia
             int level = Parent.GetLeveledListItem<int>(levels);
 
             // Update the level for all crew that match up
-            foreach (ProtoCrewMember pcm in GetVesselCrew(vessel).
+            foreach (ProtoCrewMember pcm in VesselUtil.GetVesselCrew(vessel).
                 Where(p =>
                     string.IsNullOrEmpty(trait) || p.experienceTrait.Config.Name == trait &&
                     gender == null || p.gender == gender
@@ -86,44 +86,6 @@ namespace Strategia
             }
 
             return;
-        }
-
-        /// <summary>
-        /// Gets the vessel crew and works for EVAs as well
-        /// </summary>
-        /// <param name="v"></param>
-        /// <returns></returns>
-        protected static IEnumerable<ProtoCrewMember> GetVesselCrew(Vessel v)
-        {
-            if (v == null)
-            {
-                yield break;
-            }
-
-            // EVA vessel
-            if (v.vesselType == VesselType.EVA)
-            {
-                if (v.parts == null)
-                {
-                    yield break;
-                }
-
-                foreach (Part p in v.parts)
-                {
-                    foreach (ProtoCrewMember pcm in p.protoModuleCrew)
-                    {
-                        yield return pcm;
-                    }
-                }
-            }
-            else
-            {
-                // Vessel with crew
-                foreach (ProtoCrewMember pcm in v.GetVesselCrew())
-                {
-                    yield return pcm;
-                }
-            }
         }
     }
 }

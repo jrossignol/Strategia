@@ -67,6 +67,10 @@ namespace Strategia
                 {
                     // Duplicate the node
                     ConfigNode newStrategy = ExpandNode(node, level);
+                    if (newStrategy == null)
+                    {
+                        continue;
+                    }
                     newStrategy.name = "STRATEGY";
 
                     // Name must be unique
@@ -89,7 +93,10 @@ namespace Strategia
                     foreach (ConfigNode effect in node.GetNodes("EFFECT"))
                     {
                         ConfigNode newEffect = ExpandNode(effect, level);
-                        newStrategy.AddNode(newEffect);
+                        if (newEffect != null)
+                        {
+                            newStrategy.AddNode(newEffect);
+                        }
                     }
 
                     // Add the cloned strategy to the config file
@@ -106,6 +113,14 @@ namespace Strategia
 
         public ConfigNode ExpandNode(ConfigNode node, int level)
         {
+            // Handle min/max level
+            int minLevel = ConfigNodeUtil.ParseValue<int>(node, "minLevel", 1);
+            int maxLevel = ConfigNodeUtil.ParseValue<int>(node, "maxLevel", 3);
+            if (level < minLevel || level > maxLevel)
+            {
+                return null;
+            }
+
             ConfigNode newNode = new ConfigNode(node.name);
 
             foreach (ConfigNode.Value pair in node.values)
@@ -113,11 +128,24 @@ namespace Strategia
                 newNode.AddValue(pair.name, pair.value);
             }
 
-            foreach (ConfigNode expandNode in node.GetNodes("EXPAND"))
+            foreach (ConfigNode overrideNode in node.GetNodes())
             {
-                string[] nodes = expandNode.GetValues();
-                int index = level > nodes.Count() ? nodes.Count() - 1 : level - 1;
-                newNode.AddValue(expandNode.values.DistinctNames().First(), nodes[index]);
+                if (overrideNode.name == "EFFECT")
+                {
+                    continue;
+                }
+
+                if (overrideNode.HasValue(level.ToString()))
+                {
+                    if (newNode.HasValue(overrideNode.name))
+                    {
+                        newNode.RemoveValue(overrideNode.name);
+                    }
+                    if (overrideNode.HasValue(level.ToString()))
+                    {
+                        newNode.AddValue(overrideNode.name, overrideNode.GetValue(level.ToString()));
+                    }
+                }
             }
 
             return newNode;

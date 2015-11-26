@@ -47,7 +47,8 @@
   <ItemGroup>
     <Compile Include="DepartmentFixer.cs" />
     <Compile Include="StrategyEffect\CareerParameterOverride.cs" />
-    <Compile Include="StrategyEffect\TraitBooster.cs" />
+    <Compile Include="StrategyEffect\CurrencyOperationByContract.cs" />
+    <Compile Include="StrategyEffect\LevelBooster.cs" />
     <Compile Include="StrategyEffect\VesselEnrouteRequirement.cs" />
     <Compile Include="StrategyEffect\CurrencyOperationPerTech.cs" />
     <Compile Include="StrategyEffect\CurrencyOperationRandomized.cs" />
@@ -73,6 +74,8 @@
     <Compile Include="Util\StringUtil.cs" />
     <Compile Include="Util\CelestialBodyUtil.cs" />
     <Compile Include="Util\ConfigNodeUtil.cs" />
+    <Compile Include="Util\TypeUtil.cs" />
+    <Compile Include="Util\VesselUtil.cs" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <PropertyGroup>

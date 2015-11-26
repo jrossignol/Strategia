@@ -33,6 +33,12 @@ namespace Strategia
             return cacheMap.ContainsKey(key);
         }
 
+        public void Clear()
+        {
+            cacheMap.Clear();
+            lruList.Clear();
+        }
+
         public V this[K key]
         {
             get
