@@ -68,9 +68,7 @@ namespace Strategia
             }
 
             return multiplierStr + " " + currencyStr + effectDescription +
-                " for " + contractStr + " contracts when " +
-                (new char[] {'a', 'e', 'i', 'o', 'u'}.Contains(trait.ToLower().First()) ? "an " : "a ") +
-                trait.ToLower() + " is present.";
+                " for " + contractStr + " contracts when " + StringUtil.ATrait(trait) + " is present.";
         }
 
         protected override void OnLoadFromConfig(ConfigNode node)

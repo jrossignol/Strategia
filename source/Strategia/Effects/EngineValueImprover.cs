@@ -31,9 +31,7 @@ namespace Strategia
             float multiplier = Parent.GetLeveledListItem(multipliers);
             string multiplierStr = ToPercentage(multiplier, "F1");
 
-            return "Engine ISP increased by " + multiplierStr + " when " +
-                (new char[] { 'a', 'e', 'i', 'o', 'u' }.Contains(trait.ToLower().First()) ? "an " : "a ") +
-                trait.ToLower() + " is on board.";
+            return "Engine ISP increased by " + multiplierStr + " when " + StringUtil.ATrait(trait) + " is on board.";
         }
 
         protected override void OnLoadFromConfig(ConfigNode node)
