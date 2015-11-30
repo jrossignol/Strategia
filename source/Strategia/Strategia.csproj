@@ -46,27 +46,28 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="DepartmentFixer.cs" />
-    <Compile Include="StrategyEffect\CareerParameterOverride.cs" />
-    <Compile Include="StrategyEffect\EngineValueImprover.cs" />
-    <Compile Include="StrategyEffect\CurrencyOperationByContract.cs" />
-    <Compile Include="StrategyEffect\LevelBooster.cs" />
-    <Compile Include="StrategyEffect\VesselEnrouteRequirement.cs" />
-    <Compile Include="StrategyEffect\CurrencyOperationPerTech.cs" />
-    <Compile Include="StrategyEffect\CurrencyOperationRandomized.cs" />
-    <Compile Include="StrategyEffect\CurrencyOperationNonZero.cs" />
+    <Compile Include="Effects\CareerParameterOverride.cs" />
+    <Compile Include="Effects\EngineValueImprover.cs" />
+    <Compile Include="Effects\CurrencyOperationByContract.cs" />
+    <Compile Include="Effects\LevelBooster.cs" />
+    <Compile Include="Requirements\IncompatibleRequirement.cs" />
+    <Compile Include="Requirements\VesselEnrouteRequirement.cs" />
+    <Compile Include="Effects\CurrencyOperationPerTech.cs" />
+    <Compile Include="Effects\CurrencyOperationRandomized.cs" />
+    <Compile Include="Effects\CurrencyOperationNonZero.cs" />
     <Compile Include="StrategyNotifier.cs" />
     <Compile Include="EffectModifier\IObjectiveEffect.cs" />
     <Compile Include="EffectModifier\ICanDeactivateEffect.cs" />
     <Compile Include="EffectModifier\IRequirementEffect.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="ConfigExpander.cs" />
-    <Compile Include="StrategyEffect\NewKerbalExperience.cs" />
-    <Compile Include="StrategyEffect\MinimumFacilityLevelRequirement.cs" />
-    <Compile Include="StrategyEffect\CurrencyOperationByBody.cs" />
+    <Compile Include="Effects\NewKerbalExperience.cs" />
+    <Compile Include="Requirements\MinimumFacilityLevelRequirement.cs" />
+    <Compile Include="Effects\CurrencyOperationByBody.cs" />
     <Compile Include="StrategiaStrategy.cs" />
-    <Compile Include="StrategyEffect\CelestialBodyRequirement.cs" />
-    <Compile Include="StrategyEffect\KerbalOnBodyGoal.cs" />
-    <Compile Include="StrategyEffect\MinimumDuration.cs" />
+    <Compile Include="Requirements\CelestialBodyRequirement.cs" />
+    <Compile Include="Effects\KerbalOnBodyGoal.cs" />
+    <Compile Include="Effects\MinimumDuration.cs" />
     <Compile Include="Strategy\Generic.cs" />
     <Compile Include="Strategy\CelestialBodyProgram.cs" />
     <Compile Include="Util\LRUCache.cs" />
@@ -78,6 +79,7 @@
     <Compile Include="Util\TypeUtil.cs" />
     <Compile Include="Util\VesselUtil.cs" />
   </ItemGroup>
+  <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <PropertyGroup>
     <PostBuildEvent>copy /y "$(TargetPath)" "$(SolutionDir)..\GameData\Strategia\"

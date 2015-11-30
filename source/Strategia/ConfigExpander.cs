@@ -79,6 +79,9 @@ namespace Strategia
                     // Set the title
                     newStrategy.SetValue("title", newStrategy.GetValue("title") + " " + StringUtil.IntegerToRoman(level));
 
+                    // Set the group tag
+                    newStrategy.SetValue("groupTag", newStrategy.GetValue("groupTag") + "," + StringUtil.IntegerToRoman(level));
+
                     // Set the factor slider
                     newStrategy.SetValue("factorSliderDefault", ((float)level / ConfigNodeUtil.ParseValue<int>(node, "factorSliderSteps")).ToString(), true);
 

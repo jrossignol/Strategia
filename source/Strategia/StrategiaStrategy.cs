@@ -230,6 +230,19 @@ namespace Strategia
         {
             Debug.Log("StrategiaStrategy.CanActivate");
 
+            // Custom compatibility test
+            string basename = BaseName();
+            if (Title != basename)
+            {
+                Strategy conflict = StrategySystem.Instance.Strategies.Where(s => s.Title.StartsWith(basename) && s.IsActive).FirstOrDefault();
+                if (conflict != null)
+                {
+                    reason = "Cannot activate " + Title + " as " + conflict.Title + " is already active.";
+                    return false;
+                }
+            }
+
+            // Special requirements
             foreach (StrategyEffect effect in Effects)
             {
                 IRequirementEffect requirement = effect as IRequirementEffect;
@@ -288,6 +301,15 @@ namespace Strategia
             }
 
             return 1;
+        }
+
+        private string BaseName()
+        {
+            if (Title.EndsWith(" I") || Title.EndsWith(" II") || Title.EndsWith(" III"))
+            {
+                return Title.TrimEnd(new char[] { 'I', ' ' });
+            }
+            return Title;
         }
     }
 }
