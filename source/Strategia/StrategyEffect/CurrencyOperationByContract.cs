@@ -123,8 +123,6 @@ namespace Strategia
 
         private void OnEffectQuery(CurrencyModifierQuery qry)
         {
-            Debug.Log("CurrencyOperationByContract.OnEffectQuery");
-
             // Check the reason is a match
             if (!affectReasons.Contains(qry.reason))
             {

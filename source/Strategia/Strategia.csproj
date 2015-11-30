@@ -47,6 +47,7 @@
   <ItemGroup>
     <Compile Include="DepartmentFixer.cs" />
     <Compile Include="StrategyEffect\CareerParameterOverride.cs" />
+    <Compile Include="StrategyEffect\EngineValueImprover.cs" />
     <Compile Include="StrategyEffect\CurrencyOperationByContract.cs" />
     <Compile Include="StrategyEffect\LevelBooster.cs" />
     <Compile Include="StrategyEffect\VesselEnrouteRequirement.cs" />
