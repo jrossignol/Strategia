@@ -47,7 +47,8 @@
   <ItemGroup>
     <Compile Include="DepartmentFixer.cs" />
     <Compile Include="Effects\CareerParameterOverride.cs" />
-    <Compile Include="Effects\EngineValueImprover.cs" />
+    <Compile Include="Effects\CurrencyOperationByTrait.cs" />
+    <Compile Include="Effects\VesselValueImprover.cs" />
     <Compile Include="Effects\CurrencyOperationByContract.cs" />
     <Compile Include="Effects\LevelBooster.cs" />
     <Compile Include="Requirements\IncompatibleRequirement.cs" />
