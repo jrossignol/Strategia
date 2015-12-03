@@ -143,4 +143,94 @@ namespace Strategia
             return "returned from the surface of";
         }
     }
+
+    public class ReachedBodyMannedRequirement : CelestialBodyRequirement
+    {
+        public ReachedBodyMannedRequirement(Strategy parent)
+            : base(parent)
+        {
+        }
+
+        protected override bool Check(CelestialBodySubtree cbs)
+        {
+            return cbs.IsCompleteManned;
+        }
+
+        protected override string Verbed()
+        {
+            return "a crewed fly-by of";
+        }
+    }
+
+    public class OrbitBodyMannedRequirement : CelestialBodyRequirement
+    {
+        public OrbitBodyMannedRequirement(Strategy parent)
+            : base(parent)
+        {
+        }
+
+        protected override bool Check(CelestialBodySubtree cbs)
+        {
+            return cbs.orbit.IsCompleteManned;
+        }
+
+        protected override string Verbed()
+        {
+            return "orbited with a crew around";
+        }
+    }
+
+    public class LandedBodyMannedRequirement : CelestialBodyRequirement
+    {
+        public LandedBodyMannedRequirement(Strategy parent)
+            : base(parent)
+        {
+        }
+
+        protected override bool Check(CelestialBodySubtree cbs)
+        {
+            return cbs.landing.IsCompleteManned;
+        }
+
+        protected override string Verbed()
+        {
+            return "landed a crew on";
+        }
+    }
+
+    public class ReturnFromOrbitMannedRequirement : CelestialBodyRequirement
+    {
+        public ReturnFromOrbitMannedRequirement(Strategy parent)
+            : base(parent)
+        {
+        }
+
+        protected override bool Check(CelestialBodySubtree cbs)
+        {
+            return cbs.returnFromOrbit.IsCompleteManned;
+        }
+
+        protected override string Verbed()
+        {
+            return "returned a crew from orbit of";
+        }
+    }
+
+    public class ReturnFromSurfaceMannedRequirement : CelestialBodyRequirement
+    {
+        public ReturnFromSurfaceMannedRequirement(Strategy parent)
+            : base(parent)
+        {
+        }
+
+        protected override bool Check(CelestialBodySubtree cbs)
+        {
+            return cbs.returnFromSurface.IsCompleteManned;
+        }
+
+        protected override string Verbed()
+        {
+            return "returned a crew from the surface of";
+        }
+    }
 }

@@ -46,6 +46,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="DepartmentFixer.cs" />
+    <Compile Include="Effects\AdvanceEffect.cs" />
     <Compile Include="Effects\CareerParameterOverride.cs" />
     <Compile Include="Effects\CurrencyOperationByTrait.cs" />
     <Compile Include="Effects\VesselValueImprover.cs" />
