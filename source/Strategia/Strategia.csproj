@@ -65,7 +65,7 @@
     <Compile Include="Effects\NewKerbalExperience.cs" />
     <Compile Include="Requirements\MinimumFacilityLevelRequirement.cs" />
     <Compile Include="Effects\CurrencyOperationByBody.cs" />
-    <Compile Include="StrategiaStrategy.cs" />
+    <Compile Include="Strategy\StrategiaStrategy.cs" />
     <Compile Include="Requirements\CelestialBodyRequirement.cs" />
     <Compile Include="Effects\KerbalOnBodyGoal.cs" />
     <Compile Include="Effects\MinimumDuration.cs" />

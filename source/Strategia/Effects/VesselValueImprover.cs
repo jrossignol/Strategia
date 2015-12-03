@@ -22,6 +22,7 @@ namespace Strategia
             ISP,
             ParachuteDrag,
             StrutStrength,
+            ReactionWheelTorque,
         }
 
         string trait;
@@ -36,6 +37,7 @@ namespace Strategia
             attributeTitles[Attribute.ISP] = "Engine ISP";
             attributeTitles[Attribute.ParachuteDrag] = "Parachute effectiveness";
             attributeTitles[Attribute.StrutStrength] = "Strut strength";
+            attributeTitles[Attribute.ReactionWheelTorque] = "Reaction wheel torque";
 
         }
 
@@ -159,6 +161,15 @@ namespace Strategia
                             {
                                 SetValue(p.partName + "_linear", needsIncrease, ref strut.linearStrength);
                                 SetValue(p.partName + "_angular", needsIncrease, ref strut.angularStrength);
+                            }
+                            break;
+                        case Attribute.ReactionWheelTorque:
+                            ModuleReactionWheel reactionWheel = m as ModuleReactionWheel;
+                            if (reactionWheel != null)
+                            {
+                                SetValue(p.partName + "_pitch", needsIncrease, ref reactionWheel.PitchTorque);
+                                SetValue(p.partName + "_yaw", needsIncrease, ref reactionWheel.YawTorque);
+                                SetValue(p.partName + "_roll", needsIncrease, ref reactionWheel.RollTorque);
                             }
                             break;
                     }
