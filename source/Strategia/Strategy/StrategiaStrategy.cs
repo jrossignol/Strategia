@@ -12,6 +12,8 @@ namespace Strategia
 {
     public class StrategiaStrategy : Strategy
     {
+        private bool forcedDeactivation = false;
+
         protected override string GetText()
         {
             Debug.Log("StrategiaStrategy.GetText");
@@ -65,38 +67,70 @@ namespace Strategia
                         first = false;
                     }
 
-                    string objectiveText = objectiveEffect.ObjectiveText();
-                    if (!string.IsNullOrEmpty(objectiveText))
+                    foreach (string objectiveText in objectiveEffect.ObjectiveText())
                     {
-                        result += "<#BEC2AE>* " + objectiveText + "</>\n";
+                        if (!string.IsNullOrEmpty(objectiveText))
+                        {
+                            result += "<#BEC2AE>* " + objectiveText + "</>\n";
+                        }
                     }
                 }
             }
 
             // Calculate objective rewards/penalties
-            double fundsAward = 0.0;
-            float scienceAward = 0.0f;
-            float reputationAward = 0.0f;
-            double fundsPenalty = 0.0;
-            float sciencePenalty = 0.0f;
-            float reputationPenalty = 0.0f;
+            double advanceFunds = 0.0;
+            float advanceScience = 0.0f;
+            float advanceReputation = 0.0f;
+            double rewardFunds = 0.0;
+            float rewardScience = 0.0f;
+            float rewardReputation = 0.0f;
+            double failureFunds = 0.0;
+            float failureScience = 0.0f;
+            float failureReputation = 0.0f;
             foreach (StrategyEffect effect in Effects)
             {
                 IObjectiveEffect objectiveEffect = effect as IObjectiveEffect;
                 if (objectiveEffect != null)
                 {
-                    fundsAward += objectiveEffect.fundsAward;
-                    scienceAward += objectiveEffect.scienceAward;
-                    reputationAward += objectiveEffect.reputationAward;
-                    fundsPenalty += objectiveEffect.fundsPenalty;
-                    sciencePenalty += objectiveEffect.sciencePenalty;
-                    reputationPenalty += objectiveEffect.reputationPenalty;
+                    advanceFunds += objectiveEffect.advanceFunds;
+                    advanceScience += objectiveEffect.advanceScience;
+                    advanceReputation += objectiveEffect.advanceReputation;
+                    rewardFunds += objectiveEffect.rewardFunds;
+                    rewardScience += objectiveEffect.rewardScience;
+                    rewardReputation += objectiveEffect.rewardReputation;
+                    failureFunds += objectiveEffect.failureFunds + objectiveEffect.advanceFunds;
+                    failureScience += objectiveEffect.failureScience;
+                    failureReputation += objectiveEffect.failureReputation;
                 }
             }
 
-            // Write out objective rewards
+            // Write out objective advances
             first = true;
-            if (fundsAward > 0 || scienceAward > 0 || reputationAward > 0)
+            if (advanceFunds > 0 || advanceScience > 0 || advanceReputation > 0)
+            {
+                if (first)
+                {
+                    result += "\n";
+                    first = false;
+                }
+
+                result += "<b><#8BED8B>Advances: </></>";
+                if (advanceFunds > 0)
+                {
+                    result += "<#B4D455>£" + advanceFunds.ToString("N0") + "    </>";
+                }
+                if (advanceScience > 0)
+                {
+                    result += "<#6DCFF6>©" + advanceScience.ToString("N0") + "    </>";
+                }
+                if (advanceReputation > 0)
+                {
+                    result += "<#E0D503>¡" + advanceReputation.ToString("N0") + "    </>";
+                }
+                result += "\n";
+            }
+
+            if (rewardFunds > 0 || rewardScience > 0 || rewardReputation > 0)
             {
                 if (first)
                 {
@@ -105,23 +139,23 @@ namespace Strategia
                 }
 
                 result += "<b><#8BED8B>Rewards: </></>";
-                if (fundsAward > 0)
+                if (rewardFunds > 0)
                 {
-                    result += "<#B4D455>£" + fundsAward.ToString("N0") + "    </>";
+                    result += "<#B4D455>£" + rewardFunds.ToString("N0") + "    </>";
                 }
-                if (scienceAward > 0)
+                if (rewardScience > 0)
                 {
-                    result += "<#6DCFF6>©" + scienceAward.ToString("N0") + "    </>";
+                    result += "<#6DCFF6>©" + rewardScience.ToString("N0") + "    </>";
                 }
-                if (reputationAward > 0)
+                if (rewardReputation > 0)
                 {
-                    result += "<#E0D503>¡" + reputationAward.ToString("N0") + "    </>";
+                    result += "<#E0D503>¡" + rewardReputation.ToString("N0") + "    </>";
                 }
                 result += "\n";
             }
 
             // Write out objective penalties
-            if (fundsPenalty > 0 || sciencePenalty > 0 || reputationPenalty > 0)
+            if (failureFunds > 0 || failureScience > 0 || failureReputation > 0)
             {
                 if (first)
                 {
@@ -130,17 +164,17 @@ namespace Strategia
                 }
 
                 result += "<b><#ED0B0B>Penalties: </></>";
-                if (fundsPenalty > 0)
+                if (failureFunds > 0)
                 {
-                    result += "<#B4D455>£-" + fundsPenalty.ToString("N0") + "    </>";
+                    result += "<#B4D455>£-" + failureFunds.ToString("N0") + "    </>";
                 }
-                if (sciencePenalty > 0)
+                if (failureScience > 0)
                 {
-                    result += "<#6DCFF6>©-" + sciencePenalty.ToString("N0") + "    </>";
+                    result += "<#6DCFF6>©-" + failureScience.ToString("N0") + "    </>";
                 }
-                if (reputationPenalty > 0)
+                if (failureReputation > 0)
                 {
-                    result += "<#E0D503>¡-" + reputationPenalty.ToString("N0") + "    </>";
+                    result += "<#E0D503>¡-" + failureReputation.ToString("N0") + "    </>";
                 }
                 result += "\n";
             }
@@ -265,9 +299,19 @@ namespace Strategia
             return base.CanActivate(ref reason);
         }
 
+        public void ForceDeactivate()
+        {
+            forcedDeactivation = true;
+            Deactivate();
+            forcedDeactivation = false;
+        }
+
         protected override bool CanDeactivate(ref string reason)
         {
-            Debug.Log("StrategiaStrategy.CanDeactivate");
+            if (forcedDeactivation)
+            {
+                return true;
+            }
 
             foreach (StrategyEffect effect in Effects)
             {

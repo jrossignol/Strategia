@@ -69,14 +69,14 @@ namespace Strategia
         {
             base.OnSave(node);
 
-            isActive = ConfigNodeUtil.ParseValue<bool>(node, "isActive");
+            node.AddValue("isActive", isActive);
         }
 
         protected override void OnLoad(ConfigNode node)
         {
             base.OnLoad(node);
 
-            node.AddValue("isActive", isActive);
+            isActive = ConfigNodeUtil.ParseValue<bool>(node, "isActive");
         }
     }
 }

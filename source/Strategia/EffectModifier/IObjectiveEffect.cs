@@ -11,13 +11,16 @@ namespace Strategia
 {
     public interface IObjectiveEffect
     {
-        string ObjectiveText();
+        IEnumerable<string> ObjectiveText();
 
-        double fundsAward { get; }
-        float scienceAward { get; }
-        float reputationAward { get; }
-        double fundsPenalty { get; }
-        float sciencePenalty { get; }
-        float reputationPenalty { get; }
+        double rewardFunds { get; }
+        float rewardScience { get; }
+        float rewardReputation { get; }
+        double failureFunds { get; }
+        float failureScience { get; }
+        float failureReputation { get; }
+        double advanceFunds { get; }
+        float advanceScience { get; }
+        float advanceReputation { get; }
     }
 }

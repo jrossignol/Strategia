@@ -17,6 +17,7 @@ namespace Strategia
 
         CelestialBody body;
         public bool invert;
+        public bool? manned;
 
         public VesselEnrouteRequirement(Strategy parent)
             : base(parent)
@@ -27,11 +28,13 @@ namespace Strategia
         {
             body = ConfigNodeUtil.ParseValue<CelestialBody>(node, "body");
             invert = ConfigNodeUtil.ParseValue<bool>(node, "invert", false);
+            manned = ConfigNodeUtil.ParseValue<bool?>(node, "manned", null);
         }
 
         public string RequirementText()
         {
-            return "Must " + (invert ? "not have any vessels" : "have a vessel") + " en route to " + body.theName;
+            string mannedStr = manned == null ? "" : manned.Value ? "crewed " : "uncrewed";
+            return "Must " + (invert ? "not have any " + mannedStr + " vessels" : "have a " + mannedStr + "vessel") + " en route to " + body.theName;
         }
 
         public bool RequirementMet(out string unmetReason)
@@ -40,6 +43,15 @@ namespace Strategia
 
             foreach (Vessel vessel in FlightGlobals.Vessels)
             {
+                if (manned != null)
+                {
+                    if (manned.Value && vessel.GetCrewCount() == 0 ||
+                        !manned.Value && vessel.GetCrewCount() > 0)
+                    {
+                        continue;
+                    }
+                }
+
                 bool enRoute = VesselIsEnroute(vessel);
                 if (enRoute && invert)
                 {

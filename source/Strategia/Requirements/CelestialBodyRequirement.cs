@@ -153,12 +153,12 @@ namespace Strategia
 
         protected override bool Check(CelestialBodySubtree cbs)
         {
-            return cbs.IsCompleteManned;
+            return cbs.flyBy.IsCompleteManned;
         }
 
         protected override string Verbed()
         {
-            return "a crewed fly-by of";
+            return "performed a crewed fly-by of";
         }
     }
 

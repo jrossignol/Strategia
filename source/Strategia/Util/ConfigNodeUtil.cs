@@ -6,6 +6,7 @@ using System.Text;
 using UnityEngine;
 using KSP;
 using Contracts.Agents;
+using ContractConfigurator;
 
 namespace Strategia
 {
@@ -54,7 +55,7 @@ namespace Strategia
             {
                 // Create the generic method
                 MethodInfo parseValueMethod = typeof(ConfigNodeUtil).GetMethod("ParseValue",
-                    BindingFlags.Static | BindingFlags.Public, null, new Type[] { typeof(ConfigNode), typeof(string), typeof(bool) }, null);
+                    BindingFlags.Static | BindingFlags.Public, null, new Type[] { typeof(ConfigNode), typeof(string) }, null);
                 parseValueMethod = parseValueMethod.MakeGenericMethod(typeof(T).GetGenericArguments());
 
                 // Call it

@@ -34,6 +34,9 @@
     <Reference Include="Assembly-CSharp">
       <HintPath>C:\Program Files (x86)\Steam\steamapps\common\Kerbal Space Program\KSP_Data\Managed\Assembly-CSharp.dll</HintPath>
     </Reference>
+    <Reference Include="ContractConfigurator">
+      <HintPath>..\..\..\ContractConfigurator\source\ContractConfigurator\bin\Release\ContractConfigurator.dll</HintPath>
+    </Reference>
     <Reference Include="System" />
     <Reference Include="System.Core" />
     <Reference Include="System.Xml.Linq" />
@@ -48,6 +51,7 @@
     <Compile Include="DepartmentFixer.cs" />
     <Compile Include="Effects\AdvanceEffect.cs" />
     <Compile Include="Effects\CareerParameterOverride.cs" />
+    <Compile Include="Effects\ContractEffect.cs" />
     <Compile Include="Effects\CurrencyOperationByTrait.cs" />
     <Compile Include="Effects\VesselValueImprover.cs" />
     <Compile Include="Effects\CurrencyOperationByContract.cs" />
@@ -57,6 +61,7 @@
     <Compile Include="Effects\CurrencyOperationPerTech.cs" />
     <Compile Include="Effects\CurrencyOperationRandomized.cs" />
     <Compile Include="Effects\CurrencyOperationNonZero.cs" />
+    <Compile Include="ContractExpressionParser.cs" />
     <Compile Include="StrategyNotifier.cs" />
     <Compile Include="EffectModifier\IObjectiveEffect.cs" />
     <Compile Include="EffectModifier\ICanDeactivateEffect.cs" />
@@ -68,12 +73,9 @@
     <Compile Include="Effects\CurrencyOperationByBody.cs" />
     <Compile Include="Strategy\StrategiaStrategy.cs" />
     <Compile Include="Requirements\CelestialBodyRequirement.cs" />
-    <Compile Include="Effects\KerbalOnBodyGoal.cs" />
-    <Compile Include="Effects\MinimumDuration.cs" />
     <Compile Include="Strategy\Generic.cs" />
     <Compile Include="Strategy\CelestialBodyProgram.cs" />
     <Compile Include="Util\LRUCache.cs" />
-    <Compile Include="Util\DurationUtil.cs" />
     <Compile Include="Util\StrategyExtensions.cs" />
     <Compile Include="Util\StringUtil.cs" />
     <Compile Include="Util\CelestialBodyUtil.cs" />

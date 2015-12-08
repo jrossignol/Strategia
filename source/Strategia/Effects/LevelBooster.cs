@@ -15,17 +15,9 @@ namespace Strategia
     /// </summary>
     public class LevelBooster : StrategyEffect
     {
-        class CallbackDetail
-        {
-            public Part part;
-            public EventValueComparison<int>.OnEvent callback;
-        }
-
         List<int> levels;
         ProtoCrewMember.Gender? gender;
         string trait;
-
-        private List<CallbackDetail> registeredCallbacks = new List<CallbackDetail>();
 
         public LevelBooster(Strategy parent)
             : base(parent)
