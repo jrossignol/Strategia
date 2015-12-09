@@ -19,6 +19,11 @@ namespace Strategia
     public class MoonProgram7 : MoonProgram { }
     public class MoonProgram8 : MoonProgram { }
     public class MoonProgram9 : MoonProgram { }
+    public class MoonProgram10 : MoonProgram { }
+    public class MoonProgram11 : MoonProgram { }
+    public class MoonProgram12 : MoonProgram { }
+    public class MoonProgram13 : MoonProgram { }
+    public class MoonProgram14 : MoonProgram { }
 
     public class PlanetaryProgram0 : StrategiaStrategy { }
     public class PlanetaryProgram1 : StrategiaStrategy { }
@@ -35,6 +40,16 @@ namespace Strategia
     public class PlanetaryProgram12 : StrategiaStrategy { }
     public class PlanetaryProgram13 : StrategiaStrategy { }
     public class PlanetaryProgram14 : StrategiaStrategy { }
+    public class PlanetaryProgram15 : StrategiaStrategy { }
+    public class PlanetaryProgram16 : StrategiaStrategy { }
+    public class PlanetaryProgram17 : StrategiaStrategy { }
+    public class PlanetaryProgram18 : StrategiaStrategy { }
+    public class PlanetaryProgram19 : StrategiaStrategy { }
+    public class PlanetaryProgram20 : StrategiaStrategy { }
+    public class PlanetaryProgram21 : StrategiaStrategy { }
+    public class PlanetaryProgram22 : StrategiaStrategy { }
+    public class PlanetaryProgram23 : StrategiaStrategy { }
+    public class PlanetaryProgram24 : StrategiaStrategy { }
 
     public class GasGiantProgram0 : StrategiaStrategy { }
     public class GasGiantProgram1 : StrategiaStrategy { }

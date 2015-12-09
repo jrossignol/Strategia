@@ -19,6 +19,7 @@ namespace Strategia
         {
             Debug.Log("Strategia: Expanding configuration");
             DoLoad();
+            DontDestroyOnLoad(this);
         }
 
         public void ModuleManagerPostLoad()
