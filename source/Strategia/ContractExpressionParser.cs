@@ -28,6 +28,7 @@ namespace Strategia
             RegisterMethod(new Method<StrategiaStrategy, string>("contractType", s => ContractEffectField(s, ce => ce.contractType)));
 
             RegisterMethod(new Method<StrategiaStrategy, CelestialBody>("targetBody", s => ContractEffectField(s, ce => ce.targetBody)));
+            RegisterMethod(new Method<StrategiaStrategy, List<CelestialBody>>("bodies", s => ContractEffectField(s, ce => ce.bodies)));
             RegisterMethod(new Method<StrategiaStrategy, string>("description", s => s != null ? s.Description : ""));
             RegisterMethod(new Method<StrategiaStrategy, string>("synopsis", s => ContractEffectField(s, ce => ce.synopsis)));
             RegisterMethod(new Method<StrategiaStrategy, string>("completedMessage", s => ContractEffectField(s, ce => ce.completedMessage)));

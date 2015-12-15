@@ -39,7 +39,6 @@ namespace Strategia
 
             public void Update()
             {
-                List<ContractEffect> toDeactivate = new List<ContractEffect>();
                 foreach (ContractEffect effect in effects)
                 {
                     // Assign the contract
@@ -48,35 +47,12 @@ namespace Strategia
                         effect.contract = ContractSystem.Instance.GetCurrentActiveContracts<ConfiguredContract>().
                             Where(c => c.contractType != null && c.contractType.name == effect.contractType).FirstOrDefault();
                     }
-
-                    // Check if the contract has failed
-                    if (effect.Parent.IsActive && effect.contract != null && effect.contract.ContractState == Contract.State.Failed)
-                    {
-                        toDeactivate.Add(effect);
-
-                        MessageSystem.Instance.AddMessage(new MessageSystem.Message("Failed to complete strategy '" + effect.Parent.Title + "'",
-                            effect.failureMessage, MessageSystemButton.MessageButtonColor.RED, MessageSystemButton.ButtonIcons.FAIL));
-                    }
-
-                    // Check if the contract has succeeded
-                    if (effect.Parent.IsActive && effect.contract != null && effect.contract.ContractState == Contract.State.Completed)
-                    {
-                        toDeactivate.Add(effect);
-
-                        MessageSystem.Instance.AddMessage(new MessageSystem.Message("Completed strategy '" + effect.Parent.Title + "'",
-                            effect.completedMessage, MessageSystemButton.MessageButtonColor.GREEN, MessageSystemButton.ButtonIcons.ACHIEVE));
-                    }
-                }
-
-                // Late deactivate, otherwise we mess up the iterator
-                foreach (ContractEffect effect in toDeactivate)
-                {
-                    (effect.Parent as StrategiaStrategy).ForceDeactivate();
                 }
             }
         }
 
         public CelestialBody targetBody;
+        public List<CelestialBody> bodies;
         public double rewardFunds { get; private set; }
         public float rewardScience { get; private set; }
         public float rewardReputation { get; private set; }
@@ -119,7 +95,8 @@ namespace Strategia
         protected override void OnLoadFromConfig(ConfigNode node)
         {
             contractType = ConfigNodeUtil.ParseValue<string>(node, "contractType");
-            targetBody = ConfigNodeUtil.ParseValue<CelestialBody>(node, "targetBody");
+            targetBody = ConfigNodeUtil.ParseValue<CelestialBody>(node, "targetBody", FlightGlobals.Bodies.Where(cb => cb.isHomeWorld).First());
+            bodies = ConfigNodeUtil.ParseValue<List<CelestialBody>>(node, "bodies", CelestialBodyUtil.GetBodiesForStrategy(Parent.Config.Name).ToList());
             rewardFunds = ConfigNodeUtil.ParseValue<double>(node, "rewardFunds", 0.0);
             rewardScience = ConfigNodeUtil.ParseValue<float>(node, "rewardScience", 0.0f);
             rewardReputation = ConfigNodeUtil.ParseValue<float>(node, "rewardReputation", 0.0f);
@@ -138,6 +115,8 @@ namespace Strategia
         protected override void OnRegister()
         {
             ContractChecker.Instance.Register(this);
+            GameEvents.Contract.onCompleted.Add(new EventData<Contract>.OnEvent(OnContractCompleted));
+            GameEvents.Contract.onFailed.Add(new EventData<Contract>.OnEvent(OnContractFailed));
 
             // Force contracts to generate immediately in case we need the associated contract
             ContractPreLoader.Instance.ResetGenerationFailure();
@@ -146,6 +125,28 @@ namespace Strategia
         protected override void OnUnregister()
         {
             ContractChecker.Instance.Unregister(this);
+            GameEvents.Contract.onCompleted.Remove(new EventData<Contract>.OnEvent(OnContractCompleted));
+            GameEvents.Contract.onFailed.Remove(new EventData<Contract>.OnEvent(OnContractFailed));
+        }
+
+        protected void OnContractCompleted(Contract c)
+        {
+            if (c == contract)
+            {
+                MessageSystem.Instance.AddMessage(new MessageSystem.Message("Completed strategy '" + Parent.Title + "'",
+                    completedMessage, MessageSystemButton.MessageButtonColor.GREEN, MessageSystemButton.ButtonIcons.ACHIEVE));
+                (Parent as StrategiaStrategy).ForceDeactivate();
+            }
+        }
+
+        protected void OnContractFailed(Contract c)
+        {
+            if (c == contract)
+            {
+                MessageSystem.Instance.AddMessage(new MessageSystem.Message("Failed to complete strategy '" + Parent.Title + "'",
+                    failureMessage, MessageSystemButton.MessageButtonColor.RED, MessageSystemButton.ButtonIcons.FAIL));
+                (Parent as StrategiaStrategy).ForceDeactivate();
+            }
         }
 
         public bool CanDeactivate(ref string reason)

@@ -48,6 +48,37 @@ namespace Strategia
                     }
                 }
             }
+            else if (id == "ImpactorProbes")
+            {
+                foreach (CelestialBody body in FlightGlobals.Bodies[0].orbitingBodies)
+                {
+                    if (body != home)
+                    {
+                        if (body.pqsController != null)
+                        {
+                            yield return body;
+                        }
+
+                        foreach (CelestialBody childBody in body.orbitingBodies)
+                        {
+                            if (childBody.pqsController != null)
+                            {
+                                yield return childBody;
+                            }
+                        }
+                    }
+                }
+            }
+            else if (id == "FlyByProbes")
+            {
+                foreach (CelestialBody body in FlightGlobals.Bodies[0].orbitingBodies)
+                {
+                    if (body != home && !body.orbitingBodies.Contains(home))
+                    {
+                        yield return body;
+                    }
+                }
+            }
             else
             {
                 foreach (CelestialBody body in FlightGlobals.Bodies)
