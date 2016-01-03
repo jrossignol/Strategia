@@ -28,4 +28,7 @@ namespace Strategia
     public class ScientistFocus3 : StrategiaStrategy { }
     public class ImpactorProbes : StrategiaStrategy { }
     public class FlyByProbes : StrategiaStrategy { }
+    public class BoldlyGo1 : StrategiaStrategy { }
+    public class BoldlyGo2 : StrategiaStrategy { }
+    public class BoldlyGo3 : StrategiaStrategy { }
 }

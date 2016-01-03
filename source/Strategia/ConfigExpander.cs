@@ -143,7 +143,7 @@ namespace Strategia
 
             foreach (ConfigNode.Value pair in node.values)
             {
-                newNode.AddValue(pair.name, pair.value);
+                newNode.AddValue(pair.name, FormatString(pair.value));
             }
 
             foreach (ConfigNode overrideNode in node.GetNodes())
@@ -161,7 +161,7 @@ namespace Strategia
                     }
                     if (overrideNode.HasValue(level.ToString()))
                     {
-                        newNode.AddValue(overrideNode.name, overrideNode.GetValue(level.ToString()));
+                        newNode.AddValue(overrideNode.name, FormatString(overrideNode.GetValue(level.ToString())));
                     }
                 }
             }
@@ -194,7 +194,7 @@ namespace Strategia
                 }
                 else
                 {
-                    newNode.AddValue(pair.name, FormatBodyString(value, body));
+                    newNode.AddValue(pair.name, FormatString(FormatBodyString(value, body)));
                 }
             }
 
@@ -236,6 +236,13 @@ namespace Strategia
                 result = result.Replace("$childBodyCount", StringUtil.IntegerToRoman(body.orbitingBodies.Count()));
             }
 
+            return result;
+        }
+
+        public string FormatString(string input)
+        {
+            string result = input.
+                Replace("$homeWorld", FlightGlobals.Bodies.Where(cb => cb.isHomeWorld).First().name);
             return result;
         }
     }
