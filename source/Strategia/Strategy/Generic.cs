@@ -31,4 +31,7 @@ namespace Strategia
     public class BoldlyGo1 : StrategiaStrategy { }
     public class BoldlyGo2 : StrategiaStrategy { }
     public class BoldlyGo3 : StrategiaStrategy { }
+    public class ProbeFrenzy1 : StrategiaStrategy { }
+    public class ProbeFrenzy2 : StrategiaStrategy { }
+    public class ProbeFrenzy3 : StrategiaStrategy { }
 }
