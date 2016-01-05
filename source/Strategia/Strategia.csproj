@@ -58,6 +58,7 @@
     <Compile Include="Effects\CareerParameterOverride.cs" />
     <Compile Include="Effects\ContractEffect.cs" />
     <Compile Include="Effects\CurrencyOperationByTrait.cs" />
+    <Compile Include="Effects\MediaStar.cs" />
     <Compile Include="Effects\VesselValueImprover.cs" />
     <Compile Include="Effects\CurrencyOperationByContract.cs" />
     <Compile Include="Effects\LevelBooster.cs" />

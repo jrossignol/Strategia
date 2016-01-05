@@ -25,7 +25,6 @@ namespace Strategia
         public CurrencyOperationCrewedLaunch(Strategy parent)
             : base(parent)
         {
-            Debug.Log("yyy CurrencyOperationCrewedLaunch");
         }
 
         protected override string GetDescription()
@@ -77,7 +76,6 @@ namespace Strategia
 
         private void OnEffectQuery(CurrencyModifierQuery qry)
         {
-            Debug.Log("yyy OnEffectQuery");
             // Check the reason is a match
             if (!affectReasons.Contains(qry.reason) || !shipManned)
             {

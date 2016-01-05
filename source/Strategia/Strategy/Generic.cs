@@ -34,4 +34,7 @@ namespace Strategia
     public class ProbeFrenzy1 : StrategiaStrategy { }
     public class ProbeFrenzy2 : StrategiaStrategy { }
     public class ProbeFrenzy3 : StrategiaStrategy { }
+    public class MediaCircus1 : StrategiaStrategy { }
+    public class MediaCircus2 : StrategiaStrategy { }
+    public class MediaCircus3 : StrategiaStrategy { }
 }

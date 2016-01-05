@@ -19,7 +19,6 @@ namespace Strategia
 
         /// <summary>
         /// Static initializer to hack the kerbal experience/flight log system to add our entries.
-        /// It's done on the factory to guarantee it's always run, so long as this effect is referenced somewhere.
         /// </summary>
         static NewKerbalExperience()
         {
@@ -63,14 +62,17 @@ namespace Strategia
                 if (floatValues != null)
                 {
                     // Get the list of experience points for the above string entries
-                    List<float> newValues = floatValues.ToList();
-                    // Allow the 5 levels
-                    newValues.Add(2.0f);
-                    newValues.Add(8.0f);
-                    newValues.Add(16.0f);
-                    newValues.Add(32.0f);
-                    newValues.Add(64.0f);
-                    field.SetValue(null, newValues.ToArray());
+                    if (floatValues.First() == 1.0f && !floatValues.Contains(2.3f))
+                    {
+                        List<float> newValues = floatValues.ToList();
+                        // Allow the 5 levels
+                        newValues.Add(2.0f);
+                        newValues.Add(8.0f);
+                        newValues.Add(16.0f);
+                        newValues.Add(32.0f);
+                        newValues.Add(64.0f);
+                        field.SetValue(null, newValues.ToArray());
+                    }
 
                     continue;
                 }
