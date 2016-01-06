@@ -37,4 +37,7 @@ namespace Strategia
     public class MediaCircus1 : StrategiaStrategy { }
     public class MediaCircus2 : StrategiaStrategy { }
     public class MediaCircus3 : StrategiaStrategy { }
+    public class MassiveLaunches1 : StrategiaStrategy { }
+    public class MassiveLaunches2 : StrategiaStrategy { }
+    public class MassiveLaunches3 : StrategiaStrategy { }
 }

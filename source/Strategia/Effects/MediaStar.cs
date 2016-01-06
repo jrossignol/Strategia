@@ -58,8 +58,8 @@ namespace Strategia
                         // Get the list of experience points for the above string entries
                         List<float> newValues = floatValues.ToList();
 
-                        // Add the extra level - worth 3 base XP
-                        newValues.Add(3.0f);
+                        // Add the extra level - worth 3.5 base XP
+                        newValues.Add(3.5f);
                         field.SetValue(null, newValues.ToArray());
                     }
 

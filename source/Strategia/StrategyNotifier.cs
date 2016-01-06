@@ -12,7 +12,7 @@ namespace Strategia
     /// Special ScenarioModule to notify on strategy availability changes.
     /// </summary>
     [KSPScenario(ScenarioCreationOptions.AddToExistingCareerGames | ScenarioCreationOptions.AddToNewCareerGames,
-        GameScenes.FLIGHT, GameScenes.TRACKSTATION, GameScenes.SPACECENTER)]
+        GameScenes.FLIGHT, GameScenes.SPACECENTER)]
     public class StrategyNotifier : ScenarioModule
     {
         Dictionary<string, bool> strategyActive = new Dictionary<string, bool>();
@@ -20,7 +20,6 @@ namespace Strategia
 
         void Start()
         {
-            DontDestroyOnLoad(this);
             StartCoroutine(CheckStrategyState());
         }
 

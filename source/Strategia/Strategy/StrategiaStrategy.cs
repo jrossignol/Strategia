@@ -28,10 +28,24 @@ namespace Strategia
             string result = "<b><#feb200>Effects:</></>\n\n";
             foreach (StrategyEffect effect in Effects)
             {
-                string effectText = effect.Description;
-                if (!string.IsNullOrEmpty(effectText))
+                IMultipleEffects multiEffect = effect as IMultipleEffects;
+                if (multiEffect != null)
                 {
-                    result += "<#BEC2AE>* " + effectText + "</>\n";
+                    foreach (string effectText in (multiEffect.EffectText()))
+                    {
+                        if (!string.IsNullOrEmpty(effectText))
+                        {
+                            result += "<#BEC2AE>* " + effectText + "</>\n";
+                        }
+                    }
+                }
+                else
+                {
+                    string effectText = effect.Description;
+                    if (!string.IsNullOrEmpty(effectText))
+                    {
+                        result += "<#BEC2AE>* " + effectText + "</>\n";
+                    }
                 }
             }
 
