@@ -40,4 +40,7 @@ namespace Strategia
     public class MassiveLaunches1 : StrategiaStrategy { }
     public class MassiveLaunches2 : StrategiaStrategy { }
     public class MassiveLaunches3 : StrategiaStrategy { }
+    public class LocalScience1 : StrategiaStrategy { }
+    public class LocalScience2 : StrategiaStrategy { }
+    public class LocalScience3 : StrategiaStrategy { }
 }
