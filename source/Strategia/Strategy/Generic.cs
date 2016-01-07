@@ -43,4 +43,7 @@ namespace Strategia
     public class LocalScience1 : StrategiaStrategy { }
     public class LocalScience2 : StrategiaStrategy { }
     public class LocalScience3 : StrategiaStrategy { }
+    public class FreeIceCream1 : StrategiaStrategy { }
+    public class FreeIceCream2 : StrategiaStrategy { }
+    public class FreeIceCream3 : StrategiaStrategy { }
 }

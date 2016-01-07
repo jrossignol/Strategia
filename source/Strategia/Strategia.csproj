@@ -60,6 +60,7 @@
     <Compile Include="Effects\CareerParameterOverride.cs" />
     <Compile Include="Effects\ContractEffect.cs" />
     <Compile Include="Effects\CurrencyOperationByTrait.cs" />
+    <Compile Include="Effects\ReputationTicker.cs" />
     <Compile Include="Effects\ScienceBooster.cs" />
     <Compile Include="Effects\OrbitWeightBonus.cs" />
     <Compile Include="Effects\MediaStar.cs" />

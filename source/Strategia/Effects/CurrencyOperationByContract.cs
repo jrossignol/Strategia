@@ -68,7 +68,7 @@ namespace Strategia
             }
 
             return multiplierStr + " " + currencyStr + effectDescription +
-                " for " + contractStr + " contracts when " + StringUtil.ATrait(trait) + " is present.";
+                " for " + contractStr + " contracts" + (trait != null ? " when " + StringUtil.ATrait(trait) + " is present." : ".");
         }
 
         protected override void OnLoadFromConfig(ConfigNode node)
@@ -80,7 +80,7 @@ namespace Strategia
             effectDescription = ConfigNodeUtil.ParseValue<string>(node, "effectDescription");
             affectReasons = ConfigNodeUtil.ParseValue<List<TransactionReasons>>(node, "AffectReason");
             multipliers = ConfigNodeUtil.ParseValue<List<float>>(node, "multiplier");
-            trait = ConfigNodeUtil.ParseValue<string>(node, "trait");
+            trait = ConfigNodeUtil.ParseValue<string>(node, "trait", null);
         }
 
         protected override void OnSave(ConfigNode node)
@@ -210,7 +210,7 @@ namespace Strategia
             }
 
             // Check for matching crew
-            if (vessel != null)
+            if (vessel != null && trait != null)
             {
                 bool crewFound = false;
                 foreach (ProtoCrewMember pcm in VesselUtil.GetVesselCrew(vessel))
