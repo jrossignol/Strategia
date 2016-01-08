@@ -42,15 +42,6 @@ namespace Strategia
                 {
                     bool met = true;
 
-                    // Check admin building level
-                    int minFacilityLevel = strategy.MinimumFacilityLevel();
-                    if (minFacilityLevel > 1)
-                    {
-                        int currentLevel = (int)Math.Round(ScenarioUpgradeableFacilities.GetFacilityLevel(SpaceCenterFacility.Administration) *
-                            ScenarioUpgradeableFacilities.GetFacilityLevelCount(SpaceCenterFacility.Administration)) + 1;
-                        met &= currentLevel >= minFacilityLevel;
-                    }
-
                     // Check Reputation
                     if (strategy.RequiredReputation > -1000 || strategy.InitialCostReputation > 0)
                     {

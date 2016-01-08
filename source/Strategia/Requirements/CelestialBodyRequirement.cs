@@ -207,7 +207,7 @@ namespace Strategia
 
         protected override bool Check(CelestialBodySubtree cbs)
         {
-            return cbs.returnFromOrbit.IsCompleteManned;
+            return cbs.returnFromOrbit.IsReached && cbs.returnFromOrbit.IsCompleteManned;
         }
 
         protected override string Verbed()

@@ -66,12 +66,12 @@ namespace Strategia
         public IEnumerable<string> EffectText()
         {
             yield return "Costs " + funds.ToString("N0") + " Funds every " + period + ".";
-            yield return "Gives " + reputation.ToString("N1") + " Reputation (to a maximum of " + reputationLimit.ToString("N0") + ") every " + period + ".";
+            yield return "Gives " + reputation.ToString("N1") + " Reputation (to a maximum of " + reputationLimit.ToString("N1") + ") every " + period + ".";
 
             string clawbackString = "Reputation given is lost when the strategy is deactivated";
             if (Parent.IsActive)
             {
-                clawbackString += " (currently would lose " + reputationGiven.ToString("N0") + " Reputation";
+                clawbackString += " (currently would lose " + reputationGiven.ToString("N1") + " Reputation)";
             }
             yield return clawbackString + ".";
         }
