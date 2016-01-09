@@ -58,7 +58,7 @@ namespace Strategia
         {
             Biome biome = Science.GetBiome(subject);
 
-            if (!biome.body.isHomeWorld)
+            if (biome == null || !biome.body.isHomeWorld)
             {
                 return;
             }
