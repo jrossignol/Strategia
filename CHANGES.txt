@@ -1,2 +1,5 @@
+Strategia 0.1.1
+- Fixed problem with vessel enroute checks (thanks smjjames).
+
 Strategia 0.1.0
 - Initial beta release.

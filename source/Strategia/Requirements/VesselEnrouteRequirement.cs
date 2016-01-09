@@ -33,8 +33,8 @@ namespace Strategia
 
         public string RequirementText()
         {
-            string mannedStr = manned == null ? "" : manned.Value ? "crewed " : "uncrewed";
-            return "Must " + (invert ? "not have any " + mannedStr + " vessels" : "have a " + mannedStr + "vessel") + " en route to " + body.theName;
+            string mannedStr = manned == null ? "" : manned.Value ? "crewed " : "uncrewed ";
+            return "Must " + (invert ? "not have any " + mannedStr + "vessels" : "have a " + mannedStr + "vessel") + " en route to " + body.theName;
         }
 
         public bool RequirementMet(out string unmetReason)
@@ -90,7 +90,7 @@ namespace Strategia
             }
 
             // Asteroids?  No...
-            if (vessel.vesselType == VesselType.SpaceObject)
+            if (vessel.vesselType == VesselType.SpaceObject || vessel.vesselType == VesselType.Debris)
             {
                 return false;
             }
@@ -104,7 +104,7 @@ namespace Strategia
             int iterations = 0;
             double distance = Orbit.SolveClosestApproach(vesselOrbit, bodyOrbit, ref UT, (maxUT - minUT) * 0.3, 0.0, minUT, maxUT, 0.1, 50, ref iterations);
 
-            return distance < distanceLimit;
+            return distance > 0 && distance < distanceLimit;
         }
     }
 }
