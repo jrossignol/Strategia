@@ -1,9 +1,11 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Reflection;
 using System.Text;
 using UnityEngine;
 using KSP;
+using ContractConfigurator;
 
 namespace Strategia
 {
@@ -18,6 +20,7 @@ namespace Strategia
         public void Awake()
         {
             Debug.Log("Strategia: Expanding configuration");
+            DoDependencyCheck();
             DoLoad();
             DontDestroyOnLoad(this);
         }
@@ -26,6 +29,20 @@ namespace Strategia
         {
             StartCoroutine(LoadCoroutine());
         }
+
+        public void DoDependencyCheck()
+        {
+            if (ContractConfigurator.Util.Version.VerifyAssemblyVersion("CustomBarnKit", "1.0.0") == null)
+            {
+                var ainfoV = Attribute.GetCustomAttribute(GetType().Assembly, typeof(AssemblyInformationalVersionAttribute)) as AssemblyInformationalVersionAttribute;
+                string title = "Strategia " + ainfoV.InformationalVersion + " Message";
+                string message = "Strategia requires Custom Barn Kit to function properly.  Strategia is currently disabled, and will automatically re-enable itself when Custom Barn Kit is installed.";
+                DialogOption dialogOption = new DialogOption("Okay", new Callback(DoNothing), true);
+                PopupDialog.SpawnPopupDialog(new MultiOptionDialog(message, title, HighLogic.Skin, dialogOption), false, HighLogic.Skin);
+            }
+        }
+
+        private void DoNothing() { }
 
         public void DoLoad()
         {
