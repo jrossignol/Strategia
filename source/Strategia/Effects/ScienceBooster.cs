@@ -56,14 +56,15 @@ namespace Strategia
 
         private void OnScienceReceived(float amount, ScienceSubject subject, ProtoVessel vessel, bool reverseEngineered)
         {
-            Biome biome = Science.GetBiome(subject);
-
-            if (biome == null || !biome.body.isHomeWorld)
+            // Check that the science is for home
+            CelestialBody body = Science.GetCelestialBody(subject);
+            if (body == null || !body.isHomeWorld)
             {
                 return;
             }
 
-            bool isKSC = biome.IsKSC();
+            Biome biome = Science.GetBiome(subject);
+            bool isKSC = biome != null && biome.IsKSC();
             if (KSCScienceMultiplier > 0.0f && isKSC)
             {
                 ResearchAndDevelopment.Instance.AddScience(KSCScienceMultiplier * amount - amount, TransactionReasons.Strategies);
