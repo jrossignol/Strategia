@@ -153,7 +153,7 @@ namespace Strategia
 
         protected override bool Check(CelestialBodySubtree cbs)
         {
-            return cbs.flyBy.IsCompleteManned;
+            return cbs.flyBy.IsReached && cbs.flyBy.IsCompleteManned;
         }
 
         protected override string Verbed()
@@ -171,7 +171,7 @@ namespace Strategia
 
         protected override bool Check(CelestialBodySubtree cbs)
         {
-            return cbs.orbit.IsCompleteManned;
+            return cbs.orbit.IsReached && cbs.orbit.IsCompleteManned;
         }
 
         protected override string Verbed()
@@ -189,7 +189,7 @@ namespace Strategia
 
         protected override bool Check(CelestialBodySubtree cbs)
         {
-            return cbs.landing.IsCompleteManned;
+            return cbs.landing.IsReached && cbs.landing.IsCompleteManned;
         }
 
         protected override string Verbed()
@@ -225,7 +225,7 @@ namespace Strategia
 
         protected override bool Check(CelestialBodySubtree cbs)
         {
-            return cbs.returnFromSurface.IsCompleteManned;
+            return cbs.returnFromSurface.IsReached && cbs.returnFromSurface.IsCompleteManned;
         }
 
         protected override string Verbed()
