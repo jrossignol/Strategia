@@ -47,7 +47,7 @@ namespace Strategia
         public bool RequirementMet(out string unmetReason)
         {
             unmetReason = null;
-            return ProgressTracking.Instance.celestialBodyNodes.Where(node => bodies.Contains(node.Body)).Any(cbs => Check(cbs) ^ invert);
+            return invert ^ ProgressTracking.Instance.celestialBodyNodes.Where(node => bodies.Contains(node.Body)).Any(cbs => Check(cbs));
         }
 
         protected abstract bool Check(CelestialBodySubtree cbs);

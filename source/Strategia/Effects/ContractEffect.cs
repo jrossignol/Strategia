@@ -133,8 +133,6 @@ namespace Strategia
         {
             if (c == contract)
             {
-                MessageSystem.Instance.AddMessage(new MessageSystem.Message("Completed strategy '" + Parent.Title + "'",
-                    completedMessage, MessageSystemButton.MessageButtonColor.GREEN, MessageSystemButton.ButtonIcons.ACHIEVE));
                 (Parent as StrategiaStrategy).ForceDeactivate();
             }
         }
