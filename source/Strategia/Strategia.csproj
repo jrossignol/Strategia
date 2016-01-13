@@ -73,6 +73,7 @@
     <Compile Include="Effects\CurrencyOperationRandomized.cs" />
     <Compile Include="Effects\CurrencyOperationNonZero.cs" />
     <Compile Include="ContractExpressionParser.cs" />
+    <Compile Include="CurrencyPopup.cs" />
     <Compile Include="StrategyNotifier.cs" />
     <Compile Include="EffectModifier\IObjectiveEffect.cs" />
     <Compile Include="EffectModifier\ICanDeactivateEffect.cs" />
