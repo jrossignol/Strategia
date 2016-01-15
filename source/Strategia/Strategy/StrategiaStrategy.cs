@@ -13,6 +13,7 @@ namespace Strategia
     public class StrategiaStrategy : Strategy
     {
         private bool forcedDeactivation = false;
+        public static StrategiaStrategy lastActivationRequest = null;
 
         protected override string GetText()
         {
@@ -24,6 +25,16 @@ namespace Strategia
         {
             Debug.Log("StrategiaStrategy.GetEffectText");
 
+            string result = GenerateEffectText();
+            result += GenerateCostText();
+            result += GenerateObjectiveText();
+            result += GenerateRequirementText();
+
+            return result;
+        }
+
+        protected virtual string GenerateEffectText()
+        {
             // Write out the effect text
             string result = "<b><#feb200>Effects:</></>\n\n";
             foreach (StrategyEffect effect in Effects)
@@ -49,6 +60,13 @@ namespace Strategia
                 }
             }
 
+            return result;
+        }
+
+        protected virtual string GenerateCostText()
+        {
+            string result = "";
+
             // Write out the cost line
             string costLine = "";
             if (InitialCostFunds != 0)
@@ -67,6 +85,13 @@ namespace Strategia
             {
                 result += "\n<b><#EDED8B>Setup Cost:</></> " + costLine + "\n";
             }
+            
+            return result;
+        }
+
+        protected virtual string GenerateObjectiveText()
+        {
+            string result = "";
 
             // Write out objectives
             bool first = true;
@@ -193,6 +218,13 @@ namespace Strategia
                 result += "\n";
             }
 
+            return result;
+        }
+
+        protected virtual string GenerateRequirementText()
+        {
+            string result = "";
+
             // Write out stock-based requirements
             result += "\n<b><#feb200>Requirements:</></>\n\n";
             if (InitialCostFunds > 0)
@@ -264,31 +296,9 @@ namespace Strategia
             return "<" + color + ">* " + requirement + "</>\n";
         }
 
-        protected override void OnSave(ConfigNode node)
-        {
-            Debug.Log("StrategiaStrategy.OnSave");
-        }
-
-        protected override void OnLoad(ConfigNode node)
-        {
-            Debug.Log("StrategiaStrategy.OnLoad");
-        }
-
         protected override bool CanActivate(ref string reason)
         {
-            Debug.Log("StrategiaStrategy.CanActivate");
-
-            // Custom compatibility test
-            string basename = BaseName();
-            if (Title != basename)
-            {
-                Strategy conflict = StrategySystem.Instance.Strategies.Where(s => s.Title.StartsWith(basename) && s.IsActive).FirstOrDefault();
-                if (conflict != null)
-                {
-                    reason = "Cannot activate " + Title + " as " + conflict.Title + " is already active.";
-                    return false;
-                }
-            }
+            lastActivationRequest = this;
 
             // Special requirements
             foreach (StrategyEffect effect in Effects)
@@ -342,11 +352,6 @@ namespace Strategia
             return base.CanDeactivate(ref reason);
         }
 
-        protected override void OnRegister()
-        {
-            Debug.Log("StrategiaStrategy.OnRegister");
-        }
-
         public int MinimumFacilityLevel()
         {
             if (FactorSliderDefault > 0.70)
@@ -359,15 +364,6 @@ namespace Strategia
             }
 
             return 1;
-        }
-
-        private string BaseName()
-        {
-            if (Title.EndsWith(" I") || Title.EndsWith(" II") || Title.EndsWith(" III"))
-            {
-                return Title.TrimEnd(new char[] { 'I', ' ' });
-            }
-            return Title;
         }
     }
 }

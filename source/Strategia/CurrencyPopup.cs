@@ -47,7 +47,7 @@ namespace Strategia
         void Awake()
         {
             // Destroy if we're not in a scene with a camera
-            if (FlightCamera.fetch.mainCamera == null)
+            if (FlightCamera.fetch == null || FlightCamera.fetch.mainCamera == null)
             {
                 DestroyImmediate(this);
                 return;

@@ -139,7 +139,6 @@ namespace Strategia
 
         public bool RequirementMet(out string unmetReason)
         {
-            
             unmetReason = "All technology is researched";
             return CurrentMultiplier() > 0.0;
         }

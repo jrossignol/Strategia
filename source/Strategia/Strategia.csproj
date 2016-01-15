@@ -83,6 +83,7 @@
     <Compile Include="Effects\NewKerbalExperience.cs" />
     <Compile Include="Requirements\MinimumFacilityLevelRequirement.cs" />
     <Compile Include="Effects\CurrencyOperationByBody.cs" />
+    <Compile Include="Strategy\UpgradeableStrategy.cs" />
     <Compile Include="Strategy\StrategiaStrategy.cs" />
     <Compile Include="Requirements\CelestialBodyRequirement.cs" />
     <Compile Include="Strategy\Generic.cs" />

@@ -1,4 +1,5 @@
-Strategia 0.1.3
+Strategia 0.2.0
+- Reduced setup cost when upgrading from one strategy to another within the same family.
 - Added check and pop-up message for when Custom Barn Kit isn't installed.
 - Fixed issue with invalid notifications for some of the crewed mission strategies (thanks smjjames).
 - Fixed detection of celestial body when modifying progression milestone rewards (thanks smjjames).
