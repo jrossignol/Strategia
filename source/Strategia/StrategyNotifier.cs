@@ -38,6 +38,8 @@ namespace Strategia
 
                 float startTime = Time.realtimeSinceStartup;
 
+                string unmetReason = "unknown";
+
                 foreach (StrategiaStrategy strategy in StrategySystem.Instance.Strategies.OfType<StrategiaStrategy>())
                 {
                     bool met = true;
@@ -49,6 +51,8 @@ namespace Strategia
                         float reputationNeeded = Math.Max(strategy.RequiredReputation,
                             strategy.InitialCostReputation > 0 ? strategy.InitialCostReputation : -1000);
                         met &= Math.Round(currentReputation) >= Math.Round(reputationNeeded);
+
+                        unmetReason = "Insufficient reputation (needs " + reputationNeeded + ", has " + currentReputation + ")";
                     }
 
                     // Check effects
@@ -63,7 +67,6 @@ namespace Strategia
                         IRequirementEffect requirement = effect as IRequirementEffect;
                         if (requirement != null)
                         {
-                            string unmetReason;
                             met = requirement.RequirementMet(out unmetReason);
                         }
 
@@ -83,6 +86,11 @@ namespace Strategia
                     {
                         Notify(strategy, met);
                         strategyActive[strategy.Config.Name] = met;
+
+                        if (!met)
+                        {
+                            Debug.Log("Strategy no longer available due to reason: " + unmetReason);
+                        }
                     }
 
                     yield return new WaitForSeconds(pauseTime);
