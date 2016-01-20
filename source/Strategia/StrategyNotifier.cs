@@ -28,14 +28,14 @@ namespace Strategia
             float timeStep = 0.01f;
             float pauseTime = 0.05f;
 
+            // Pause until the strategy system and facility systems are ready
+            while (StrategySystem.Instance == null || ScenarioUpgradeableFacilities.GetFacilityLevelCount(SpaceCenterFacility.Administration) == -1)
+            {
+                yield return new WaitForSeconds(5);
+            }
+
             while (true)
             {
-                // Pause until the strategy system is ready
-                while (StrategySystem.Instance == null)
-                {
-                    yield return new WaitForSeconds(5);
-                }
-
                 float startTime = Time.realtimeSinceStartup;
 
                 string unmetReason = "unknown";
