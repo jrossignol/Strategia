@@ -1,5 +1,5 @@
 Strategia 0.2.2
-- Fixed Science strategies to make them upgradeable.
+- Fixed Science strategies to make them upgradeable (thanks norcalplanner).
 - Minor spelling fixes.
 
 Strategia 0.2.1
