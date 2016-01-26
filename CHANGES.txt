@@ -1,3 +1,7 @@
+Strategia 0.2.2
+- Fixed Science strategies to make them upgradeable.
+- Minor spelling fixes.
+
 Strategia 0.2.1
 - Fixed issue with various crewed/uncrewed strategies flipping from available/unavailable according to the notification (thanks smjjames).
 
