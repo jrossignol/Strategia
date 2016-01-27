@@ -40,8 +40,6 @@ namespace Strategia
             RegisterMethod(new Method<StrategiaStrategy, double>("failureFunds", s => ContractEffectField(s, ce => ce.failureFunds)));
             RegisterMethod(new Method<StrategiaStrategy, float>("failureReputation", s => ContractEffectField(s, ce => ce.failureReputation)));
 
-            RegisterMethod(new Method<StrategiaStrategy, Duration>("duration", s => ContractEffectField(s, ce => ce.duration)));
-
             RegisterGlobalFunction(new Function<List<StrategiaStrategy>>("ActiveStrategies", () => StrategySystem.Instance != null ?
                 StrategySystem.Instance.Strategies.OfType<StrategiaStrategy>().Where(s => s.IsActive).ToList() : new List<StrategiaStrategy>(), false));
         }

@@ -51,6 +51,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="DepartmentFixer.cs" />
+    <Compile Include="EffectModifier\IOnDeactivateEffect.cs" />
     <Compile Include="EffectModifier\IMultipleEffects.cs" />
     <Compile Include="Effects\CurrencyOperationCrewedLaunch.cs" />
     <Compile Include="Effects\CurrencyOperationTextOverride.cs" />

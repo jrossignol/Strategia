@@ -365,5 +365,22 @@ namespace Strategia
 
             return 1;
         }
+
+        protected override void OnUnregister()
+        {
+            base.OnUnregister();
+
+            if (!IsActive)
+            {
+                foreach (StrategyEffect effect in Effects)
+                {
+                    IOnDeactivateEffect onDeactivateEffect = effect as IOnDeactivateEffect;
+                    if (onDeactivateEffect != null)
+                    {
+                        onDeactivateEffect.OnDeactivate();
+                    }
+                }
+            }
+        }
     }
 }

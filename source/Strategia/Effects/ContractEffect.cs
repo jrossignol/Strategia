@@ -10,7 +10,7 @@ using ContractConfigurator;
 
 namespace Strategia
 {
-    public class ContractEffect : StrategyEffect, IObjectiveEffect, ICanDeactivateEffect
+    public class ContractEffect : StrategyEffect, IObjectiveEffect, IOnDeactivateEffect, ICanDeactivateEffect
     {
         /// <summary>
         /// Separate MonoBehaviour for checking, as the strategy system only gets update calls in flight.
@@ -65,11 +65,12 @@ namespace Strategia
         public string synopsis;
         public string completedMessage;
         public string failureMessage;
-        public Duration duration;
 
         public string contractType;
 
         public Contract contract;
+
+        bool normalDeactivation = false;
 
         public ContractEffect(Strategy parent)
             : base(parent)
@@ -80,16 +81,18 @@ namespace Strategia
         {
             yield return synopsis;
 
-            if (duration != null)
+            if (failureFunds + advanceFunds > 0.0)
             {
-                yield return "Must complete objective within " + KSPUtil.PrintDateDelta((int)duration.Value, false) + ".";
+                yield return "A penalty of " + (failureFunds + advanceFunds).ToString("N0") + " funds will be applied if cancelled before the objective is completed.";
             }
-        }
-
-        protected string MinimumDurationText()
-        {
-            return "Cannot deactivate, objective must be completed before " +
-                KSPUtil.PrintDateNew((int)(duration.Value + Parent.DateActivated), false);
+            if (failureReputation > 0.0)
+            {
+                yield return "A penalty of " + failureReputation.ToString("N0") + " reputation will be applied if cancelled before the objective is completed.";
+            }
+            if (failureScience > 0.0)
+            {
+                yield return "A penalty of " + failureScience.ToString("N0") + " science will be applied if cancelled before the objective is completed.";
+            }
         }
 
         protected override void OnLoadFromConfig(ConfigNode node)
@@ -109,7 +112,6 @@ namespace Strategia
             synopsis = ConfigNodeUtil.ParseValue<string>(node, "synopsis");
             completedMessage = ConfigNodeUtil.ParseValue<string>(node, "completedMessage");
             failureMessage = ConfigNodeUtil.ParseValue<string>(node, "failureMessage");
-            duration = ConfigNodeUtil.ParseValue<Duration>(node, "duration", null);
         }
 
         protected override void OnRegister()
@@ -124,6 +126,11 @@ namespace Strategia
 
         protected override void OnUnregister()
         {
+            if (!Parent.IsActive && contract != null)
+            {
+                contract.Cancel();
+            }
+
             ContractChecker.Instance.Unregister(this);
             GameEvents.Contract.onCompleted.Remove(new EventData<Contract>.OnEvent(OnContractCompleted));
             GameEvents.Contract.onFailed.Remove(new EventData<Contract>.OnEvent(OnContractFailed));
@@ -133,6 +140,7 @@ namespace Strategia
         {
             if (c == contract)
             {
+                normalDeactivation = true;
                 (Parent as StrategiaStrategy).ForceDeactivate();
             }
         }
@@ -141,6 +149,7 @@ namespace Strategia
         {
             if (c == contract)
             {
+                normalDeactivation = true;
                 MessageSystem.Instance.AddMessage(new MessageSystem.Message("Failed to complete strategy '" + Parent.Title + "'",
                     failureMessage, MessageSystemButton.MessageButtonColor.RED, MessageSystemButton.ButtonIcons.FAIL));
                 (Parent as StrategiaStrategy).ForceDeactivate();
@@ -149,13 +158,37 @@ namespace Strategia
 
         public bool CanDeactivate(ref string reason)
         {
-            if (duration != null && Parent.DateActivated + duration.Value > Planetarium.fetch.time)
+            if (failureFunds + advanceFunds > 0.0 && Funding.Instance.Funds < failureFunds + advanceFunds)
             {
-                reason = MinimumDurationText();
+                reason = "Not enough funds to pay cancellation penalty (" + (failureFunds + advanceFunds).ToString("N0") + " required).";
+                return false;
+            }
+            if (failureScience > 0.0 && ResearchAndDevelopment.Instance.Science < failureScience)
+            {
+                reason = "Not enough science to pay cancellation penalty (" + failureScience.ToString("N0") + " required).";
                 return false;
             }
 
             return true;
+        }
+
+        public void OnDeactivate()
+        {
+            if (!normalDeactivation)
+            {
+                if (failureFunds  > 0.0)
+                {
+                    Funding.Instance.AddFunds(-failureFunds, TransactionReasons.Strategies);
+                }
+                if (failureReputation > 0.0)
+                {
+                    Reputation.Instance.AddReputation(-failureReputation, TransactionReasons.Strategies);
+                }
+                if (failureScience > 0.0)
+                {
+                    ResearchAndDevelopment.Instance.AddScience(-failureScience, TransactionReasons.Strategies);
+                }
+            }
         }
     }
 }
