@@ -115,6 +115,9 @@ namespace Strategia
                     // Set the factor slider
                     newStrategy.SetValue("factorSliderDefault", ((float)level / ConfigNodeUtil.ParseValue<int>(node, "factorSliderSteps")).ToString(), true);
 
+                    // Set the icon
+                    newStrategy.SetValue("icon", newStrategy.GetValue("icon") + level);
+
                     if (newStrategy.HasValue("requiredReputation"))
                     {
                         float requiredReputation = ConfigNodeUtil.ParseValue<float>(newStrategy, "requiredReputation");
