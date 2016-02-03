@@ -68,6 +68,7 @@
     <Compile Include="Effects\VesselValueImprover.cs" />
     <Compile Include="Effects\CurrencyOperationByContract.cs" />
     <Compile Include="Effects\LevelBooster.cs" />
+    <Compile Include="Requirements\IncompatibleGroupRequirement.cs" />
     <Compile Include="Requirements\IncompatibleRequirement.cs" />
     <Compile Include="Requirements\VesselEnrouteRequirement.cs" />
     <Compile Include="Effects\CurrencyOperationPerTech.cs" />
