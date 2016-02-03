@@ -65,23 +65,17 @@ namespace Strategia
 
         private void OnProgressComplete(ProgressNode node)
         {
-            CelestialBodySubtree cbs = node as CelestialBodySubtree;
-            if (cbs != null)
+            // Reflection hack time.  There is a member that is (sometimes) private that stores the celestial body.
+            // Other times it's public, but this will catch that too.
+            FieldInfo cbField = node.GetType().GetFields(BindingFlags.NonPublic | BindingFlags.Public | BindingFlags.Instance).
+                Where(fi => fi.FieldType == typeof(CelestialBody)).FirstOrDefault();
+            if (cbField != null)
             {
-                lastBody = cbs.Body;
+                lastBody = (CelestialBody)cbField.GetValue(node);
             }
             else
             {
-                // Reflection hack time.  There is a member that is private that stores the celestial body
-                FieldInfo cbField = node.GetType().GetFields(BindingFlags.NonPublic | BindingFlags.Instance).Where(fi => fi.FieldType == typeof(CelestialBody)).FirstOrDefault();
-                if (cbField != null)
-                {
-                    lastBody = (CelestialBody)cbField.GetValue(node);
-                }
-                else
-                {
-                    lastBody = null;
-                }
+                lastBody = null;
             }
         }
 
