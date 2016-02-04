@@ -1,5 +1,6 @@
 Strategia 0.3.1
 - Fixed problem with body-specific milestone bonuses not always working (thanks smjjames).
+- Fixed issue with incorrectly strategy conflicts.
 
 Strategia 0.3.0
 - Mission strategies no longer have deadlines, and are cancellable.  However, the failure penalties are now applied if the mission is cancelled without completing it.
