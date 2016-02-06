@@ -90,7 +90,6 @@
     <Compile Include="Requirements\CelestialBodyRequirement.cs" />
     <Compile Include="Strategy\Generic.cs" />
     <Compile Include="Strategy\CelestialBodyProgram.cs" />
-    <Compile Include="Util\LRUCache.cs" />
     <Compile Include="Util\StrategyExtensions.cs" />
     <Compile Include="Util\StringUtil.cs" />
     <Compile Include="Util\CelestialBodyUtil.cs" />
