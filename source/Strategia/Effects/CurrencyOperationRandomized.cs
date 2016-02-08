@@ -25,7 +25,7 @@ namespace Strategia
         List<float> lowerValues;
         List<float> upperValues;
 
-        LRUCache<string, float> valueCache = new LRUCache<string, float>(150);
+        LRUCache<string, float> valueCache = new LRUCache<string, float>(250);
 
         public CurrencyOperationRandomized(Strategy parent)
             : base(parent)
@@ -75,16 +75,18 @@ namespace Strategia
         protected override void OnRegister()
         {
             GameEvents.Modifiers.OnCurrencyModifierQuery.Add(new EventData<CurrencyModifierQuery>.OnEvent(OnEffectQuery));
-            GameEvents.Contract.onDeclined.Add(new EventData<Contract>.OnEvent(OnContractDecline));
+            GameEvents.Contract.onDeclined.Add(new EventData<Contract>.OnEvent(OnContractChange));
+            GameEvents.Contract.onOffered.Add(new EventData<Contract>.OnEvent(OnContractChange));
         }
 
         protected override void OnUnregister()
         {
             GameEvents.Modifiers.OnCurrencyModifierQuery.Remove(new EventData<CurrencyModifierQuery>.OnEvent(OnEffectQuery));
-            GameEvents.Contract.onDeclined.Remove(new EventData<Contract>.OnEvent(OnContractDecline));
+            GameEvents.Contract.onDeclined.Remove(new EventData<Contract>.OnEvent(OnContractChange));
+            GameEvents.Contract.onOffered.Remove(new EventData<Contract>.OnEvent(OnContractChange));
         }
 
-        private void OnContractDecline(Contract ignored)
+        private void OnContractChange(Contract ignored)
         {
             // Build the mission control text for active contracts, this will force them back up to the top of the LRU cache
             foreach (Contract c in ContractSystem.Instance.Contracts.Where(c => c.ContractState == Contract.State.Active))
@@ -113,9 +115,9 @@ namespace Strategia
             }
 
             string hash = string.Join("|", new string[]{
-                qry.GetInput(Currency.Funds).ToString(),
-                qry.GetInput(Currency.Science).ToString(),
-                qry.GetInput(Currency.Reputation).ToString(),
+                qry.GetInput(Currency.Funds).ToString("F0"),
+                qry.GetInput(Currency.Science).ToString("F0"),
+                qry.GetInput(Currency.Reputation).ToString("F0"),
                 qry.reason.ToString()
             });
 
