@@ -67,11 +67,15 @@ namespace Strategia
             bool isKSC = biome != null && biome.IsKSC();
             if (KSCScienceMultiplier > 0.0f && isKSC)
             {
-                ResearchAndDevelopment.Instance.AddScience(KSCScienceMultiplier * amount - amount, TransactionReasons.Strategies);
+                float delta = KSCScienceMultiplier * amount - amount;
+                ResearchAndDevelopment.Instance.AddScience(delta, TransactionReasons.Strategies);
+                CurrencyPopup.Instance.AddPopup(Currency.Science, delta, TransactionReasons.Strategies, Parent.Config.Title, true);
             }
             else if (nonKSCScienceMultiplier > 0.0f && !isKSC)
             {
-                ResearchAndDevelopment.Instance.AddScience(nonKSCScienceMultiplier * amount - amount, TransactionReasons.Strategies);
+                float delta = nonKSCScienceMultiplier * amount - amount;
+                ResearchAndDevelopment.Instance.AddScience(delta, TransactionReasons.Strategies);
+                CurrencyPopup.Instance.AddPopup(Currency.Science, delta, TransactionReasons.Strategies, Parent.Config.Title, true);
             }
         }
     }

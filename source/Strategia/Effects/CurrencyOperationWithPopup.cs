@@ -43,6 +43,7 @@ namespace Strategia
 
         private void OnEffectQuery(CurrencyModifierQuery qry)
         {
+            Debug.Log("CurrencyOperationWithPopup.OnEffectQuery");
             fundsDelta = 0.0f;
             reputationDelta = 0.0f;
             scienceDelta = 0.0f;
@@ -68,18 +69,22 @@ namespace Strategia
 
         private void OnCurrencyModified(CurrencyModifierQuery qry)
         {
+            Debug.Log("fundsDelta = " + fundsDelta);
+            Debug.Log("reputationDelta = " + reputationDelta);
+            Debug.Log("scienceDelta = " + scienceDelta);
+
             // Check for changes
             if (Math.Abs(fundsDelta) > 0.01)
             {
-                CurrencyPopup.Instance.AddPopup(Currency.Funds, fundsDelta, Parent.Config.Title, true);
+                CurrencyPopup.Instance.AddPopup(Currency.Funds, fundsDelta, qry.reason, Parent.Config.Title, true);
             }
             if (Math.Abs(reputationDelta) > 0.01)
             {
-                CurrencyPopup.Instance.AddPopup(Currency.Reputation, reputationDelta, Parent.Config.Title, true);
+                CurrencyPopup.Instance.AddPopup(Currency.Reputation, reputationDelta, qry.reason, Parent.Config.Title, true);
             }
             if (Math.Abs(scienceDelta) > 0.01)
             {
-                CurrencyPopup.Instance.AddPopup(Currency.Science, scienceDelta, Parent.Config.Title, true);
+                CurrencyPopup.Instance.AddPopup(Currency.Science, scienceDelta, qry.reason, Parent.Config.Title, true);
             }
         }
     }

@@ -72,15 +72,15 @@ namespace Strategia
                 // Check for changes
                 if (Math.Abs(fundsDelta) > 0.01)
                 {
-                    CurrencyPopup.Instance.AddFacilityPopup(Currency.Funds, fundsDelta, Parent.Config.Title, true);
+                    CurrencyPopup.Instance.AddFacilityPopup(Currency.Funds, fundsDelta, qry.reason, Parent.Config.Title, true);
                 }
                 if (Math.Abs(reputationDelta) > 0.01)
                 {
-                    CurrencyPopup.Instance.AddFacilityPopup(Currency.Reputation, reputationDelta, Parent.Config.Title, true);
+                    CurrencyPopup.Instance.AddFacilityPopup(Currency.Reputation, reputationDelta, qry.reason, Parent.Config.Title, true);
                 }
                 if (Math.Abs(scienceDelta) > 0.01)
                 {
-                    CurrencyPopup.Instance.AddFacilityPopup(Currency.Science, scienceDelta, Parent.Config.Title, true);
+                    CurrencyPopup.Instance.AddFacilityPopup(Currency.Science, scienceDelta, qry.reason, Parent.Config.Title, true);
                 }
             }
         }

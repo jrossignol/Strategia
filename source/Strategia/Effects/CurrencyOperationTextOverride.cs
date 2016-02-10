@@ -11,19 +11,14 @@ using Strategies.Effects;
 namespace Strategia
 {
     /// <summary>
-    /// Special CurrencyOperation that only acts on non-zero values.
+    /// Special CurrencyOperation that overrides the text.
     /// </summary>
-    public class CurrencyOperationTextOverride : CurrencyOperation
+    public class CurrencyOperationTextOverride : CurrencyOperationWithPopup
     {
         string description;
 
         public CurrencyOperationTextOverride(Strategy parent)
             : base(parent)
-        {
-        }
-
-        public CurrencyOperationTextOverride(Strategy parent, float minValue, float maxValue, Currency currency, CurrencyOperation.Operator op, TransactionReasons AffectReasons, string description)
-            : base(parent, minValue, maxValue, currency, op, AffectReasons, description)
         {
         }
 

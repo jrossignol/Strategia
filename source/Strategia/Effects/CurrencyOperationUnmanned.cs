@@ -16,6 +16,8 @@ namespace Strategia
     /// </summary>
     public class CurrencyOperationUnmanned : StrategyEffect
     {
+        float scienceDelta;
+
         List<Currency> currencies;
         string effectDescription;
         List<TransactionReasons> affectReasons;
@@ -62,6 +64,7 @@ namespace Strategia
         protected override void OnRegister()
         {
             GameEvents.Modifiers.OnCurrencyModifierQuery.Add(new EventData<CurrencyModifierQuery>.OnEvent(OnEffectQuery));
+            GameEvents.Modifiers.OnCurrencyModified.Add(new EventData<CurrencyModifierQuery>.OnEvent(OnCurrencyModified));
             GameEvents.onVesselRecovered.Add(new EventData<ProtoVessel>.OnEvent(OnVesselRecovered));
             GameEvents.onGameSceneLoadRequested.Add(new EventData<GameScenes>.OnEvent(OnGameSceneLoadRequested));
         }
@@ -69,8 +72,9 @@ namespace Strategia
         protected override void OnUnregister()
         {
             GameEvents.Modifiers.OnCurrencyModifierQuery.Remove(new EventData<CurrencyModifierQuery>.OnEvent(OnEffectQuery));
-            GameEvents.onVesselRecovered.Add(new EventData<ProtoVessel>.OnEvent(OnVesselRecovered));
-            GameEvents.onGameSceneLoadRequested.Add(new EventData<GameScenes>.OnEvent(OnGameSceneLoadRequested));
+            GameEvents.Modifiers.OnCurrencyModified.Remove(new EventData<CurrencyModifierQuery>.OnEvent(OnCurrencyModified));
+            GameEvents.onVesselRecovered.Remove(new EventData<ProtoVessel>.OnEvent(OnVesselRecovered));
+            GameEvents.onGameSceneLoadRequested.Remove(new EventData<GameScenes>.OnEvent(OnGameSceneLoadRequested));
         }
 
         private void OnGameSceneLoadRequested(GameScenes scene)
@@ -86,6 +90,8 @@ namespace Strategia
 
         private void OnEffectQuery(CurrencyModifierQuery qry)
         {
+            scienceDelta = 0.0f;
+
             // Check the reason is a match
             if (!affectReasons.Contains(qry.reason))
             {
@@ -126,7 +132,21 @@ namespace Strategia
             float multiplier = Parent.GetLeveledListItem(multipliers);
             foreach (Currency currency in currencies)
             {
-                qry.AddDelta(currency, multiplier * qry.GetInput(currency) - qry.GetInput(currency));
+                float amount = multiplier * qry.GetInput(currency) - qry.GetInput(currency);
+                qry.AddDelta(currency, amount);
+
+                if (qry.reason == TransactionReasons.ScienceTransmission && currency == Currency.Science)
+                {
+                    scienceDelta = amount;
+                }
+            }
+        }
+
+        private void OnCurrencyModified(CurrencyModifierQuery qry)
+        {
+            if (Math.Abs(scienceDelta) > 0.01)
+            {
+                CurrencyPopup.Instance.AddPopup(Currency.Science, scienceDelta, qry.reason, Parent.Config.Title, true);
             }
         }
     }

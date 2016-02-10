@@ -91,10 +91,12 @@ namespace Strategia
             ReputationUpdater.Instance.Unregister(this);
 
             // Check for a deactivation
-            if (!Parent.IsActive)
+            if (!Parent.IsActive && reputationGiven > 0.01)
             {
                 // Clawback of reputation
                 Reputation.Instance.addReputation_discrete(-reputationGiven, TransactionReasons.Strategies);
+
+                CurrencyPopup.Instance.AddPopup(Currency.Reputation, -reputationGiven, TransactionReasons.Strategies, Parent.Config.Title + " cancellation", false);
             }
         }
 
@@ -139,6 +141,7 @@ namespace Strategia
                         Reputation.Instance.addReputation_discrete(Reputation.Instance.reputation - reputationLimit, TransactionReasons.Strategies);
                     }
                     reputationGiven += Reputation.Instance.reputation - currentReputation;
+                    CurrencyPopup.Instance.AddPopup(Currency.Reputation, reputation, TransactionReasons.Strategies, Parent.Config.Title, false);
                 }
 
                 // Take money (even if rep wasn't given)

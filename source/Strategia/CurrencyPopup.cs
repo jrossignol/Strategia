@@ -30,7 +30,7 @@ namespace Strategia
         private UpgradeableFacility lastFacility = null;
         private float lastFacilityTime = 0.0f;
         private bool crewCorrectionRequired = false;
-        private double crewCorrectionFunds = 0.0;
+        private double correctionAmount = 0.0;
 
         private float lastPopupTime = 0.0f;
 
@@ -54,6 +54,7 @@ namespace Strategia
             public AnchorType anchorType;
             public bool isFacility = false;
             public bool isDelta = false;
+            public TransactionReasons transactionReason;
 
             public float startTime = 0.0f;
             public bool initialized = true;
@@ -90,6 +91,7 @@ namespace Strategia
             GameEvents.OnKSCFacilityUpgraded.Add(new EventData<UpgradeableFacility, int>.OnEvent(OnKSCFacilityUpgraded));
             GameEvents.OnKSCStructureRepairing.Add(new EventData<DestructibleBuilding>.OnEvent(OnKSCStructureRepairing));
             GameEvents.OnCrewmemberHired.Add(new EventData<ProtoCrewMember, int>.OnEvent(OnCrewHired));
+            GameEvents.OnTechnologyResearched.Add(new EventData<GameEvents.HostTargetAction<RDTech, RDTech.OperationResult>>.OnEvent(OnTechResearched));
             GameEvents.Modifiers.OnCurrencyModifierQuery.Add(new EventData<CurrencyModifierQuery>.OnEvent(OnCurrencyModifierQuery));
             GameEvents.Modifiers.OnCurrencyModified.Add(new EventData<CurrencyModifierQuery>.OnEvent(OnCurrencyModified));
         }
@@ -101,32 +103,34 @@ namespace Strategia
             GameEvents.OnKSCFacilityUpgraded.Remove(new EventData<UpgradeableFacility, int>.OnEvent(OnKSCFacilityUpgraded));
             GameEvents.OnKSCStructureRepairing.Remove(new EventData<DestructibleBuilding>.OnEvent(OnKSCStructureRepairing));
             GameEvents.OnCrewmemberHired.Remove(new EventData<ProtoCrewMember, int>.OnEvent(OnCrewHired));
+            GameEvents.OnTechnologyResearched.Remove(new EventData<GameEvents.HostTargetAction<RDTech, RDTech.OperationResult>>.OnEvent(OnTechResearched));
             GameEvents.Modifiers.OnCurrencyModifierQuery.Remove(new EventData<CurrencyModifierQuery>.OnEvent(OnCurrencyModifierQuery));
             GameEvents.Modifiers.OnCurrencyModified.Remove(new EventData<CurrencyModifierQuery>.OnEvent(OnCurrencyModified));
         }
 
-        public void AddFacilityPopup(Currency currency, double amount, string reason, bool isDelta)
+        public void AddFacilityPopup(Currency currency, double amount, TransactionReasons transactionReason, string reason, bool isDelta)
         {
-            AddPopup(currency, amount, reason, null, AnchorType.Transform, isDelta, true);
+            AddPopup(currency, amount, transactionReason, reason, null, AnchorType.Transform, isDelta, true);
         }
 
-        public void AddPopup(Currency currency, double amount, string reason, bool isDelta)
+        public void AddPopup(Currency currency, double amount, TransactionReasons transactionReason, string reason, bool isDelta)
         {
-            AddPopup(currency, amount, reason, null, AnchorType.None, isDelta);
+            AddPopup(currency, amount, transactionReason, reason, null, AnchorType.None, isDelta);
         }
 
-        public void AddPopup(Currency currency, double amount, string reason, Transform referencePosition, bool isDelta)
+        public void AddPopup(Currency currency, double amount, TransactionReasons transactionReason, string reason, Transform referencePosition, bool isDelta)
         {
-            AddPopup(currency, amount, reason, referencePosition, AnchorType.Transform, isDelta);
+            AddPopup(currency, amount, transactionReason, reason, referencePosition, AnchorType.Transform, isDelta);
         }
 
-        private void AddPopup(Currency currency, double amount, string reason, Transform referencePosition, AnchorType anchorType, bool isDelta, bool isFacility = false)
+        private void AddPopup(Currency currency, double amount, TransactionReasons transactionReason, string reason, Transform referencePosition, AnchorType anchorType, bool isDelta, bool isFacility = false)
         {
             Debug.Log("Adding popup for " + currency + " " + amount + " (" + reason + ")");
 
             Popup popup = new Popup();
             popup.currency = currency;
             popup.amount = amount;
+            popup.transactionReason = transactionReason;
             popup.reason = reason;
             popup.anchorType = anchorType;
             popup.referencePosition = referencePosition;
@@ -185,24 +189,43 @@ namespace Strategia
                 // Figure out positioning
                 if (popup.anchorType == AnchorType.None)
                 {
-                    popup.anchorType = AnchorType.Fixed;
-
                     // Set it based on where the appropriate box is
                     if (HighLogic.LoadedScene == GameScenes.SPACECENTER)
                     {
                         popup.direction = -1;
+                        popup.anchorType = AnchorType.Fixed;
+                        popup.screenPosition.y = Screen.height - 32.0f;
                         if (popup.currency == Currency.Funds)
                         {
-                            Debug.Log("UI scale = " + ScreenSafeUI.VerticalRatio);
                             popup.screenPosition.x = (float)Screen.width / 2.0f - 220.0f / ScreenSafeUI.VerticalRatio;
-                            popup.screenPosition.y = Screen.height - 32.0f;
                         }
+                        else if (popup.currency == Currency.Reputation)
+                        {
+                            popup.screenPosition.x = (float)Screen.width / 2.0f;
+                        }
+                        else
+                            popup.screenPosition.x = (float)Screen.width / 2.0f + 220.0f / ScreenSafeUI.VerticalRatio;
+                        {
+                        }
+                    }
+                    else if (HighLogic.LoadedScene == GameScenes.FLIGHT && FlightGlobals.ActiveVessel != null)
+                    {
+                        popup.anchorType = AnchorType.Transform;
+                        popup.referencePosition = FlightGlobals.ActiveVessel.transform;
                     }
                 }
 
                 if (popup.anchorType == AnchorType.Transform)
                 {
-                    popup.screenPosition = FlightCamera.fetch.mainCamera.WorldToScreenPoint(popup.referencePosition.position);
+                    // Sometimes this can happen if a scene is left with an active popup
+                    if (popup.referencePosition == null)
+                    {
+                        popups.Remove(popup);
+                        continue;
+                    }
+
+                    Camera camera = RDController.Instance != null ? UIManager.instance.uiCameras[0].camera : FlightCamera.fetch.mainCamera;
+                    popup.screenPosition = camera.WorldToScreenPoint(popup.referencePosition.position);
                 }
 
                 // Set up position and alpha
@@ -211,6 +234,8 @@ namespace Strategia
                 Rect origin = new Rect(popup.screenPosition.x - 200f, Screen.height - popup.screenPosition.y - yoffset - 28f, 400f, 28f);
 
                 // Discount stroke/outline effect
+                string format = popup.currency == Currency.Funds ? "N0" : "N1";
+                string text = CurrencySymbol(popup.currency) + (popup.amount >= 0.0 ? " +" : " ") + popup.amount.ToString(format) + " (" + popup.reason + ")";
                 Color currencyColor = CurrencyColor(popup.currency, popup.amount);
                 Color backgroundColor = BackgroundColor(currencyColor);
                 foreach (int x in new int[] {-1, 1, 0})
@@ -223,7 +248,7 @@ namespace Strategia
                         Rect rect = new Rect(origin.xMin + x, origin.yMin + y, origin.width, origin.height);
 
                         // Draw the text
-                        GUI.Box(rect, CurrencySymbol(popup.currency) + " " + popup.amount.ToString("N0") + " (" + popup.reason + ")", popupStyle);
+                        GUI.Box(rect, text, popupStyle);
                     }
                 }
 
@@ -298,7 +323,7 @@ namespace Strategia
                 pcm.type = ProtoCrewMember.KerbalType.Applicant;
 
                 // Correct the funds
-                Funding.Instance.AddFunds(crewCorrectionFunds - Funding.Instance.Funds, TransactionReasons.Strategies);
+                Funding.Instance.AddFunds(correctionAmount - Funding.Instance.Funds, TransactionReasons.Strategies);
 
                 // Force the astronaut complex GUI
                 CMAstronautComplex ac = UnityEngine.Object.FindObjectOfType<CMAstronautComplex>();
@@ -319,6 +344,30 @@ namespace Strategia
             }
         }
 
+        void OnTechResearched(GameEvents.HostTargetAction<RDTech, RDTech.OperationResult> hta)
+        {
+            Debug.Log("OnTechResearched");
+            Debug.Log("    rdtech = " + hta.host);
+            Debug.Log("    result = " + hta.target);
+
+            if (hta.target == RDTech.OperationResult.Successful)
+            {
+                // TODO - check for over science
+
+                if (popups.Any())
+                {
+                    Popup last = popups.Last();
+                    if (last.transactionReason == TransactionReasons.RnDTechResearch && last.isDelta)
+                    {
+                        last.anchorType = AnchorType.Transform;
+                        last.referencePosition = hta.host.transform;
+                    }
+                }
+
+                AddPopup(Currency.Science, -hta.host.scienceCost, TransactionReasons.RnDTechResearch, "Research", hta.host.transform, false);
+            }
+        }
+
         void OnCurrencyModifierQuery(CurrencyModifierQuery qry)
         {
             Debug.Log("OnCurrencyModifierQuery");
@@ -333,14 +382,17 @@ namespace Strategia
             Debug.Log("    funds = " + Funding.Instance.Funds.ToString("N0"));
             Debug.Log("    qry.funds_in = " + qry.GetInput(Currency.Funds));
             Debug.Log("    qry.funds_delta = " + qry.GetEffectDelta(Currency.Funds));
+            Debug.Log("    science = " + ResearchAndDevelopment.Instance.Science.ToString("N0"));
+            Debug.Log("    qry.science_in = " + qry.GetInput(Currency.Science));
+            Debug.Log("    qry.science_delta = " + qry.GetEffectDelta(Currency.Science));
 
             if (qry.reason == TransactionReasons.StructureConstruction)
             {
-                AddFacilityPopup(Currency.Funds, qry.GetInput(Currency.Funds), "Upgrade", false);
+                AddFacilityPopup(Currency.Funds, qry.GetInput(Currency.Funds), qry.reason, "Upgrade", false);
             }
             else if (qry.reason == TransactionReasons.StructureRepair)
             {
-                AddFacilityPopup(Currency.Funds, qry.GetInput(Currency.Funds), "Repair", false);
+                AddFacilityPopup(Currency.Funds, qry.GetInput(Currency.Funds), qry.reason, "Repair", false);
             }
             else if (qry.reason == TransactionReasons.CrewRecruited)
             {
@@ -350,13 +402,17 @@ namespace Strategia
                 if (Funding.Instance.Funds < 0)
                 {
                     crewCorrectionRequired = true;
-                    crewCorrectionFunds = Funding.Instance.Funds - qry.GetInput(Currency.Funds) - qry.GetEffectDelta(Currency.Funds);
+                    correctionAmount = Funding.Instance.Funds - qry.GetInput(Currency.Funds) - qry.GetEffectDelta(Currency.Funds);
                 }
                 else
                 {
                     crewCorrectionRequired = false;
-                    AddPopup(Currency.Funds, qry.GetInput(Currency.Funds), "Hiring Kerbal", false);
+                    AddPopup(Currency.Funds, qry.GetInput(Currency.Funds), qry.reason, "Hiring Kerbal", false);
                 }
+            }
+            else if (qry.reason == TransactionReasons.ScienceTransmission)
+            {
+                AddPopup(Currency.Science, qry.GetInput(Currency.Science), qry.reason, "Science Transmission", false);
             }
         }
 

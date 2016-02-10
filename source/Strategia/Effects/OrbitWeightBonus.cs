@@ -31,15 +31,15 @@ namespace Strategia
         {
             if (funds > 0.0)
             {
-                yield return funds.ToString("N0") + " funds when reaching orbit with a vessel with a mass of at least " + (mass / 1000).ToString("N0") + " tons.";
+                yield return funds.ToString("N0") + " funds when reaching orbit with a vessel with a mass of at least " + mass.ToString("N1") + " tons.";
             }
             if (reputation > 0.0)
             {
-                yield return reputation.ToString("N0") + " reputation when reaching orbit with a vessel with a mass of at least " + (mass / 1000).ToString("N0") + " tons.";
+                yield return reputation.ToString("N0") + " reputation when reaching orbit with a vessel with a mass of at least " + mass.ToString("N1") + " tons.";
             }
             if (science > 0.0)
             {
-                yield return science.ToString("N0") + " science when reaching orbit with a vessel with a mass of at least " + (mass / 1000).ToString("N0") + " tons.";
+                yield return science.ToString("N0") + " science when reaching orbit with a vessel with a mass of at least " + mass.ToString("N1") + " tons.";
             }
         }
 
@@ -93,6 +93,8 @@ namespace Strategia
 
         private void HandleVessel(Vessel vessel)
         {
+            Debug.Log("OrbitWeightBonus.HandleVessel");
+
             // Check weight limit
             if (vessel.totalMass < mass)
             {
@@ -103,14 +105,17 @@ namespace Strategia
             if (funds > 0.0)
             {
                 Funding.Instance.AddFunds(funds, TransactionReasons.Strategies);
+                CurrencyPopup.Instance.AddPopup(Currency.Funds, funds, TransactionReasons.Strategies, Parent.Config.Title, false);
             }
             else if (reputation > 0.0f)
             {
                 Reputation.Instance.AddReputation(reputation, TransactionReasons.Strategies);
+                CurrencyPopup.Instance.AddPopup(Currency.Reputation, reputation, TransactionReasons.Strategies, Parent.Config.Title, false);
             }
-            else if (science> 0.0f)
+            else if (science > 0.0f)
             {
                 ResearchAndDevelopment.Instance.AddScience(science, TransactionReasons.Strategies);
+                CurrencyPopup.Instance.AddPopup(Currency.Science, science, TransactionReasons.Strategies, Parent.Config.Title, false);
             }
         }
     }

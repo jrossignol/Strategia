@@ -76,7 +76,7 @@ namespace Strategia
                 ResearchAndDevelopment.Instance.AddScience(amount, TransactionReasons.Strategies);
             }
 
-            CurrencyPopup.Instance.AddPopup(currency, amount, Parent.Config.Title, building.FxTarget, true);
+            CurrencyPopup.Instance.AddPopup(currency, amount, TransactionReasons.StructureCollapse, Parent.Config.Title, building.FxTarget, true);
         }
     }
 }
