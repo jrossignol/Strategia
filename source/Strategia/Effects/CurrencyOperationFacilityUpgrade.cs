@@ -66,7 +66,6 @@ namespace Strategia
 
         void OnCurrencyModified(CurrencyModifierQuery qry)
         {
-            Debug.Log("OnCurrencyModified");
             if (qry.reason == TransactionReasons.StructureConstruction)
             {
                 // Check for changes

@@ -139,11 +139,6 @@ namespace Strategia
                     Debug.Log("Strategia: Generated strategy '" + newStrategy.GetValue("title") + "'");
                     config.parent.configs.Add(new UrlDir.UrlConfig(config.parent, newStrategy));
 
-                    foreach (ConfigNode.Value pair in newStrategy.values)
-                    {
-                        Debug.Log("    " + pair.name + " = " + pair.value);
-                    }
-
                     yield return null;
                 }
             }

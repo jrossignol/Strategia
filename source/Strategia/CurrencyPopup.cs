@@ -92,7 +92,6 @@ namespace Strategia
             GameEvents.OnKSCStructureRepairing.Add(new EventData<DestructibleBuilding>.OnEvent(OnKSCStructureRepairing));
             GameEvents.OnCrewmemberHired.Add(new EventData<ProtoCrewMember, int>.OnEvent(OnCrewHired));
             GameEvents.OnTechnologyResearched.Add(new EventData<GameEvents.HostTargetAction<RDTech, RDTech.OperationResult>>.OnEvent(OnTechResearched));
-            GameEvents.Modifiers.OnCurrencyModifierQuery.Add(new EventData<CurrencyModifierQuery>.OnEvent(OnCurrencyModifierQuery));
             GameEvents.Modifiers.OnCurrencyModified.Add(new EventData<CurrencyModifierQuery>.OnEvent(OnCurrencyModified));
         }
         
@@ -104,7 +103,6 @@ namespace Strategia
             GameEvents.OnKSCStructureRepairing.Remove(new EventData<DestructibleBuilding>.OnEvent(OnKSCStructureRepairing));
             GameEvents.OnCrewmemberHired.Remove(new EventData<ProtoCrewMember, int>.OnEvent(OnCrewHired));
             GameEvents.OnTechnologyResearched.Remove(new EventData<GameEvents.HostTargetAction<RDTech, RDTech.OperationResult>>.OnEvent(OnTechResearched));
-            GameEvents.Modifiers.OnCurrencyModifierQuery.Remove(new EventData<CurrencyModifierQuery>.OnEvent(OnCurrencyModifierQuery));
             GameEvents.Modifiers.OnCurrencyModified.Remove(new EventData<CurrencyModifierQuery>.OnEvent(OnCurrencyModified));
         }
 
@@ -125,8 +123,6 @@ namespace Strategia
 
         private void AddPopup(Currency currency, double amount, TransactionReasons transactionReason, string reason, Transform referencePosition, AnchorType anchorType, bool isDelta, bool isFacility = false)
         {
-            Debug.Log("Adding popup for " + currency + " " + amount + " (" + reason + ")");
-
             Popup popup = new Popup();
             popup.currency = currency;
             popup.amount = amount;
@@ -303,7 +299,6 @@ namespace Strategia
             {
                 popup.referencePosition = building.transform;
                 popup.initialized = true;
-                Debug.Log("   set reference pos = " + popup.referencePosition);
             }
         }
 
@@ -346,10 +341,6 @@ namespace Strategia
 
         void OnTechResearched(GameEvents.HostTargetAction<RDTech, RDTech.OperationResult> hta)
         {
-            Debug.Log("OnTechResearched");
-            Debug.Log("    rdtech = " + hta.host);
-            Debug.Log("    result = " + hta.target);
-
             if (hta.target == RDTech.OperationResult.Successful)
             {
                 // TODO - check for over science
@@ -368,24 +359,8 @@ namespace Strategia
             }
         }
 
-        void OnCurrencyModifierQuery(CurrencyModifierQuery qry)
-        {
-            Debug.Log("OnCurrencyModifierQuery");
-            Debug.Log("    funds = " + Funding.Instance.Funds.ToString("N0"));
-            Debug.Log("    qry.funds_in = " + qry.GetInput(Currency.Funds));
-            Debug.Log("    qry.funds_delta = " + qry.GetEffectDelta(Currency.Funds));
-        }
-
         void OnCurrencyModified(CurrencyModifierQuery qry)
         {
-            Debug.Log("OnCurrencyModified");
-            Debug.Log("    funds = " + Funding.Instance.Funds.ToString("N0"));
-            Debug.Log("    qry.funds_in = " + qry.GetInput(Currency.Funds));
-            Debug.Log("    qry.funds_delta = " + qry.GetEffectDelta(Currency.Funds));
-            Debug.Log("    science = " + ResearchAndDevelopment.Instance.Science.ToString("N0"));
-            Debug.Log("    qry.science_in = " + qry.GetInput(Currency.Science));
-            Debug.Log("    qry.science_delta = " + qry.GetEffectDelta(Currency.Science));
-
             if (qry.reason == TransactionReasons.StructureConstruction)
             {
                 AddFacilityPopup(Currency.Funds, qry.GetInput(Currency.Funds), qry.reason, "Upgrade", false);

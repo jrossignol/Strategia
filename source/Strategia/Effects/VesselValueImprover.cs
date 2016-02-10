@@ -86,19 +86,17 @@ namespace Strategia
 
         private void OnFlightReady()
         {
-            Debug.Log("Strategia.VesselValueImprover.OnFlightReady");
             HandleVessel(FlightGlobals.ActiveVessel);
         }
 
         private void OnVesselChange(Vessel vessel)
         {
-            Debug.Log("Strategia.VesselValueImprover.OnVesselChange");
             HandleVessel(vessel);
         }
 
         private void HandleVessel(Vessel vessel)
         {
-            Debug.Log("Strategia.VesselValueImprover.HandleVessel");
+            Debug.Log("Strategia: VesselValueImprover.HandleVessel");
 
             // Check for our trait
             bool needsIncrease = false;
@@ -122,7 +120,6 @@ namespace Strategia
                             ModuleEngines engine = m as ModuleEngines;
                             if (engine != null)
                             {
-                                Debug.Log("Got an engine in part " + p.partName);
                                 FloatCurve curve = engine.atmosphereCurve;
                                 ConfigNode node = new ConfigNode();
                                 curve.Save(node);
@@ -143,7 +140,6 @@ namespace Strategia
                                     {
                                         newNode.AddValue(pair.name, pair.value);
                                     }
-                                    Debug.Log("    node data " + pair.name + " = " + pair.value);
                                 }
                                 curve.Load(newNode);
                             }

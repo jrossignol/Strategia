@@ -17,14 +17,11 @@ namespace Strategia
 
         protected override string GetText()
         {
-            Debug.Log("StrategiaStrategy.GetText");
             return base.GetText();
         }
 
         protected override string GetEffectText()
         {
-            Debug.Log("StrategiaStrategy.GetEffectText");
-
             string result = GenerateEffectText();
             result += GenerateCostText();
             result += GenerateObjectiveText();

@@ -61,7 +61,7 @@ namespace Strategia
 
         void OnKSCStructureCollapsing(DestructibleBuilding building)
         {
-            Debug.Log("OnKSCStructureCollapsing: " + building);
+            Debug.Log("Strategia: OnKSCStructureCollapsing: " + building);
 
             if (currency == Currency.Funds)
             {

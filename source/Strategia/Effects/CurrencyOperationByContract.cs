@@ -261,7 +261,6 @@ namespace Strategia
 
                 // Contract Configurator integration
                 Type contractGroup = TypeUtil.FindType("ContractGroup");
-                Debug.Log("XXX contractGroup = " + contractGroup);
                 if (contractGroup != null)
                 {
                     MethodInfo displayNameMethod = contractGroup.GetMethod("GroupDisplayName");

@@ -89,7 +89,7 @@ namespace Strategia
 
                         if (!met)
                         {
-                            Debug.Log("Strategy no longer available due to reason: " + unmetReason);
+                            Debug.Log("Strategia: Strategy no longer available due to reason: " + unmetReason);
                         }
                     }
 

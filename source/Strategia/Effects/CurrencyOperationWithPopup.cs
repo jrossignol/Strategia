@@ -43,7 +43,6 @@ namespace Strategia
 
         private void OnEffectQuery(CurrencyModifierQuery qry)
         {
-            Debug.Log("CurrencyOperationWithPopup.OnEffectQuery");
             fundsDelta = 0.0f;
             reputationDelta = 0.0f;
             scienceDelta = 0.0f;
@@ -69,10 +68,6 @@ namespace Strategia
 
         private void OnCurrencyModified(CurrencyModifierQuery qry)
         {
-            Debug.Log("fundsDelta = " + fundsDelta);
-            Debug.Log("reputationDelta = " + reputationDelta);
-            Debug.Log("scienceDelta = " + scienceDelta);
-
             // Check for changes
             if (Math.Abs(fundsDelta) > 0.01)
             {
