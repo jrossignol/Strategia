@@ -1,2 +1,5 @@
+Strategia 1.0.1
+- Fix impactor contracts for some configurations (thanks smjjames).
+
 Strategia 1.0.0
 - Initial release.
