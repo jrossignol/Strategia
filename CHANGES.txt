@@ -1,5 +1,6 @@
 Strategia 1.0.1
 - Fix impactor contracts for some configurations (thanks smjjames).
+- Fix bug that allowed more than the max number of strategies to be active if the last one was a mission strategy (thanks Death Engineering).
 
 Strategia 1.0.0
 - Initial release.

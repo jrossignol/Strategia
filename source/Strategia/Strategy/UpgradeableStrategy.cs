@@ -63,22 +63,6 @@ namespace Strategia
             {
                 return false;
             }
-
-            // If we are at max strategies, only allow activation if it would be an upgrade
-            IEnumerable<Strategy> activeStrategies = StrategySystem.Instance.Strategies.Where(s => s.IsActive);
-            int limit = GameVariables.Instance.GetActiveStrategyLimit(ScenarioUpgradeableFacilities.GetFacilityLevel(SpaceCenterFacility.Administration)) - 1;
-            if (activeStrategies.Count() >= limit)
-            {
-                if (activeStrategies.OfType<UpgradeableStrategy>().Any(s => s.Name == Name))
-                {
-                    return true;
-                }
-                else
-                {
-                    reason = "The Administration Building cannot support more than " + limit + " active strategies at this level.";
-                    return false;
-                }
-            }
             else
             {
                 return true;
