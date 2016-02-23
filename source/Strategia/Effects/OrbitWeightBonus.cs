@@ -76,7 +76,7 @@ namespace Strategia
 
         private void OnVesselSituationChange(GameEvents.HostedFromToAction<Vessel, Vessel.Situations> hfta)
         {
-            if (hfta.from == Vessel.Situations.PRELAUNCH || hfta.from == Vessel.Situations.LANDED)
+            if (hfta.from == Vessel.Situations.PRELAUNCH || (hfta.from == Vessel.Situations.LANDED && hfta.host.mainBody.isHomeWorld))
             {
                 validVessel = hfta.host;
             }
