@@ -335,7 +335,10 @@ namespace Strategia
             }
             else
             {
-                popups.Last().reason = "Hiring " + pcm.name;
+                if (popups.Any())
+                {
+                    popups.Last().reason = "Hiring " + pcm.name;
+                }
             }
         }
 
