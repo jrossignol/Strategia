@@ -29,7 +29,7 @@ namespace Strategia
         List<float> multipliers;
         Attribute attribute;
 
-        private static Dictionary<string, float> originalValues = new Dictionary<string, float>();
+        private Dictionary<string, float> originalValues = new Dictionary<string, float>();
         private static Dictionary<Attribute, string> attributeTitles = new Dictionary<Attribute, string>();
 
         static VesselValueImprover()
