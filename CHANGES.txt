@@ -1,5 +1,6 @@
 Strategia 1.1.0
 - Mun/Minmus Program can each be completed in turn.
+- Created a logo for the contract agent.
 - Fixed impactor contracts for some configurations (thanks smjjames).
 - Fixed bug that allowed more than the max number of strategies to be active if the last one was a mission strategy (thanks Death Engineering).
 - Fixed issue where Massive Scale Launch bonuses would apply when going from landed => orbit on *any* body (thanks smjjames).
