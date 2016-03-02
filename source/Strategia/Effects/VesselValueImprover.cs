@@ -76,6 +76,10 @@ namespace Strategia
         {
             GameEvents.onVesselChange.Add(new EventData<Vessel>.OnEvent(OnVesselChange));
             GameEvents.onFlightReady.Add(new EventVoid.OnEvent(OnFlightReady));
+            GameEvents.onPartAttach.Add(new EventData<GameEvents.HostTargetAction<Part, Part>>.OnEvent(OnPartAttach));
+            GameEvents.onPartJointBreak.Add(new EventData<PartJoint>.OnEvent(OnPartJointBreak));
+            GameEvents.onCrewTransferred.Add(new EventData<GameEvents.HostedFromToAction<ProtoCrewMember, Part>>.OnEvent(OnCrewTransferred));
+            GameEvents.onVesselWasModified.Add(new EventData<Vessel>.OnEvent(OnVesselWasModified));
         }
 
         protected override void OnUnregister()
@@ -94,8 +98,41 @@ namespace Strategia
             HandleVessel(vessel);
         }
 
+        private void OnPartAttach(GameEvents.HostTargetAction<Part, Part> hta)
+        {
+            if (HighLogic.LoadedScene == GameScenes.FLIGHT)
+            {
+                HandleVessel(hta.host.vessel);
+            }
+        }
+
+        private void OnPartJointBreak(PartJoint p)
+        {
+            if (HighLogic.LoadedScene == GameScenes.FLIGHT)
+            {
+                HandleVessel(p.Parent.vessel);
+            }
+        }
+
+        private void OnVesselWasModified(Vessel vessel)
+        {
+            HandleVessel(vessel);
+        }
+
+        private void OnCrewTransferred(GameEvents.HostedFromToAction<ProtoCrewMember, Part> a)
+        {
+            // Check both vessels
+            HandleVessel(a.from.vessel);
+            HandleVessel(a.to.vessel);
+        }
+
         private void HandleVessel(Vessel vessel)
         {
+            if (vessel == null)
+            {
+                return;
+            }
+
             Debug.Log("Strategia: VesselValueImprover.HandleVessel");
 
             // Check for our trait

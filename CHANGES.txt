@@ -4,6 +4,7 @@ Strategia 1.1.0
 - Fixed bug that allowed more than the max number of strategies to be active if the last one was a mission strategy (thanks Death Engineering).
 - Fixed issue where Massive Scale Launch bonuses would apply when going from landed => orbit on *any* body (thanks smjjames).
 - Fixed Astronaut Training exception when hiring two crew members in quick succession (thanks smjjames).
+- Fixed strategies that change vessel values (like Pilot Focus III) to check for more events - like crew transfers (thanks smjjames).
 
 Strategia 1.0.0
 - Initial release.
