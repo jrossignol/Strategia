@@ -8,6 +8,7 @@ Strategia 1.1.0
 - Fixed strategies that change vessel values (like Pilot Focus III) to check for more events - like crew transfers (thanks smjjames).
 - Force set ISP when changing it in Pilot Focus III (thanks smjjames).
 - Fixed possible issue with multipliers when switching between Pilot/Engineer focuses.
+- Fixed issue where Contract Slot Machine values kep getting re-rolled (thanks smjjames).
 
 Strategia 1.0.0
 - Initial release.

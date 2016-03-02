@@ -39,16 +39,6 @@ namespace Strategia
             amount = ConfigNodeUtil.ParseValue<float>(node, "amount");
         }
 
-        protected override void OnSave(ConfigNode node)
-        {
-            base.OnSave(node);
-        }
-
-        protected override void OnLoad(ConfigNode node)
-        {
-            base.OnLoad(node);
-        }
-
         protected override void OnRegister()
         {
             GameEvents.OnKSCStructureCollapsing.Add(new EventData<DestructibleBuilding>.OnEvent(OnKSCStructureCollapsing));

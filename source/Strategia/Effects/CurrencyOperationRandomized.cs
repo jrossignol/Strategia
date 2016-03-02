@@ -25,7 +25,7 @@ namespace Strategia
         List<float> lowerValues;
         List<float> upperValues;
 
-        LRUCache<string, float> valueCache = new LRUCache<string, float>(250);
+        LRUCache<string, float> valueCache = new LRUCache<string, float>(100);
 
         public CurrencyOperationRandomized(Strategy parent)
             : base(parent)
@@ -47,6 +47,7 @@ namespace Strategia
 
         protected override void OnLoadFromConfig(ConfigNode node)
         {
+            Debug.Log("CurrencyOperationRandomized.OnLoadFromConfig");
             base.OnLoadFromConfig(node);
 
             currencies = ConfigNodeUtil.ParseValue<List<Currency>>(node, "currency");
@@ -58,6 +59,7 @@ namespace Strategia
 
         protected override void OnSave(ConfigNode node)
         {
+            Debug.Log("CurrencyOperationRandomized.OnSave");
             base.OnSave(node);
 
             ConfigNode values = new ConfigNode("VALUES");
@@ -67,6 +69,7 @@ namespace Strategia
 
         protected override void OnLoad(ConfigNode node)
         {
+            Debug.Log("CurrencyOperationRandomized.OnLoad");
             base.OnLoad(node);
 
             valueCache.Load(node.GetNode("VALUES"));

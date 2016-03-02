@@ -47,16 +47,6 @@ namespace Strategia
             multipliers = ConfigNodeUtil.ParseValue<List<float>>(node, "multiplier");
         }
 
-        protected override void OnSave(ConfigNode node)
-        {
-            base.OnSave(node);
-        }
-
-        protected override void OnLoad(ConfigNode node)
-        {
-            base.OnLoad(node);
-        }
-
         protected override void OnRegister()
         {
             GameEvents.Modifiers.OnCurrencyModifierQuery.Add(new EventData<CurrencyModifierQuery>.OnEvent(OnEffectQuery));
