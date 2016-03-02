@@ -179,6 +179,7 @@ namespace Strategia
                                     }
                                 }
                                 curve.Load(newNode);
+                                engine.realIsp = curve.Evaluate(0);
                             }
                             break;
                         case Attribute.ParachuteDrag:
