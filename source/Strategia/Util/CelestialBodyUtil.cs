@@ -2,12 +2,15 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using UnityEngine;
 using KSP;
 
 namespace Strategia
 {
     public static class CelestialBodyUtil
     {
+        private const double BARYCENTER_THRESHOLD = 100;
+
         public static IEnumerable<CelestialBody> GetBodiesForStrategy(string id)
         {
             CelestialBody home = FlightGlobals.Bodies.Where(cb => cb.isHomeWorld).Single();
@@ -32,9 +35,20 @@ namespace Strategia
             {
                 foreach (CelestialBody body in FlightGlobals.Bodies[0].orbitingBodies)
                 {
-                    if (body != home && body.pqsController != null)
+                    if (body != home)
                     {
-                        yield return body;
+                        if (body.Radius > BARYCENTER_THRESHOLD)
+                        {
+                            if (body.pqsController != null)
+                            {
+                                yield return body;
+                            }
+                        }
+                        else
+                        {
+                            // Return the biggest body
+                            yield return body.orbitingBodies.MaxAt(cb => cb.Mass);
+                        }
                     }
                 }
             }
@@ -42,7 +56,7 @@ namespace Strategia
             {
                 foreach (CelestialBody body in FlightGlobals.Bodies[0].orbitingBodies)
                 {
-                    if (body.pqsController == null && !body.orbitingBodies.Contains(home) && body.orbitingBodies.Count() >= 2)
+                    if (body.pqsController == null && !body.orbitingBodies.Contains(home) && body.orbitingBodies.Count() >= 2 && body.Radius > BARYCENTER_THRESHOLD)
                     {
                         yield return body;
                     }
