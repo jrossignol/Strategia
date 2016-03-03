@@ -1,6 +1,7 @@
 Strategia 1.1.0
 - Mun/Minmus Program can each be completed in turn.
 - Created a logo for the contract agent.
+- Changed Media Circus I bonus to prevent infinite reputation exploit.
 - Added support for Sigma Binary.
 - Fixed impactor contracts for some configurations (thanks smjjames).
 - Fixed bug that allowed more than the max number of strategies to be active if the last one was a mission strategy (thanks Death Engineering).
