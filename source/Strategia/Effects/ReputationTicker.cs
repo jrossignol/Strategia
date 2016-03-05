@@ -78,11 +78,14 @@ namespace Strategia
 
         protected override void OnRegister()
         {
-            ReputationUpdater.Instance.Register(this);
-
-            if (lastCheck == 0.0)
+            if (Parent.IsActive)
             {
-                lastCheck = Planetarium.GetUniversalTime();
+                ReputationUpdater.Instance.Register(this);
+
+                if (lastCheck == 0.0)
+                {
+                    lastCheck = Planetarium.GetUniversalTime();
+                }
             }
         }
 

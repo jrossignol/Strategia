@@ -1,3 +1,6 @@
+Strategia 1.1.1
+- Fixed issue with reputation being awarded when it's not supposed to (thanks Wercho).
+
 Strategia 1.1.0
 - Mun/Minmus Program can each be completed in turn.
 - Created a logo for the contract agent.

@@ -46,7 +46,7 @@ namespace Strategia
 
         protected override void OnRegister()
         {
-            if (!isActive)
+            if (!isActive && Parent.IsActive)
             {
                 if (currency == Currency.Funds)
                 {

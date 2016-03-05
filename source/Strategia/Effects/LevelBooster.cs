@@ -42,8 +42,11 @@ namespace Strategia
 
         protected override void OnRegister()
         {
-            GameEvents.onVesselChange.Add(new EventData<Vessel>.OnEvent(OnVesselChange));
-            GameEvents.onFlightReady.Add(new EventVoid.OnEvent(OnFlightReady));
+            if (Parent.IsActive)
+            {
+                GameEvents.onVesselChange.Add(new EventData<Vessel>.OnEvent(OnVesselChange));
+                GameEvents.onFlightReady.Add(new EventVoid.OnEvent(OnFlightReady));
+            }
         }
 
         protected override void OnUnregister()

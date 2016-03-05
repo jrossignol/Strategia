@@ -77,9 +77,12 @@ namespace Strategia
 
         protected override void OnRegister()
         {
-            GameEvents.Modifiers.OnCurrencyModifierQuery.Add(new EventData<CurrencyModifierQuery>.OnEvent(OnEffectQuery));
-            GameEvents.Contract.onDeclined.Add(new EventData<Contract>.OnEvent(OnContractChange));
-            GameEvents.Contract.onOffered.Add(new EventData<Contract>.OnEvent(OnContractChange));
+            if (Parent.IsActive)
+            {
+                GameEvents.Modifiers.OnCurrencyModifierQuery.Add(new EventData<CurrencyModifierQuery>.OnEvent(OnEffectQuery));
+                GameEvents.Contract.onDeclined.Add(new EventData<Contract>.OnEvent(OnContractChange));
+                GameEvents.Contract.onOffered.Add(new EventData<Contract>.OnEvent(OnContractChange));
+            }
         }
 
         protected override void OnUnregister()

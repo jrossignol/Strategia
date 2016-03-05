@@ -116,12 +116,15 @@ namespace Strategia
 
         protected override void OnRegister()
         {
-            ContractChecker.Instance.Register(this);
-            GameEvents.Contract.onCompleted.Add(new EventData<Contract>.OnEvent(OnContractCompleted));
-            GameEvents.Contract.onFailed.Add(new EventData<Contract>.OnEvent(OnContractFailed));
+            if (Parent.IsActive)
+            {
+                ContractChecker.Instance.Register(this);
+                GameEvents.Contract.onCompleted.Add(new EventData<Contract>.OnEvent(OnContractCompleted));
+                GameEvents.Contract.onFailed.Add(new EventData<Contract>.OnEvent(OnContractFailed));
 
-            // Force contracts to generate immediately in case we need the associated contract
-            ContractPreLoader.Instance.ResetGenerationFailure();
+                // Force contracts to generate immediately in case we need the associated contract
+                ContractPreLoader.Instance.ResetGenerationFailure();
+            }
         }
 
         protected override void OnUnregister()

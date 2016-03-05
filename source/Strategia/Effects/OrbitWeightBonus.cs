@@ -53,7 +53,10 @@ namespace Strategia
 
         protected override void OnRegister()
         {
-            GameEvents.onVesselSituationChange.Add(new EventData<GameEvents.HostedFromToAction<Vessel,Vessel.Situations>>.OnEvent(OnVesselSituationChange));
+            if (Parent.IsActive)
+            {
+                GameEvents.onVesselSituationChange.Add(new EventData<GameEvents.HostedFromToAction<Vessel, Vessel.Situations>>.OnEvent(OnVesselSituationChange));
+            }
         }
 
         protected override void OnUnregister()

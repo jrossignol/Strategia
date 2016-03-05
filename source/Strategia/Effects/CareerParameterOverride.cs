@@ -53,17 +53,20 @@ namespace Strategia
 
         protected override void OnRegister()
         {
-            switch (parameter)
+            if (Parent.IsActive)
             {
-                case Parameter.RepLossDeclined:
-                    if (originalValue != null)
-                    {
-                        originalValue = HighLogic.CurrentGame.Parameters.Career.RepLossDeclined;
-                    }
-                    HighLogic.CurrentGame.Parameters.Career.RepLossDeclined = value;
-                    break;
-                default:
-                    break;
+                switch (parameter)
+                {
+                    case Parameter.RepLossDeclined:
+                        if (originalValue != null)
+                        {
+                            originalValue = HighLogic.CurrentGame.Parameters.Career.RepLossDeclined;
+                        }
+                        HighLogic.CurrentGame.Parameters.Career.RepLossDeclined = value;
+                        break;
+                    default:
+                        break;
+                }
             }
         }
 

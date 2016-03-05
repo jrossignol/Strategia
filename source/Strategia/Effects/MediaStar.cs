@@ -84,7 +84,10 @@ namespace Strategia
 
         protected override void OnRegister()
         {
-            GameEvents.onVesselRecovered.Add(new EventData<ProtoVessel>.OnEvent(OnVesselRecovered));
+            if (Parent.IsActive)
+            {
+                GameEvents.onVesselRecovered.Add(new EventData<ProtoVessel>.OnEvent(OnVesselRecovered));
+            }
         }
 
         protected override void OnUnregister()

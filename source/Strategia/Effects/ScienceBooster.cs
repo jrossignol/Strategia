@@ -46,7 +46,10 @@ namespace Strategia
 
         protected override void OnRegister()
         {
-            GameEvents.OnScienceRecieved.Add(new EventData<float, ScienceSubject, ProtoVessel, bool>.OnEvent(OnScienceReceived));
+            if (Parent.IsActive)
+            {
+                GameEvents.OnScienceRecieved.Add(new EventData<float, ScienceSubject, ProtoVessel, bool>.OnEvent(OnScienceReceived));
+            }
         }
 
         protected override void OnUnregister()

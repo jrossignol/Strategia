@@ -105,7 +105,10 @@ namespace Strategia
 
         protected override void OnRegister()
         {
-            GameEvents.onKerbalTypeChange.Add(new EventData<ProtoCrewMember, ProtoCrewMember.KerbalType, ProtoCrewMember.KerbalType>.OnEvent(OnKerbalTypeChange));
+            if (Parent.IsActive)
+            {
+                GameEvents.onKerbalTypeChange.Add(new EventData<ProtoCrewMember, ProtoCrewMember.KerbalType, ProtoCrewMember.KerbalType>.OnEvent(OnKerbalTypeChange));
+            }
         }
 
         protected override void OnUnregister()

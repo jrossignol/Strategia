@@ -41,7 +41,10 @@ namespace Strategia
 
         protected override void OnRegister()
         {
-            GameEvents.OnKSCStructureCollapsing.Add(new EventData<DestructibleBuilding>.OnEvent(OnKSCStructureCollapsing));
+            if (Parent.IsActive)
+            {
+                GameEvents.OnKSCStructureCollapsing.Add(new EventData<DestructibleBuilding>.OnEvent(OnKSCStructureCollapsing));
+            }
         }
 
         protected override void OnUnregister()
