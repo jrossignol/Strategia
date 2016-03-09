@@ -2,6 +2,7 @@ Strategia 1.1.1
 - Fixed issue with reputation being awarded when it's not supposed to (thanks Wercho).
 - Make crewed mission requirement a little bit clearer (thanks Zoidos).
 - Make moon uncrewed missions only require an orbit of the homeworld (thanks a_shack).
+- Fixed issue with FlyBy mission caused by Contract Configurator 1.9.8 (thanks smjjames).
 
 Strategia 1.1.0
 - Mun/Minmus Program can each be completed in turn.
