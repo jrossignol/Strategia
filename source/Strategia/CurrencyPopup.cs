@@ -30,8 +30,6 @@ namespace Strategia
 
         private UpgradeableFacility lastFacility = null;
         private float lastFacilityTime = 0.0f;
-        private bool crewCorrectionRequired = false;
-        private double correctionAmount = 0.0;
 
         private float lastPopupTime = 0.0f;
 
@@ -235,9 +233,9 @@ namespace Strategia
                 string text = CurrencySymbol(popup.currency) + (popup.amount >= 0.0 ? " +" : " ") + popup.amount.ToString(format) + " (" + popup.reason + ")";
                 Color currencyColor = CurrencyColor(popup.currency, popup.amount);
                 Color backgroundColor = BackgroundColor(currencyColor);
-                foreach (int x in new int[] {-1, 1, 0})
+                foreach (int x in new int[] {-2, 2, 0})
                 {
-                    foreach (int y in new int[] {-1, 1, 0})
+                    foreach (int y in new int[] {-2, 2, 0})
                     {
                         // Setup styles, position and alpha
                         Color c = (x == 0 && y == 0) ?  currencyColor : backgroundColor;
@@ -268,7 +266,7 @@ namespace Strategia
                 margin = new RectOffset(),
                 padding = new RectOffset(5, 0, 0, 0),
                 alignment = TextAnchor.MiddleCenter,
-                fontSize = 14,
+                fontSize = 16,
                 fontStyle = FontStyle.Bold,
                 font = UnityEngine.Resources.FindObjectsOfTypeAll<Font>().Where(f => f.name == "kalibri").First(),
             };
@@ -299,41 +297,9 @@ namespace Strategia
 
         void OnCrewHired(ProtoCrewMember pcm, int count)
         {
-            if (crewCorrectionRequired)
+            if (popups.Any())
             {
-                ScreenMessages.PostScreenMessage("<b><color=orange>Not enough Funds to hire new recruit due to strategies currently in effect.</color></b>", 5f, ScreenMessageStyle.UPPER_LEFT);
-
-                // Remove the last popup
-                if (popups.Any())
-                {
-                    popups.Remove(popups.Last());
-                }
-
-                // Set the crew back to an applicant
-                pcm.type = ProtoCrewMember.KerbalType.Applicant;
-
-                // Correct the funds
-                Funding.Instance.AddFunds(correctionAmount - Funding.Instance.Funds, TransactionReasons.Strategies);
-
-                // Force the astronaut complex GUI
-                CMAstronautComplex ac = UnityEngine.Object.FindObjectOfType<CMAstronautComplex>();
-                if (ac != null)
-                {
-                    MethodInfo availableListMethod = typeof(CMAstronautComplex).GetMethods(BindingFlags.NonPublic | BindingFlags.Instance).
-                        Where(mi => mi.Name == "CreateAvailableList").First();
-                    availableListMethod.Invoke(ac, new object[] { });
-
-                    MethodInfo applicantListMethod = typeof(CMAstronautComplex).GetMethods(BindingFlags.NonPublic | BindingFlags.Instance).
-                        Where(mi => mi.Name == "CreateApplicantList").First();
-                    applicantListMethod.Invoke(ac, new object[] { });
-                }
-            }
-            else
-            {
-                if (popups.Any())
-                {
-                    popups.Last().reason = "Hiring " + pcm.name;
-                }
+                popups.Last().reason = "Hiring " + pcm.name;
             }
         }
 
@@ -369,19 +335,7 @@ namespace Strategia
             }
             else if (qry.reason == TransactionReasons.CrewRecruited)
             {
-                // Crew recruitment happens in an odd order - first the base amount is taken off, then this is called,
-                // *then* the delta is taken off.  However, because funds are clamped to zero, this can allow us to
-                // not have the delta removed.  So track that case to correct for later.
-                if (Funding.Instance.Funds < 0)
-                {
-                    crewCorrectionRequired = true;
-                    correctionAmount = Funding.Instance.Funds - qry.GetInput(Currency.Funds) - qry.GetEffectDelta(Currency.Funds);
-                }
-                else
-                {
-                    crewCorrectionRequired = false;
-                    AddPopup(Currency.Funds, qry.GetInput(Currency.Funds), qry.reason, "Hiring Kerbal", false);
-                }
+                AddPopup(Currency.Funds, qry.GetInput(Currency.Funds), qry.reason, "Hiring Kerbal", false);
             }
             else if (qry.reason == TransactionReasons.ScienceTransmission)
             {
