@@ -4,6 +4,7 @@ using System.Linq;
 using System.Text;
 using UnityEngine;
 using KSP;
+using KSP.UI.Screens;
 using Strategies;
 
 namespace Strategia
@@ -123,7 +124,7 @@ namespace Strategia
             string msg = "";
             if (messageStrategies.Any(p => p.Value))
             {
-                msg += "<b>New strategies available:</>\n";
+                msg += "<b>New strategies available:</b>\n";
             }
             foreach (string strategyTitle in messageStrategies.Where(p => p.Value).Select(p => p.Key))
             {
@@ -135,7 +136,7 @@ namespace Strategia
                 {
                     msg += "\n";
                 }
-                msg += "<b>Strategies no longer available:</>\n";
+                msg += "<b>Strategies no longer available:</b>\n";
             }
             foreach (string strategyTitle in messageStrategies.Where(p => !p.Value).Select(p => p.Key))
             {

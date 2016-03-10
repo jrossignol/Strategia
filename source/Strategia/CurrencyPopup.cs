@@ -5,6 +5,7 @@ using System.Reflection;
 using System.Text;
 using UnityEngine;
 using KSP;
+using KSP.UI.Screens;
 using Strategies;
 using Upgradeables;
 
@@ -258,13 +259,6 @@ namespace Strategia
                 return;
             }
 
-            // Use this to find the right font when KSP 1.1 comes out
-            /*Font[] fonts = UnityEngine.Resources.FindObjectsOfTypeAll<Font>();
-            foreach (Font f in fonts)
-            {
-                Debug.Log("font = " + f.name);
-            }*/
-
             popupStyle = new GUIStyle(HighLogic.Skin.label)
             {
                 normal =
@@ -275,7 +269,8 @@ namespace Strategia
                 padding = new RectOffset(5, 0, 0, 0),
                 alignment = TextAnchor.MiddleCenter,
                 fontSize = 14,
-                fontStyle = FontStyle.Bold
+                fontStyle = FontStyle.Bold,
+                font = UnityEngine.Resources.FindObjectsOfTypeAll<Font>().Where(f => f.name == "kalibri").First(),
             };
         }
 
@@ -396,21 +391,17 @@ namespace Strategia
 
         private static string CurrencySymbol(Currency c)
         {
-            // TODO - Fix these under KSP 1.1. when the font is hopefully available
             if (c == Currency.Funds)
             {
-                //return "£";
-                return "√";
+                return "£";
             }
             else if (c == Currency.Reputation)
             {
-                //return "¡";
-                return "★";
+                return "¡";
             }
             else // Currency.Science
             {
-                //return "©";
-                return "⚛";
+                return "©";
             }
         }
 

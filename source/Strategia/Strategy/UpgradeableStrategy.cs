@@ -117,7 +117,7 @@ namespace Strategia
             UpgradeableStrategy conflictStrategy = activeStrategies.OfType<UpgradeableStrategy>().Where(s => s.Name == Name && s.Level != Level).FirstOrDefault();
             if (conflictStrategy != null)
             {
-                result = "<i><#8BED8B>Can " + (conflictStrategy.Level > Level ? "downgrade" : "upgrade") + " from " + conflictStrategy.Title + " to " + Title + ".</></>\n\n";
+                result = "<i><color=#8BED8B>Can " + (conflictStrategy.Level > Level ? "downgrade" : "upgrade") + " from " + conflictStrategy.Title + " to " + Title + ".</color></i>\n\n";
             }
 
             return result + base.GenerateEffectText();
@@ -143,33 +143,33 @@ namespace Strategia
             string costLine = "";
             if (InitialCostFunds != 0)
             {
-                costLine += "<#B4D455>£" + (InitialCostFunds - fundsDiscount).ToString("N0") + "</>";
+                costLine += "<color=#B4D455>£ " + (InitialCostFunds - fundsDiscount).ToString("N0") + "</color>";
                 if (fundsDiscount > 0.0f)
                 {
-                    costLine += "<#B4D455> (-" + fundsDiscount.ToString("N0") + ")</>";
+                    costLine += "<color=#B4D455> (-" + fundsDiscount.ToString("N0") + ")</color>";
                 }
                 costLine += "    ";
             }
             if (InitialCostScience != 0)
             {
-                costLine += "<#6DCFF6>©" + (InitialCostScience - scienceDiscount).ToString("N0") + "</>";
+                costLine += "<color=#6DCFF6>© " + (InitialCostScience - scienceDiscount).ToString("N0") + "</color>";
                 if (scienceDiscount > 0.0f)
                 {
-                    costLine += "<#B4D455> (-" + scienceDiscount.ToString("N0") + ")</>";
+                    costLine += "<color=#B4D455> (-" + scienceDiscount.ToString("N0") + ")</color>";
                 }
                 costLine += "    ";
             }
             if (InitialCostReputation != 0)
             {
-                costLine += "<#E0D503>¡" + (InitialCostReputation - reputationDiscount).ToString("N0") + "</>";
+                costLine += "<color=#E0D503>¡ " + (InitialCostReputation - reputationDiscount).ToString("N0") + "</color>";
                 if (reputationDiscount > 0.0f)
                 {
-                    costLine += "<#B4D455> (-" + reputationDiscount.ToString("N0") + ")</>";
+                    costLine += "<color=#B4D455> (-" + reputationDiscount.ToString("N0") + ")</color>";
                 }
             }
             if (!string.IsNullOrEmpty(costLine))
             {
-                result += "\n<b><#EDED8B>Setup Cost:</></> " + costLine + "\n";
+                result += "\n<b><color=#EDED8B>Setup Cost:</color></b> " + costLine + "\n";
             }
 
             return result;

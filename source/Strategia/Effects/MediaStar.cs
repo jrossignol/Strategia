@@ -24,48 +24,7 @@ namespace Strategia
         {
             Debug.Log("Strategia: Setting up Media Star Experience");
 
-            FieldInfo[] fields = typeof(KerbalRoster).GetFields(BindingFlags.NonPublic | BindingFlags.Static);
-
-            foreach (FieldInfo field in fields)
-            {
-                object value = field.GetValue(null);
-                IEnumerable<string> strValues = value as IEnumerable<string>;
-                if (strValues != null)
-                {
-                    // We're looking for the non-Kerbin lists that contain Training, and PlantFlag
-                    if (strValues.Contains("Training") && strValues.Contains("PlantFlag"))
-                    {
-                        List<string> newValues = strValues.ToList();
-                        newValues.Add(MEDIA_STAR_XP);
-                        field.SetValue(null, newValues.ToArray());
-                    }
-                    // Also there's the printed version
-                    else if (strValues.Contains("Train at") && strValues.Contains("Plant flag on"))
-                    {
-                        List<string> newValues = strValues.ToList();
-                        newValues.Add("Media star from");
-                        field.SetValue(null, newValues.ToArray());
-                    }
-
-                    continue;
-                }
-
-                IEnumerable<float> floatValues = value as IEnumerable<float>;
-                if (floatValues != null)
-                {
-                    if (floatValues.Contains(2.3f))
-                    {
-                        // Get the list of experience points for the above string entries
-                        List<float> newValues = floatValues.ToList();
-
-                        // Add the extra level - worth 3.5 base XP
-                        newValues.Add(3.5f);
-                        field.SetValue(null, newValues.ToArray());
-                    }
-
-                    continue;
-                }
-            }
+            KerbalRoster.AddExperienceType(MEDIA_STAR_XP, "Media star from", 3.5f);
         }
 
         public MediaStar(Strategy parent)
@@ -86,16 +45,16 @@ namespace Strategia
         {
             if (Parent.IsActive)
             {
-                GameEvents.onVesselRecovered.Add(new EventData<ProtoVessel>.OnEvent(OnVesselRecovered));
+                GameEvents.onVesselRecovered.Add(new EventData<ProtoVessel, bool>.OnEvent(OnVesselRecovered));
             }
         }
 
         protected override void OnUnregister()
         {
-            GameEvents.onVesselRecovered.Remove(new EventData<ProtoVessel>.OnEvent(OnVesselRecovered));
+            GameEvents.onVesselRecovered.Remove(new EventData<ProtoVessel, bool>.OnEvent(OnVesselRecovered));
         }
 
-        private void OnVesselRecovered(ProtoVessel vessel)
+        private void OnVesselRecovered(ProtoVessel vessel, bool quick)
         {
             foreach (ProtoCrewMember pcm in VesselUtil.GetVesselCrew(vessel.vesselRef))
             {

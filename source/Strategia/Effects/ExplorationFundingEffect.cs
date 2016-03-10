@@ -5,6 +5,7 @@ using System.Reflection;
 using System.Text;
 using UnityEngine;
 using KSP;
+using KSP.UI.Screens;
 using Strategies;
 using Strategies.Effects;
 using ContractConfigurator;
@@ -103,7 +104,7 @@ namespace Strategia
                 string title = "Rewards from strategy '" + Parent.Title + "'";
                 string header = "Science from new " + ExplorationTypeNamePlural(explorationType) + ":\n";
                 string rewardMessage = "    " + (explorationType == ExplorationType.Biome ? biome.ToString() : biome.body.name) +
-                    ": <#B4D455>£" + rewardFunds.ToString("N0") + "</>\n";
+                    ": <color=#B4D455>£ " + rewardFunds.ToString("N0") + "</color>\n";
 
                 MessageSystem.Message message = MessageSystem.Instance.FindMessages(m => m.messageTitle == title).FirstOrDefault();
                 if (message == null)

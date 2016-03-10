@@ -34,11 +34,13 @@ namespace Strategia
         {
             if (ContractConfigurator.Util.Version.VerifyAssemblyVersion("CustomBarnKit", "1.0.0") == null)
             {
+                // TODO - reenable when CustomBarnKit is available
+                /*
                 var ainfoV = Attribute.GetCustomAttribute(GetType().Assembly, typeof(AssemblyInformationalVersionAttribute)) as AssemblyInformationalVersionAttribute;
                 string title = "Strategia " + ainfoV.InformationalVersion + " Message";
                 string message = "Strategia requires Custom Barn Kit to function properly.  Strategia is currently disabled, and will automatically re-enable itself when Custom Barn Kit is installed.";
-                DialogOption dialogOption = new DialogOption("Okay", new Callback(DoNothing), true);
-                PopupDialog.SpawnPopupDialog(new MultiOptionDialog(message, title, HighLogic.Skin, dialogOption), false, HighLogic.Skin);
+                DialogGUIButton dialogOption = new DialogGUIButton("Okay", new Callback(DoNothing), true);
+                PopupDialog.SpawnPopupDialog(new MultiOptionDialog(message, title, UISkinManager.GetSkin("default"), dialogOption), false, UISkinManager.GetSkin("default"));*/
             }
         }
 
