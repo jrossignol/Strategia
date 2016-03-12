@@ -53,16 +53,18 @@ namespace Strategia
 
         protected override void OnRegister()
         {
+            base.OnRegister();
+
             if (Parent.IsActive)
             {
-                GameEvents.Modifiers.OnCurrencyModifierQuery.Add(new EventData<CurrencyModifierQuery>.OnEvent(OnEffectQuery));
                 GameEvents.OnProgressComplete.Add(new EventData<ProgressNode>.OnEvent(OnProgressComplete));
             }
         }
 
         protected override void OnUnregister()
         {
-            GameEvents.Modifiers.OnCurrencyModifierQuery.Remove(new EventData<CurrencyModifierQuery>.OnEvent(OnEffectQuery));
+            base.OnUnregister();
+
             GameEvents.OnProgressComplete.Remove(new EventData<ProgressNode>.OnEvent(OnProgressComplete));
         }
 
@@ -82,7 +84,7 @@ namespace Strategia
             }
         }
 
-        private void OnEffectQuery(CurrencyModifierQuery qry)
+        protected override void OnEffectQuery(CurrencyModifierQuery qry)
         {
             // Check if it's for our body 
             if (lastBody == null || !bodies.Contains(lastBody))
@@ -90,8 +92,7 @@ namespace Strategia
                 return;
             }
 
-            MethodInfo oeqMethod = typeof(CurrencyOperation).GetMethod("OnEffectQuery", BindingFlags.Instance | BindingFlags.NonPublic);
-            oeqMethod.Invoke(this, new object[] { qry });
+            base.OnEffectQuery(qry);
         }
     }
 }

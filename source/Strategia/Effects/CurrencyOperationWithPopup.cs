@@ -33,18 +33,16 @@ namespace Strategia
         {
             if (Parent.IsActive)
             {
-                GameEvents.Modifiers.OnCurrencyModifierQuery.Add(new EventData<CurrencyModifierQuery>.OnEvent(OnEffectQuery));
                 GameEvents.Modifiers.OnCurrencyModified.Add(new EventData<CurrencyModifierQuery>.OnEvent(OnCurrencyModified));
             }
         }
 
         protected override void OnUnregister()
         {
-            GameEvents.Modifiers.OnCurrencyModifierQuery.Remove(new EventData<CurrencyModifierQuery>.OnEvent(OnEffectQuery));
             GameEvents.Modifiers.OnCurrencyModified.Remove(new EventData<CurrencyModifierQuery>.OnEvent(OnCurrencyModified));
         }
 
-        private void OnEffectQuery(CurrencyModifierQuery qry)
+        protected override void OnEffectQuery(CurrencyModifierQuery qry)
         {
             fundsDelta = 0.0f;
             reputationDelta = 0.0f;
@@ -60,8 +58,7 @@ namespace Strategia
             reputationDelta = qry.GetEffectDelta(Currency.Reputation);
             scienceDelta = qry.GetEffectDelta(Currency.Science);
 
-            MethodInfo oeqMethod = typeof(CurrencyOperation).GetMethod("OnEffectQuery", BindingFlags.Instance | BindingFlags.NonPublic);
-            oeqMethod.Invoke(this, new object[] { qry });
+            base.OnEffectQuery(qry);
 
             // Calculate any changes
             fundsDelta = qry.GetEffectDelta(Currency.Funds) - fundsDelta;
