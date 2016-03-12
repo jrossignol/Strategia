@@ -169,6 +169,7 @@ namespace Strategia
                                         SetValue(p.partName, needsIncrease, ref value);
                                         values[1] = value.ToString("F1");
                                         newNode.AddValue(pair.name, string.Join(" ", values));
+                                        Debug.Log("    setting ISP of " + p.partName + " to " + value);
                                     }
                                     else
                                     {
