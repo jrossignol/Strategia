@@ -143,9 +143,10 @@ namespace Strategia
                 }
             }
 
-            // Find all relvant parts
+            // Find all relevant parts
             foreach (Part p in vessel.parts)
             {
+                Debug.Log("look at part " + p + ", " + p.vessel.loaded);
                 foreach (PartModule m in p.Modules)
                 {
                     switch (attribute)
@@ -169,6 +170,7 @@ namespace Strategia
                                         SetValue(p.partName, needsIncrease, ref value);
                                         values[1] = value.ToString("F1");
                                         newNode.AddValue(pair.name, string.Join(" ", values));
+                                        Debug.Log("    setting ISP of " + p.partName + " to " + value);
                                     }
                                     else
                                     {
