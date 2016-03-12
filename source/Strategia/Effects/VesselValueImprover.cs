@@ -143,9 +143,10 @@ namespace Strategia
                 }
             }
 
-            // Find all relvant parts
+            // Find all relevant parts
             foreach (Part p in vessel.parts)
             {
+                Debug.Log("look at part " + p + ", " + p.vessel.loaded);
                 foreach (PartModule m in p.Modules)
                 {
                     switch (attribute)
