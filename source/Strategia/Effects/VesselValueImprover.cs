@@ -167,10 +167,11 @@ namespace Strategia
                                     if (values[0] == "0")
                                     {
                                         float value = float.Parse(values[1]);
+                                        float oldValue = value;
                                         SetValue(p.partName, needsIncrease, ref value);
                                         values[1] = value.ToString("F1");
                                         newNode.AddValue(pair.name, string.Join(" ", values));
-                                        Debug.Log("    setting ISP of " + p.partName + " to " + value);
+                                        Debug.Log("    setting ISP of " + p.partName + "(" + p.partInfo.name + ") from " + oldValue + " to " + value);
                                     }
                                     else
                                     {
