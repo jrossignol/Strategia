@@ -1,6 +1,9 @@
 Strategia 1.2.0
 - Support for KSP 1.1
 
+Strategia 1.1.2
+- Fixed additional issue with incorrect ISP assignment in Pilot Focus III (thanks TorgHacker).
+
 Strategia 1.1.1
 - Fixed issue with reputation being awarded when it's not supposed to (thanks Wercho).
 - Make crewed mission requirement a little bit clearer (thanks Zoidos).

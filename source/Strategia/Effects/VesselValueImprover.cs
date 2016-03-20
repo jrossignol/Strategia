@@ -146,7 +146,6 @@ namespace Strategia
             // Find all relevant parts
             foreach (Part p in vessel.parts)
             {
-                Debug.Log("look at part " + p + ", " + p.vessel.loaded);
                 foreach (PartModule m in p.Modules)
                 {
                     switch (attribute)
@@ -167,10 +166,11 @@ namespace Strategia
                                     if (values[0] == "0")
                                     {
                                         float value = float.Parse(values[1]);
-                                        SetValue(p.partName, needsIncrease, ref value);
+                                        float oldValue = value;
+                                        SetValue(p.partInfo.name, needsIncrease, ref value);
                                         values[1] = value.ToString("F1");
                                         newNode.AddValue(pair.name, string.Join(" ", values));
-                                        Debug.Log("    setting ISP of " + p.partName + " to " + value);
+                                        Debug.Log("Setting ISP of " + p + " from " + oldValue + " to " + value);
                                     }
                                     else
                                     {
