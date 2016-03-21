@@ -25,7 +25,7 @@ namespace Strategia
         List<float> lowerValues;
         List<float> upperValues;
 
-        LRUCache<string, float> valueCache = new LRUCache<string, float>(100);
+        LRUCache<string, float> valueCache = new LRUCache<string, float>(250);
 
         public CurrencyOperationRandomized(Strategy parent)
             : base(parent)

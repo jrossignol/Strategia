@@ -1,5 +1,6 @@
 Strategia 1.1.2
 - Fixed additional issue with incorrect ISP assignment in Pilot Focus III (thanks TorgHacker).
+- Increased the cache size for the contract slot machine strategy.
 
 Strategia 1.1.1
 - Fixed issue with reputation being awarded when it's not supposed to (thanks Wercho).
