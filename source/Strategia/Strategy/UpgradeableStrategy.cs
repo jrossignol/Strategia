@@ -104,7 +104,7 @@ namespace Strategia
 
             if (strategiesNeedRedraw)
             {
-                Administration.Instance.RedrawPanels();
+                KSP.UI.Screens.Administration.Instance.RedrawPanels();
                 strategiesNeedRedraw = false;
             }
         }

@@ -60,6 +60,7 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="AdminResizer.cs" />
     <Compile Include="DepartmentFixer.cs" />
     <Compile Include="EffectModifier\IOnDeactivateEffect.cs" />
     <Compile Include="EffectModifier\IMultipleEffects.cs" />
