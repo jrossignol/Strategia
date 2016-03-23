@@ -43,8 +43,6 @@ namespace Strategia
                 RectTransform rect = aspectFitter.GetComponent<RectTransform>();
                 rect.sizeDelta = new Vector2(Math.Min(1424f, Screen.width), rect.sizeDelta.y);
             }
-
-            Destroy(this);
         }
     }
 
