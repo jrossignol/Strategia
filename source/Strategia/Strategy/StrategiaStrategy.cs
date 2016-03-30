@@ -396,33 +396,5 @@ namespace Strategia
                 }
             }
         }
-
-        /// <summary>
-        /// Workaround for stock bug where strategy effects OnLoad function is not called.  Verify if fixed in KSP in 1.1.
-        /// </summary>
-        FieldInfo effectsField = typeof(Strategy).GetFields(BindingFlags.Instance | BindingFlags.NonPublic).Where(fi => fi.FieldType == typeof(List<StrategyEffect>)).First();
-        protected override void OnLoad(ConfigNode node)
-        {
-            List<StrategyEffect> effects = (List<StrategyEffect>)effectsField.GetValue(this);
-
-            List<ConfigNode> list = new List<ConfigNode>((IEnumerable<ConfigNode>)node.GetNodes("EFFECT"));
-            for (int index1 = 0; index1 < effects.Count; ++index1)
-            {
-                ConfigNode node1 = (ConfigNode)null;
-                for (int index2 = list.Count - 1; index2 >= 0; --index2)
-                {
-                    if (list[index2].GetValue("name") == effects[index1].GetType().Name)
-                    {
-                        node1 = list[index2];
-                        list.RemoveAt(index2);
-                        break;
-                    }
-                }
-                if (node1 != null)
-                {
-                    effects[index1].Load(node1);
-                }
-            }
-        }
     }
 }
