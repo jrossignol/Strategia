@@ -89,7 +89,7 @@ namespace Strategia
             if (Parent.IsActive)
             {
                 GameEvents.Modifiers.OnCurrencyModifierQuery.Add(new EventData<CurrencyModifierQuery>.OnEvent(OnEffectQuery));
-                GameEvents.onVesselRecovered.Add(new EventData<ProtoVessel>.OnEvent(OnVesselRecovered));
+                GameEvents.onVesselRecovered.Add(new EventData<ProtoVessel, bool>.OnEvent(OnVesselRecovered));
                 GameEvents.onGameSceneLoadRequested.Add(new EventData<GameScenes>.OnEvent(OnGameSceneLoadRequested));
             }
         }
@@ -97,7 +97,7 @@ namespace Strategia
         protected override void OnUnregister()
         {
             GameEvents.Modifiers.OnCurrencyModifierQuery.Remove(new EventData<CurrencyModifierQuery>.OnEvent(OnEffectQuery));
-            GameEvents.onVesselRecovered.Add(new EventData<ProtoVessel>.OnEvent(OnVesselRecovered));
+            GameEvents.onVesselRecovered.Add(new EventData<ProtoVessel, bool>.OnEvent(OnVesselRecovered));
             GameEvents.onGameSceneLoadRequested.Add(new EventData<GameScenes>.OnEvent(OnGameSceneLoadRequested));
         }
 
@@ -107,7 +107,7 @@ namespace Strategia
             cachedVessel = null;
         }
 
-        private void OnVesselRecovered(ProtoVessel vessel)
+        private void OnVesselRecovered(ProtoVessel vessel, bool quick)
         {
             cachedVessel = vessel.vesselRef;
             cacheTime = Time.fixedTime;

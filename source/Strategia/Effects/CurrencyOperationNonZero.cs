@@ -30,20 +30,7 @@ namespace Strategia
             base.OnLoadFromConfig(node);
         }
 
-        protected override void OnRegister()
-        {
-            if (Parent.IsActive)
-            {
-                GameEvents.Modifiers.OnCurrencyModifierQuery.Add(new EventData<CurrencyModifierQuery>.OnEvent(OnEffectQuery));
-            }
-        }
-
-        protected override void OnUnregister()
-        {
-            GameEvents.Modifiers.OnCurrencyModifierQuery.Remove(new EventData<CurrencyModifierQuery>.OnEvent(OnEffectQuery));
-        }
-
-        private void OnEffectQuery(CurrencyModifierQuery qry)
+        protected override void OnEffectQuery(CurrencyModifierQuery qry)
         {
             // Check if it's non-zero
             if (Math.Abs(qry.GetInput(Currency.Funds)) < 0.01 && Math.Abs(qry.GetInput(Currency.Science)) < 0.01 && Math.Abs(qry.GetInput(Currency.Reputation)) < 0.01)
@@ -51,8 +38,7 @@ namespace Strategia
                 return;
             }
 
-            MethodInfo oeqMethod = typeof(CurrencyOperation).GetMethod("OnEffectQuery", BindingFlags.Instance | BindingFlags.NonPublic);
-            oeqMethod.Invoke(this, new object[] { qry });
+            base.OnEffectQuery(qry);
         }
     }
 }

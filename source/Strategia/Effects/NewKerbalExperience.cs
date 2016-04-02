@@ -5,6 +5,7 @@ using System.Reflection;
 using System.Text;
 using UnityEngine;
 using KSP;
+using KSP.UI.Screens;
 using Strategies;
 using Strategies.Effects;
 
@@ -23,60 +24,11 @@ namespace Strategia
         static NewKerbalExperience()
         {
             Debug.Log("Strategia: Setting up Kerbal Experience");
-
-            FieldInfo[] fields = typeof(KerbalRoster).GetFields(BindingFlags.NonPublic | BindingFlags.Static);
-
-            foreach (FieldInfo field in fields)
-            {
-                object value = field.GetValue(null);
-                IEnumerable<string> strValues = value as IEnumerable<string>;
-                if (strValues != null)
-                {
-                    // We're looking for the Kerbin lists that contain Training, but not PlantFlag
-                    if (strValues.Contains("Training") && !strValues.Contains("PlantFlag"))
-                    {
-                        List<string> newValues = strValues.ToList();
-                        // Allow up to 5 levels (max level)
-                        for (int i = 1; i <= 5; i++)
-                        {
-                            newValues.Add(SPECIAL_XP + i);
-                        }
-                        field.SetValue(null, newValues.ToArray());
-                    }
-                    // Also there's the printed version
-                    else if (strValues.Contains("Train at") && !strValues.Contains("Plant flag on"))
-                    {
-                        List<string> newValues = strValues.ToList();
-                        // Allow up to 5 levels (max level)
-                        for (int i = 1; i <= 5; i++)
-                        {
-                            newValues.Add("Special training on");
-                        }
-                        field.SetValue(null, newValues.ToArray());
-                    }
-
-                    continue;
-                }
-
-                IEnumerable<float> floatValues = value as IEnumerable<float>;
-                if (floatValues != null)
-                {
-                    // Get the list of experience points for the above string entries
-                    if (floatValues.First() == 1.0f && !floatValues.Contains(2.3f))
-                    {
-                        List<float> newValues = floatValues.ToList();
-                        // Allow the 5 levels
-                        newValues.Add(2.0f);
-                        newValues.Add(8.0f);
-                        newValues.Add(16.0f);
-                        newValues.Add(32.0f);
-                        newValues.Add(64.0f);
-                        field.SetValue(null, newValues.ToArray());
-                    }
-
-                    continue;
-                }
-            }
+            KerbalRoster.AddExperienceType(SPECIAL_XP + "1", "Special training on", 0.0f, 2.0f);
+            KerbalRoster.AddExperienceType(SPECIAL_XP + "2", "Special training on", 0.0f, 8.0f);
+            KerbalRoster.AddExperienceType(SPECIAL_XP + "3", "Special training on", 0.0f, 16.0f);
+            KerbalRoster.AddExperienceType(SPECIAL_XP + "4", "Special training on", 0.0f, 32.0f);
+            KerbalRoster.AddExperienceType(SPECIAL_XP + "5", "Special training on", 0.0f, 64.0f);
         }
 
         int level;
@@ -154,14 +106,16 @@ namespace Strategia
                 pcm.ArchiveFlightLog();
 
                 // Force the astronaut complex GUI to refresh so we actually see the experience
-                CMAstronautComplex ac = UnityEngine.Object.FindObjectOfType<CMAstronautComplex>();
+                AstronautComplex ac = UnityEngine.Object.FindObjectOfType<AstronautComplex>();
                 if (ac != null)
                 {
-                    MethodInfo updateListMethod = typeof(CMAstronautComplex).GetMethods(BindingFlags.NonPublic | BindingFlags.Instance).
+                    Debug.Log("NewKerbalExperience: CreateAvailableList");
+                    MethodInfo updateListMethod = typeof(AstronautComplex).GetMethods(BindingFlags.NonPublic | BindingFlags.Instance).
                         Where(mi => mi.Name == "CreateAvailableList").First();
                     updateListMethod.Invoke(ac, new object[] { });
 
-                    MethodInfo addToListMethod = typeof(CMAstronautComplex).GetMethods(BindingFlags.NonPublic | BindingFlags.Instance).
+                    Debug.Log("NewKerbalExperience: AddItem_Available");
+                    MethodInfo addToListMethod = typeof(AstronautComplex).GetMethods(BindingFlags.NonPublic | BindingFlags.Instance).
                         Where(mi => mi.Name == "AddItem_Available").First();
                     addToListMethod.Invoke(ac, new object[] { pcm });
                 }

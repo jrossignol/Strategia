@@ -33,7 +33,7 @@ namespace Strategia
         protected virtual string GenerateEffectText()
         {
             // Write out the effect text
-            string result = "<b><#feb200>Effects:</></>\n\n";
+            string result = "<b><color=#feb200>Effects:</color></b>\n\n";
             foreach (StrategyEffect effect in Effects)
             {
                 IMultipleEffects multiEffect = effect as IMultipleEffects;
@@ -43,7 +43,7 @@ namespace Strategia
                     {
                         if (!string.IsNullOrEmpty(effectText))
                         {
-                            result += "<#BEC2AE>* " + effectText + "</>\n";
+                            result += "<color=#BEC2AE>* " + effectText + "</color>\n";
                         }
                     }
                 }
@@ -52,7 +52,7 @@ namespace Strategia
                     string effectText = effect.Description;
                     if (!string.IsNullOrEmpty(effectText))
                     {
-                        result += "<#BEC2AE>* " + effectText + "</>\n";
+                        result += "<color=#BEC2AE>* " + effectText + "</color>\n";
                     }
                 }
             }
@@ -68,19 +68,19 @@ namespace Strategia
             string costLine = "";
             if (InitialCostFunds != 0)
             {
-                costLine += "<#B4D455>£" + InitialCostFunds.ToString("N0") + "    </>";
+                costLine += "<color=#B4D455>£ " + InitialCostFunds.ToString("N0") + "    </color>";
             }
             if (InitialCostScience != 0)
             {
-                costLine += "<#6DCFF6>©" + InitialCostScience.ToString("N0") + "    </>";
+                costLine += "<color=#6DCFF6>© " + InitialCostScience.ToString("N0") + "    </color>";
             }
             if (InitialCostReputation != 0)
             {
-                costLine += "<#E0D503>¡" + InitialCostReputation.ToString("N0") + "    </>";
+                costLine += "<color=#E0D503>¡ " + InitialCostReputation.ToString("N0") + "    </color>";
             }
             if (!string.IsNullOrEmpty(costLine))
             {
-                result += "\n<b><#EDED8B>Setup Cost:</></> " + costLine + "\n";
+                result += "\n<b><color=#EDED8B>Setup Cost:</color></b> " + costLine + "\n";
             }
             
             return result;
@@ -99,7 +99,7 @@ namespace Strategia
                 {
                     if (first)
                     {
-                        result += "\n<b><#feb200>Objectives:</></>\n\n";
+                        result += "\n<b><color=#feb200>Objectives:</color></b>\n\n";
                         first = false;
                     }
 
@@ -107,7 +107,7 @@ namespace Strategia
                     {
                         if (!string.IsNullOrEmpty(objectiveText))
                         {
-                            result += "<#BEC2AE>* " + objectiveText + "</>\n";
+                            result += "<color=#BEC2AE>* " + objectiveText + "</color>\n";
                         }
                     }
                 }
@@ -150,18 +150,18 @@ namespace Strategia
                     first = false;
                 }
 
-                result += "<b><#8BED8B>Advances: </></>";
+                result += "<b><color=#8BED8B>Advances: </color></b>";
                 if (advanceFunds > 0)
                 {
-                    result += "<#B4D455>£" + advanceFunds.ToString("N0") + "    </>";
+                    result += "<color=#B4D455>£ " + advanceFunds.ToString("N0") + "    </color>";
                 }
                 if (advanceScience > 0)
                 {
-                    result += "<#6DCFF6>©" + advanceScience.ToString("N0") + "    </>";
+                    result += "<color=#6DCFF6>© " + advanceScience.ToString("N0") + "    </color>";
                 }
                 if (advanceReputation > 0)
                 {
-                    result += "<#E0D503>¡" + advanceReputation.ToString("N0") + "    </>";
+                    result += "<color=#E0D503>¡ " + advanceReputation.ToString("N0") + "    </color>";
                 }
                 result += "\n";
             }
@@ -174,18 +174,18 @@ namespace Strategia
                     first = false;
                 }
 
-                result += "<b><#8BED8B>Rewards: </></>";
+                result += "<b><color=#8BED8B>Rewards: </color></b>";
                 if (rewardFunds > 0)
                 {
-                    result += "<#B4D455>£" + rewardFunds.ToString("N0") + "    </>";
+                    result += "<color=#B4D455>£ " + rewardFunds.ToString("N0") + "    </color>";
                 }
                 if (rewardScience > 0)
                 {
-                    result += "<#6DCFF6>©" + rewardScience.ToString("N0") + "    </>";
+                    result += "<color=#6DCFF6>© " + rewardScience.ToString("N0") + "    </color>";
                 }
                 if (rewardReputation > 0)
                 {
-                    result += "<#E0D503>¡" + rewardReputation.ToString("N0") + "    </>";
+                    result += "<color=#E0D503>¡ " + rewardReputation.ToString("N0") + "    </color>";
                 }
                 result += "\n";
             }
@@ -199,18 +199,18 @@ namespace Strategia
                     first = false;
                 }
 
-                result += "<b><#ED0B0B>Penalties: </></>";
+                result += "<b><color=#ED0B0B>Penalties: </color></b>";
                 if (failureFunds > 0)
                 {
-                    result += "<#B4D455>£-" + failureFunds.ToString("N0") + "    </>";
+                    result += "<color=#B4D455>£ -" + failureFunds.ToString("N0") + "    </color>";
                 }
                 if (failureScience > 0)
                 {
-                    result += "<#6DCFF6>©-" + failureScience.ToString("N0") + "    </>";
+                    result += "<color=#6DCFF6>© -" + failureScience.ToString("N0") + "    </color>";
                 }
                 if (failureReputation > 0)
                 {
-                    result += "<#E0D503>¡-" + failureReputation.ToString("N0") + "    </>";
+                    result += "<color=#E0D503>¡ -" + failureReputation.ToString("N0") + "    </color>";
                 }
                 result += "\n";
             }
@@ -223,7 +223,7 @@ namespace Strategia
             string result = "";
 
             // Write out stock-based requirements
-            result += "\n<b><#feb200>Requirements:</></>\n\n";
+            result += "\n<b><color=#feb200>Requirements:</color></b>\n\n";
             if (InitialCostFunds > 0)
             {
                 double currentFunds = Funding.Instance.Funds;
@@ -290,7 +290,7 @@ namespace Strategia
         public string RequirementText(string requirement, bool met)
         {
             string color = met ? "#8BED8B" : "#FF7512";
-            return "<" + color + ">* " + requirement + "</>\n";
+            return "<color=" + color + ">* " + requirement + "</color>\n";
         }
 
         protected override bool CanActivate(ref string reason)
@@ -393,34 +393,6 @@ namespace Strategia
                     {
                         onDeactivateEffect.OnDeactivate();
                     }
-                }
-            }
-        }
-
-        /// <summary>
-        /// Workaround for stock bug where strategy effects OnLoad function is not called.  Verify if fixed in KSP in 1.1.
-        /// </summary>
-        FieldInfo effectsField = typeof(Strategy).GetFields(BindingFlags.Instance | BindingFlags.NonPublic).Where(fi => fi.FieldType == typeof(List<StrategyEffect>)).First();
-        protected override void OnLoad(ConfigNode node)
-        {
-            List<StrategyEffect> effects = (List<StrategyEffect>)effectsField.GetValue(this);
-
-            List<ConfigNode> list = new List<ConfigNode>((IEnumerable<ConfigNode>)node.GetNodes("EFFECT"));
-            for (int index1 = 0; index1 < effects.Count; ++index1)
-            {
-                ConfigNode node1 = (ConfigNode)null;
-                for (int index2 = list.Count - 1; index2 >= 0; --index2)
-                {
-                    if (list[index2].GetValue("name") == effects[index1].GetType().Name)
-                    {
-                        node1 = list[index2];
-                        list.RemoveAt(index2);
-                        break;
-                    }
-                }
-                if (node1 != null)
-                {
-                    effects[index1].Load(node1);
                 }
             }
         }
