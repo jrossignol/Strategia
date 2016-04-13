@@ -149,7 +149,7 @@ namespace Strategia
                 bool foundMatch = false;
                 Contract match = null;
                 foreach (Contract contract in ContractSystem.Instance.Contracts.
-                    Where(c => c.ContractState != Contract.State.Completed || c.DateFinished == Planetarium.fetch.time))
+                    Where(c => c.ContractState != Contract.State.Completed || c.DateFinished == Planetarium.fetch.time || c.DateFinished == 0.0))
                 {
                     // If the contract type doesn't match, don't bother 
                     if (!ContractTypeMatches(contract))
@@ -157,13 +157,19 @@ namespace Strategia
                         continue;
                     }
 
-                    // Check contract values
+                    string hash2 = string.Join("|", new string[]{
+                        contract.FundsCompletion.ToString(),
+                        contract.ScienceCompletion.ToString(),
+                        contract.ReputationCompletion.ToString(),
+                        TransactionReasons.ContractReward.ToString()
+                    });
+                    // Check contract values - allow zero values because on reward funds/science/rep all come in seperately 
                     if (qry.reason == TransactionReasons.ContractAdvance &&
                             contract.FundsAdvance == funds && science == 0.0 && rep == 0.0 ||
                         qry.reason == TransactionReasons.ContractPenalty &&
                             contract.FundsFailure == funds && science == 0.0 && contract.ReputationFailure == rep ||
                         qry.reason == TransactionReasons.ContractReward &&
-                            contract.FundsCompletion == funds && contract.ScienceCompletion == science && contract.ReputationCompletion == rep)
+                            (contract.FundsCompletion == funds || funds == 0) && (contract.ScienceCompletion == science || (int)science == 0) && (contract.ReputationCompletion == rep || (int)rep == 0))
                     {
                         foundMatch = true;
                         match = contract;
@@ -176,7 +182,7 @@ namespace Strategia
                         if (qry.reason == TransactionReasons.ContractPenalty &&
                                 parameter.FundsFailure == funds && science == 0.0 && parameter.ReputationFailure == rep ||
                             qry.reason == TransactionReasons.ContractReward &&
-                                parameter.FundsCompletion == funds && parameter.ScienceCompletion == science && parameter.ReputationCompletion == rep)
+                                (parameter.FundsCompletion == funds || funds == 0.0) && (parameter.ScienceCompletion == science || science == 0.0) && (parameter.ReputationCompletion == rep || rep == 0.0))
                         {
                             foundMatch = true;
                             match = contract;

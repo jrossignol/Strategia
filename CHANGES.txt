@@ -1,3 +1,6 @@
+Strategia 1.2.1
+- Fixed Pilot/Engineer/Scientist Focus strategies not actually giving the stated contract bonuses (thanks DeathProphet).
+
 Strategia 1.2.0
 - Support for KSP 1.1
 - Fixed additional issue with incorrect ISP assignment in Pilot Focus III (thanks TorgHacker).
