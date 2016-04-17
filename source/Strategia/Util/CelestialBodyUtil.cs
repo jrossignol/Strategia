@@ -44,11 +44,6 @@ namespace Strategia
                                 yield return body;
                             }
                         }
-                        else
-                        {
-                            // Return the biggest body
-                            yield return body.orbitingBodies.MaxAt(cb => cb.Mass);
-                        }
                     }
                 }
             }
