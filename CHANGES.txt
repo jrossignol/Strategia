@@ -3,6 +3,7 @@ Strategia 1.2.1
 - Fixed compatibility with Sigma Binary (thanks sentania).
 - Fixed hint text for crewed/uncrewed missions (thanks severedsolo).
 - Fixed planetary probe strategies so they can't be re-done (thanks ibanix).
+- Fixed reputation/funds being lost on scene change - normally after the quicksave but breaks KRASH (thanks garwel and linuxgurugamer).
 
 Strategia 1.2.0
 - Support for KSP 1.1

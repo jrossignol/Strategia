@@ -12,6 +12,7 @@ namespace Strategia
 {
     public class StrategiaStrategy : Strategy
     {
+        private float deactivateCall;
         private bool forcedDeactivation = false;
         public static StrategiaStrategy lastActivationRequest = null;
 
@@ -82,7 +83,7 @@ namespace Strategia
             {
                 result += "\n<b><color=#EDED8B>Setup Cost:</color></b> " + costLine + "\n";
             }
-            
+
             return result;
         }
 
@@ -346,6 +347,7 @@ namespace Strategia
 
         protected override bool CanDeactivate(ref string reason)
         {
+            deactivateCall = Time.time;
             if (forcedDeactivation)
             {
                 return true;
@@ -384,7 +386,7 @@ namespace Strategia
         {
             base.OnUnregister();
 
-            if (!IsActive)
+            if (!IsActive && deactivateCall == Time.time)
             {
                 foreach (StrategyEffect effect in Effects)
                 {
