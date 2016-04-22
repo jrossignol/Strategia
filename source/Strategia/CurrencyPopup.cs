@@ -5,6 +5,7 @@ using System.Reflection;
 using System.Text;
 using UnityEngine;
 using KSP;
+using KSP.UI;
 using KSP.UI.Screens;
 using Strategies;
 using Upgradeables;
@@ -142,6 +143,12 @@ namespace Strategia
 
         void OnGUI()
         {
+            // Short circuit return
+            if (!popups.Any())
+            {
+                return;
+            }
+
             SetupStyles();
 
             foreach (Popup popup in popups.OrderBy(p => p.isDelta ? 1 : 0).ToList())
@@ -219,7 +226,7 @@ namespace Strategia
                         continue;
                     }
 
-                    Camera camera = RDController.Instance != null ? UIManager.instance.uiCameras[0].camera : FlightCamera.fetch.mainCamera;
+                    Camera camera = RDController.Instance != null ? UIMainCamera.Camera : FlightCamera.fetch.mainCamera;
                     popup.screenPosition = camera.WorldToScreenPoint(popup.referencePosition.position);
                 }
 
@@ -246,7 +253,6 @@ namespace Strategia
                         GUI.Box(rect, text, popupStyle);
                     }
                 }
-
             }
         }
 
