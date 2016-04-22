@@ -274,7 +274,7 @@ namespace Strategia
                 alignment = TextAnchor.MiddleCenter,
                 fontSize = 16,
                 fontStyle = FontStyle.Bold,
-                font = UnityEngine.Resources.FindObjectsOfTypeAll<Font>().Where(f => f.name == "kalibri").First(),
+                font = UnityEngine.Resources.FindObjectsOfTypeAll<Font>().Where(f => f.name == "calibri").First(),
             };
         }
 
@@ -353,15 +353,15 @@ namespace Strategia
         {
             if (c == Currency.Funds)
             {
-                return "£";
+                return "√";
             }
             else if (c == Currency.Reputation)
             {
-                return "¡";
+                return "★";
             }
             else // Currency.Science
             {
-                return "©";
+                return "⚛";
             }
         }
 
