@@ -8,6 +8,7 @@ using KSP;
 using Contracts;
 using Strategies;
 using Strategies.Effects;
+using ContractConfigurator;
 using ContractConfigurator.Util;
 
 namespace Strategia

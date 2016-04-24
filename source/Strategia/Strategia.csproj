@@ -108,7 +108,6 @@
     <Compile Include="Util\StrategyExtensions.cs" />
     <Compile Include="Util\StringUtil.cs" />
     <Compile Include="Util\CelestialBodyUtil.cs" />
-    <Compile Include="Util\ConfigNodeUtil.cs" />
     <Compile Include="Util\TypeUtil.cs" />
     <Compile Include="Util\VesselUtil.cs" />
   </ItemGroup>

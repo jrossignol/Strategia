@@ -7,6 +7,7 @@ using UnityEngine;
 using KSP;
 using Strategies;
 using Strategies.Effects;
+using ContractConfigurator;
 
 namespace Strategia
 {

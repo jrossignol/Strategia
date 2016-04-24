@@ -7,6 +7,7 @@ using KSP;
 using KSPAchievements;
 using Strategies;
 using Strategies.Effects;
+using ContractConfigurator;
 
 namespace Strategia
 {
@@ -36,7 +37,7 @@ namespace Strategia
             {
                 bodies = FlightGlobals.Bodies.Where(cb => cb.isHomeWorld);
             }
-            invert = ConfigNodeUtil.ParseValue<bool>(node, "invert", false);
+            invert = ConfigNodeUtil.ParseValue<bool?>(node, "invert", (bool?)false).Value;
         }
 
         public string RequirementText()

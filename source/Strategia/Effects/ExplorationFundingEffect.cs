@@ -77,7 +77,7 @@ namespace Strategia
 
         private void OnScienceReceived(float science, ScienceSubject subject, ProtoVessel vessel, bool reverseEngineered)
         {
-            // Confession: I have no idea what this flag means
+            // If this is set, it means that the vessel recovery dialog is figuring out the science that was received
             if (reverseEngineered)
             {
                 return;

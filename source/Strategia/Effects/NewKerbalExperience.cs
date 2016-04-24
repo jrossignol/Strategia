@@ -8,6 +8,7 @@ using KSP;
 using KSP.UI.Screens;
 using Strategies;
 using Strategies.Effects;
+using ContractConfigurator;
 
 namespace Strategia
 {

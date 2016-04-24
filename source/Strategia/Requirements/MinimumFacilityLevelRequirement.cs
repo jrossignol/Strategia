@@ -7,6 +7,7 @@ using KSP;
 using KSPAchievements;
 using Strategies;
 using Strategies.Effects;
+using ContractConfigurator;
 
 namespace Strategia
 {

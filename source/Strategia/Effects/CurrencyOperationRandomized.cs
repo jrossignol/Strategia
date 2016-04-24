@@ -9,6 +9,7 @@ using Contracts;
 using Strategies;
 using Strategies.Effects;
 using ContractConfigurator.Util;
+using ContractConfigurator;
 
 namespace Strategia
 {

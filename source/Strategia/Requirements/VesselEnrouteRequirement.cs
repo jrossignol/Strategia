@@ -7,6 +7,7 @@ using KSP;
 using KSPAchievements;
 using Strategies;
 using Strategies.Effects;
+using ContractConfigurator;
 
 namespace Strategia
 {
@@ -27,7 +28,7 @@ namespace Strategia
         protected override void OnLoadFromConfig(ConfigNode node)
         {
             body = ConfigNodeUtil.ParseValue<CelestialBody>(node, "body");
-            invert = ConfigNodeUtil.ParseValue<bool>(node, "invert", false);
+            invert = ConfigNodeUtil.ParseValue<bool?>(node, "invert", (bool?)false).Value;
             manned = ConfigNodeUtil.ParseValue<bool?>(node, "manned", null);
         }
 
