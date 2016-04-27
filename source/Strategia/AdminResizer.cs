@@ -30,18 +30,28 @@ namespace Strategia
                 ticks = 0;
                 return;
             }
-            // Only work of the first tick of the building being opened
-            else if (ticks++ != 0)
-            {
-                return;
-            }
 
-            // Resize the root element that handles the width
-            Transform aspectFitter = KSP.UI.Screens.Administration.Instance.transform.FindDeepChild("bg and aspectFitter");
-            if (aspectFitter != null)
+            if (ticks++ == 0)
             {
-                RectTransform rect = aspectFitter.GetComponent<RectTransform>();
-                rect.sizeDelta = new Vector2(Math.Min(1424f, Screen.width), rect.sizeDelta.y);
+                // Resize the root element that handles the width
+                Transform aspectFitter = KSP.UI.Screens.Administration.Instance.transform.FindDeepChild("bg and aspectFitter");
+                if (aspectFitter != null)
+                {
+                    RectTransform rect = aspectFitter.GetComponent<RectTransform>();
+                    rect.sizeDelta = new Vector2(Math.Min(1424f, Screen.width), rect.sizeDelta.y);
+                }
+            }
+            else if ((ticks-1) == 1)
+            {
+                // Workaround for KSP 1.1 bug where the vertical scrollbars don't work
+                RectTransform contents = KSP.UI.Screens.Administration.Instance.gameObject.transform.FindDeepChild("scroll list strategies").GetComponent<RectTransform>();
+                float maxY = contents.sizeDelta.y;
+                for (int i = 0; i < contents.transform.childCount; i++)
+                {
+                    Transform child = contents.transform.GetChild(i);
+                    maxY = Math.Max(child.GetComponent<RectTransform>().sizeDelta.y, contents.sizeDelta.y);
+                }
+                contents.sizeDelta = new Vector2(contents.sizeDelta.x, maxY);
             }
         }
     }
