@@ -41,18 +41,6 @@ namespace Strategia
                     rect.sizeDelta = new Vector2(Math.Min(1424f, Screen.width), rect.sizeDelta.y);
                 }
             }
-            else if ((ticks-1) == 1)
-            {
-                // Workaround for KSP 1.1 bug where the vertical scrollbars don't work
-                RectTransform contents = KSP.UI.Screens.Administration.Instance.gameObject.transform.FindDeepChild("scroll list strategies").GetComponent<RectTransform>();
-                float maxY = contents.sizeDelta.y;
-                for (int i = 0; i < contents.transform.childCount; i++)
-                {
-                    Transform child = contents.transform.GetChild(i);
-                    maxY = Math.Max(child.GetComponent<RectTransform>().sizeDelta.y, contents.sizeDelta.y);
-                }
-                contents.sizeDelta = new Vector2(contents.sizeDelta.x, maxY);
-            }
         }
     }
 
