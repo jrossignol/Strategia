@@ -133,6 +133,7 @@ namespace Strategia
             if (!Parent.IsActive && contract != null)
             {
                 contract.Cancel();
+                contract = null;
             }
 
             ContractChecker.Instance.Unregister(this);
