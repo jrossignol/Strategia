@@ -226,7 +226,13 @@ namespace Strategia
 
         protected override bool Check(CelestialBodySubtree cbs)
         {
-            return cbs.returnFromSurface.IsReached && cbs.returnFromSurface.IsCompleteManned;
+            if (cbs.returnFromSurface.IsReached && cbs.returnFromSurface.IsCompleteManned)
+            {
+                return true;
+            }
+
+            // Check if a Kerbal has returned from the surface, and consider that good enough
+            return HighLogic.CurrentGame.CrewRoster.Crew.Any(pcm => pcm.careerLog.HasEntry(FlightLog.EntryType.Land, cbs.Body.name));
         }
 
         protected override string Verbed()
