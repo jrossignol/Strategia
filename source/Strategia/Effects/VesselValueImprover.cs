@@ -168,7 +168,7 @@ namespace Strategia
                                     {
                                         float value = float.Parse(values[1]);
                                         float oldValue = value;
-                                        SetValue(p.partInfo.name, needsIncrease, ref value);
+                                        SetValue(p.partInfo.name + "|" + engine.engineID, needsIncrease, ref value);
                                         values[1] = value.ToString("F1");
                                         newNode.AddValue(pair.name, string.Join(" ", values));
                                         Debug.Log("Setting ISP of " + p + " from " + oldValue + " to " + value);
