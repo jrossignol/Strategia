@@ -298,6 +298,9 @@ namespace Strategia
         {
             lastActivationRequest = this;
 
+            // Force the active strategies text to be updated next tick
+            AdminResizer.Instance.ticks = 0;
+
             // If we are at max strategies, only allow activation if it would be an upgrade
             IEnumerable<Strategy> activeStrategies = StrategySystem.Instance.Strategies.Where(s => s.IsActive);
             int limit = GameVariables.Instance.GetActiveStrategyLimit(ScenarioUpgradeableFacilities.GetFacilityLevel(SpaceCenterFacility.Administration)) - 1;
@@ -347,6 +350,9 @@ namespace Strategia
 
         protected override bool CanDeactivate(ref string reason)
         {
+            // Force the active strategies text to be updated next tick
+            AdminResizer.Instance.ticks = 0;
+
             deactivateCall = Time.time;
             if (forcedDeactivation)
             {

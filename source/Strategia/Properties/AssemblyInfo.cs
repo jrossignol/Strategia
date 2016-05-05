@@ -33,6 +33,6 @@ using System.Runtime.InteropServices;
 // by using the '*' as shown below:
 // [assembly: AssemblyVersion("1.0.*")]
 [assembly: AssemblyVersion("1.0")]
-[assembly: AssemblyFileVersion("1.2.1")]
-[assembly: AssemblyInformationalVersion("1.2.1")]
+[assembly: AssemblyFileVersion("1.2.2")]
+[assembly: AssemblyInformationalVersion("1.2.2")]
 [assembly: KSPAssembly("Strategia", 1, 0)]

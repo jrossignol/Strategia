@@ -17,9 +17,11 @@ namespace Strategia
     [KSPAddon(KSPAddon.Startup.SpaceCentre, false)]
     public class AdminResizer : MonoBehaviour
     {
-        int ticks = 0;
+        public static AdminResizer Instance;
+        public int ticks = 0;
         public void Awake()
         {
+            Instance = this;
         }
 
         public void Update()
@@ -40,6 +42,15 @@ namespace Strategia
                     RectTransform rect = aspectFitter.GetComponent<RectTransform>();
                     rect.sizeDelta = new Vector2(Math.Min(1424f, Screen.width), rect.sizeDelta.y);
                 }
+
+                // Clean up the strategy max text
+                Transform stratCountTransform = KSP.UI.Screens.Administration.Instance.transform.FindDeepChild("ActiveStratCount");
+                Text stratCountText = stratCountTransform.GetComponent<Text>();
+                int limit = Administration.Instance.MaxActiveStrategies - 1;
+                if (!stratCountText.text.Contains("Max: " + limit))
+                {
+                    stratCountText.text = "Active Strategies: " + Administration.Instance.ActiveStrategyCount + " [Max: " + limit + "]";
+                }
             }
         }
     }
@@ -58,6 +69,23 @@ namespace Strategia
                     return result;
             }
             return null;
+        }
+
+        public static void Dump(this GameObject go, string indent = "")
+        {
+            foreach (Component c in go.GetComponents<Component>())
+            {
+                Debug.Log(indent + c);
+                if (c is KerbalInstructor)
+                {
+                    return;
+                }
+            }
+
+            foreach (Transform c in go.transform)
+            {
+                c.gameObject.Dump(indent + "    ");
+            }
         }
     }
 }
