@@ -83,6 +83,31 @@ namespace Strategia
             affectReasons = ConfigNodeUtil.ParseValue<List<TransactionReasons>>(node, "AffectReason");
             multipliers = ConfigNodeUtil.ParseValue<List<float>>(node, "multiplier");
             trait = ConfigNodeUtil.ParseValue<string>(node, "trait", null);
+
+            // Add any child groups
+            foreach (string type in contractTypes.ToList())
+            {
+                ContractGroup group = ContractGroup.AllGroups.Where(g => g!= null && g.name == type).FirstOrDefault();
+                if (group != null)
+                {
+                    foreach (ContractGroup child in ChildGroups(group))
+                    {
+                        contractTypes.Add(child.name);
+                    }
+                }
+            }
+        }
+
+        protected IEnumerable<ContractGroup> ChildGroups(ContractGroup group)
+        {
+            foreach (ContractGroup child in ContractGroup.AllGroups.Where(g => g != null && g.parent == group))
+            {
+                yield return child;
+                foreach (ContractGroup descendent in ChildGroups(child))
+                {
+                    yield return descendent;
+                }
+            }
         }
 
         protected override void OnRegister()
@@ -242,11 +267,7 @@ namespace Strategia
             string contractTypeName = contractType.Name;
             if (contractTypeName == "ConfiguredContract")
             {
-                if (ccContractTypeMethod == null)
-                {
-                    ccContractTypeMethod = contractType.GetMethod("contractGroupName", new Type[] { typeof(Contract) });
-                }
-                contractTypeName = (string)ccContractTypeMethod.Invoke(null, new object[] { contract });
+                contractTypeName = ConfiguredContract.contractGroupName(contract);
             }
 
             // Check if contract type matches
@@ -257,16 +278,7 @@ namespace Strategia
         {
             if (!displayNameCache.ContainsKey(contractTypeName))
             {
-                string displayName = null;
-
-                // Contract Configurator integration
-                Type contractGroup = TypeUtil.FindType("ContractGroup");
-                if (contractGroup != null)
-                {
-                    MethodInfo displayNameMethod = contractGroup.GetMethod("GroupDisplayName");
-                    displayName = (string)displayNameMethod.Invoke(null, new object[] { contractTypeName });
-                }
-
+                string displayName = ContractGroup.GroupDisplayName(contractTypeName); ;
                 if (string.IsNullOrEmpty(displayName))
                 {
                     displayName = contractTypeName.Replace("Contract", "");
