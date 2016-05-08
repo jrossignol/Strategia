@@ -2,6 +2,7 @@ Strategia 1.2.3
 - Corrected minimum Contract Configurator version checking.
 - Fixed moon probe strategies to not be mutually exclusive (thanks westamastaflash).
 - CurrencyOperationByContract now looks at child groups as well.
+- Fixed broken Custom Barn Kit check.
 
 Strategia 1.2.2
 - Output the adjusted number of max strategies allowed in the admin building so that people stop posting about it in the thread (thanks literally everyone).
