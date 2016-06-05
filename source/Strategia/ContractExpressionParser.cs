@@ -24,6 +24,7 @@ namespace Strategia
 
         internal static void RegisterMethods()
         {
+            RegisterMethod(new Method<StrategiaStrategy, string>("Name", s => s != null ? s.Config.Title : ""));
             RegisterMethod(new Method<StrategiaStrategy, string>("Type", s => s != null ? s.GetType().BaseType.Name : ""));
             RegisterMethod(new Method<StrategiaStrategy, string>("contractType", s => ContractEffectField(s, ce => ce.contractType)));
 
