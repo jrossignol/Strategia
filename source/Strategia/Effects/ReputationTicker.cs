@@ -96,10 +96,34 @@ namespace Strategia
             // Check for a deactivation
             if (!Parent.IsActive && reputationGiven > 0.01)
             {
-                // Clawback of reputation
-                Reputation.Instance.addReputation_discrete(-reputationGiven, TransactionReasons.Strategies);
+                float clawbackAmount = 0.0f;
 
-                CurrencyPopup.Instance.AddPopup(Currency.Reputation, -reputationGiven, TransactionReasons.Strategies, Parent.Config.Title + " cancellation", false);
+                // Check for an upgrade/downgrade
+                IEnumerable<ReputationTicker> activeEffects = StrategySystem.Instance.Strategies.Where(s => s.IsActive && s != Parent).SelectMany(s => s.Effects).OfType<ReputationTicker>();
+                if (activeEffects.Any())
+                {
+                    // Found another active effect, should only be one
+                    ReputationTicker otherEffect = activeEffects.First();
+
+                    // Set the current reputation given
+                    otherEffect.reputationGiven = Math.Min(reputationGiven, otherEffect.reputationLimit);
+
+                    if (reputationGiven > otherEffect.reputationLimit)
+                    {
+                        clawbackAmount = otherEffect.reputationLimit - reputationGiven;
+                    }
+                }
+                else
+                {
+                    clawbackAmount = -reputationGiven;
+                }
+
+                // Clawback of reputation
+                if (clawbackAmount != 0.0f)
+                {
+                    Reputation.Instance.addReputation_discrete(clawbackAmount, TransactionReasons.Strategies);
+                    CurrencyPopup.Instance.AddPopup(Currency.Reputation, clawbackAmount, TransactionReasons.Strategies, Parent.Config.Title + " cancellation", false);
+                }
             }
         }
 

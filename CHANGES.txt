@@ -1,4 +1,5 @@
 Strategia 1.2.4
+- No longer lose reputation bonuses when upgrading/downgrading within the Free Ice Cream I/II/III strategies (thanks ibanix).
 - Increased Moho rewards for various strategies (thanks ibanix).
 - Fixed mission requirement in moon probe strategies (thanks ibanix).
 
