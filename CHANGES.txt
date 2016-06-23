@@ -1,5 +1,7 @@
 Strategia 1.2.4
 - No longer lose reputation bonuses when upgrading/downgrading within the Free Ice Cream I/II/III strategies (thanks ibanix).
+- Bonuses/maluses are preserved when upgrading or downgrading Free Ice Cream.
+- Don't change active contracts when activating Free Ice Cream for the first time (thanks ZachPruckowski).
 - Increased Moho rewards for various strategies (thanks ibanix).
 - Fixed mission requirement in moon probe strategies (thanks ibanix).
 

@@ -26,6 +26,8 @@ namespace Strategia
         List<float> lowerValues;
         List<float> upperValues;
 
+        bool initialSetupDone = false;
+
         LRUCache<string, float> valueCache = new LRUCache<string, float>(250);
 
         public CurrencyOperationRandomized(Strategy parent)
@@ -73,6 +75,7 @@ namespace Strategia
             Debug.Log("CurrencyOperationRandomized.OnLoad");
             base.OnLoad(node);
 
+            initialSetupDone = true;
             valueCache.Load(node.GetNode("VALUES"));
         }
 
@@ -83,6 +86,24 @@ namespace Strategia
                 GameEvents.Modifiers.OnCurrencyModifierQuery.Add(new EventData<CurrencyModifierQuery>.OnEvent(OnEffectQuery));
                 GameEvents.Contract.onDeclined.Add(new EventData<Contract>.OnEvent(OnContractChange));
                 GameEvents.Contract.onOffered.Add(new EventData<Contract>.OnEvent(OnContractChange));
+
+                if (!initialSetupDone)
+                {
+                    initialSetupDone = true;
+                    Debug.Log("Contract Slot Machine: initial setup");
+
+                    // Initialize the value cache to all zeros
+                    OnContractChange(null);
+                    ConfigNode node = new ConfigNode();
+                    valueCache.Save(node);
+
+                    foreach (ConfigNode.Value pair in node.values)
+                    {
+                        pair.value = "1.0";
+                    }
+                    valueCache.Clear();
+                    valueCache.Load(node);
+                }
             }
         }
 
@@ -91,6 +112,27 @@ namespace Strategia
             GameEvents.Modifiers.OnCurrencyModifierQuery.Remove(new EventData<CurrencyModifierQuery>.OnEvent(OnEffectQuery));
             GameEvents.Contract.onDeclined.Remove(new EventData<Contract>.OnEvent(OnContractChange));
             GameEvents.Contract.onOffered.Remove(new EventData<Contract>.OnEvent(OnContractChange));
+
+            // Check for a deactivation
+            if (!Parent.IsActive && initialSetupDone)
+            {
+                // Check for an upgrade/downgrade
+                IEnumerable<CurrencyOperationRandomized> activeEffects = StrategySystem.Instance.Strategies.Where(s => s.IsActive && s != Parent).SelectMany(s => s.Effects).OfType<CurrencyOperationRandomized>();
+                if (activeEffects.Any())
+                {
+                    Debug.Log("Contract Slot Machine: apply upgrade/downgrade");
+
+                    // Found another active effect, should only be one
+                    CurrencyOperationRandomized otherEffect = activeEffects.First();
+
+                    // Copy the value cache
+                    otherEffect.valueCache = valueCache;
+                    otherEffect.initialSetupDone = true;
+                }
+
+                valueCache.Clear();
+                initialSetupDone = false;
+            }
         }
 
         private void OnContractChange(Contract ignored)
@@ -142,7 +184,11 @@ namespace Strategia
 
             foreach (Currency currency in currencies)
             {
-                qry.AddDelta(currency, multiplier * qry.GetInput(currency) - qry.GetInput(currency));
+                float delta = (float)Math.Round(multiplier * qry.GetInput(currency) - qry.GetInput(currency));
+                if (delta != 0.0f)
+                {
+                    qry.AddDelta(currency, delta);
+                }
             }
         }
     }
