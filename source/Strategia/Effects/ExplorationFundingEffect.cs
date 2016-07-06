@@ -94,7 +94,7 @@ namespace Strategia
             {
                 subjects = subjects.Where(ss => ss.id.Contains(biome.biome));
             }
-            float totalScience = subjects.Sum(ss => ss.science);
+            float totalScience = subjects.Sum(ss => ss.science) * HighLogic.CurrentGame.Parameters.Career.ScienceGainMultiplier;
 
             // The values will be the same if this is the first for the biome
             if (Math.Abs(totalScience - science) < 0.001)

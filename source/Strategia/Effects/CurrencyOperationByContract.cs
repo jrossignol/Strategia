@@ -18,7 +18,6 @@ namespace Strategia
     /// </summary>
     public class CurrencyOperationByContract : StrategyEffect
     {
-        static MethodInfo ccContractTypeMethod = null;
         static Dictionary<string, string> displayNameCache = new Dictionary<string, string>();
         static LRUCache<string, KeyValuePair<bool, Contract>> contractCache = new LRUCache<string, KeyValuePair<bool, Contract>>(100);
 

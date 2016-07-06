@@ -1,3 +1,6 @@
+Strategia 1.2.5
+- Fixed To Boldly Go not awarding bonuses when the science reward slider isn't set to 100% (thanks Smu).
+
 Strategia 1.2.4
 - No longer lose reputation bonuses when upgrading/downgrading within the Free Ice Cream I/II/III strategies (thanks ibanix).
 - Bonuses/maluses are preserved when upgrading or downgrading Free Ice Cream.
