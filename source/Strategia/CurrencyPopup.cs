@@ -93,8 +93,13 @@ namespace Strategia
             GameEvents.OnCrewmemberHired.Add(new EventData<ProtoCrewMember, int>.OnEvent(OnCrewHired));
             GameEvents.OnTechnologyResearched.Add(new EventData<GameEvents.HostTargetAction<RDTech, RDTech.OperationResult>>.OnEvent(OnTechResearched));
             GameEvents.Modifiers.OnCurrencyModified.Add(new EventData<CurrencyModifierQuery>.OnEvent(OnCurrencyModified));
+            GameEvents.onGameSceneSwitchRequested.Add(new EventData<GameEvents.FromToAction<GameScenes, GameScenes>>.OnEvent(OnSceneSwitch));
+            GameEvents.onGUIAdministrationFacilitySpawn.Add(new EventVoid.OnEvent(OnBuildingOpen));
+            GameEvents.onGUIAstronautComplexSpawn.Add(new EventVoid.OnEvent(OnBuildingOpen));
+            GameEvents.onGUIMissionControlSpawn.Add(new EventVoid.OnEvent(OnBuildingOpen));
+            GameEvents.onGUIRnDComplexSpawn.Add(new EventVoid.OnEvent(OnBuildingOpen));
         }
-        
+
         void Destroy()
         {
             Instance = null;
@@ -104,6 +109,11 @@ namespace Strategia
             GameEvents.OnCrewmemberHired.Remove(new EventData<ProtoCrewMember, int>.OnEvent(OnCrewHired));
             GameEvents.OnTechnologyResearched.Remove(new EventData<GameEvents.HostTargetAction<RDTech, RDTech.OperationResult>>.OnEvent(OnTechResearched));
             GameEvents.Modifiers.OnCurrencyModified.Remove(new EventData<CurrencyModifierQuery>.OnEvent(OnCurrencyModified));
+            GameEvents.onGameSceneSwitchRequested.Remove(new EventData<GameEvents.FromToAction<GameScenes, GameScenes>>.OnEvent(OnSceneSwitch));
+            GameEvents.onGUIAdministrationFacilitySpawn.Remove(new EventVoid.OnEvent(OnBuildingOpen));
+            GameEvents.onGUIAstronautComplexSpawn.Remove(new EventVoid.OnEvent(OnBuildingOpen));
+            GameEvents.onGUIMissionControlSpawn.Remove(new EventVoid.OnEvent(OnBuildingOpen));
+            GameEvents.onGUIRnDComplexSpawn.Remove(new EventVoid.OnEvent(OnBuildingOpen));
         }
 
         public void AddFacilityPopup(Currency currency, double amount, TransactionReasons transactionReason, string reason, bool isDelta)
@@ -132,13 +142,35 @@ namespace Strategia
             popup.referencePosition = referencePosition;
             popup.isFacility = isFacility;
             popup.isDelta = isDelta;
-            popups.Add(popup);
 
             // Special stuff
             if (isFacility)
             {
                 popup.initialized = false;
             }
+
+            // Attempt to combine duplicates
+            Popup last = popups.LastOrDefault();
+            if (last != null && last.currency == currency && last.transactionReason == transactionReason && last.reason == reason)
+            {
+                last.amount += amount;
+            }
+            else
+            {
+                popups.Add(popup);
+            }
+        }
+
+        void OnSceneSwitch(GameEvents.FromToAction<GameScenes, GameScenes> fta)
+        {
+            // Clear popups on scene change
+            popups.Clear();
+        }
+
+        void OnBuildingOpen()
+        {
+            // Clear popups on building open
+            popups.Clear();
         }
 
         void OnGUI()
@@ -156,7 +188,7 @@ namespace Strategia
                 // Set up the facility popup
                 if (!popup.initialized && popup.isFacility)
                 {
-                    if (Time.time < lastFacilityTime + 1.0f && lastFacility != null)
+                    if (Time.realtimeSinceStartup < lastFacilityTime + 1.0f && lastFacility != null)
                     {
                         popup.referencePosition = lastFacility.transform;
                         popup.initialized = true;
@@ -170,10 +202,10 @@ namespace Strategia
                 // Initialize popup time
                 if (popup.startTime == 0.0)
                 {
-                    if (lastPopupTime + DELTA_TIME < Time.time)
+                    if (lastPopupTime + DELTA_TIME < Time.realtimeSinceStartup)
                     {
-                        popup.startTime = Time.time;
-                        lastPopupTime = Time.time;
+                        popup.startTime = Time.realtimeSinceStartup;
+                        lastPopupTime = Time.realtimeSinceStartup;
                     }
                     else
                     {
@@ -182,7 +214,7 @@ namespace Strategia
                 }
 
                 // Remove the popup after a time delay
-                if (Time.time - popup.startTime > DURATION)
+                if (Time.realtimeSinceStartup - popup.startTime > DURATION)
                 {
                     popups.Remove(popup);
                     continue;
@@ -231,8 +263,8 @@ namespace Strategia
                 }
 
                 // Set up position and alpha
-                float alpha = Mathf.Clamp(Mathf.Lerp(1.0f, 0.0f, Mathf.InverseLerp(popup.startTime + DURATION - 0.35f, popup.startTime + DURATION, Time.time)), 0.0f, 1.0f);
-                float yoffset = Mathf.Lerp(20.0f, 80.0f, Mathf.InverseLerp(popup.startTime, popup.startTime + DURATION, Time.time)) * popup.direction;
+                float alpha = Mathf.Clamp(Mathf.Lerp(1.0f, 0.0f, Mathf.InverseLerp(popup.startTime + DURATION - 0.35f, popup.startTime + DURATION, Time.realtimeSinceStartup)), 0.0f, 1.0f);
+                float yoffset = Mathf.Lerp(20.0f, 80.0f, Mathf.InverseLerp(popup.startTime, popup.startTime + DURATION, Time.realtimeSinceStartup)) * popup.direction;
                 Rect origin = new Rect(popup.screenPosition.x - 200f, Screen.height - popup.screenPosition.y - yoffset - 28f, 400f, 28f);
 
                 // Discount stroke/outline effect
@@ -281,7 +313,7 @@ namespace Strategia
         void OnKSCFacilityUpgraded(UpgradeableFacility facility, int level)
         {
             lastFacility = facility;
-            lastFacilityTime = Time.time;
+            lastFacilityTime = Time.realtimeSinceStartup;
 
             Popup popup = popups.LastOrDefault();
             if (popup != null)

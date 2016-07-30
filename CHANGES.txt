@@ -1,5 +1,7 @@
 Strategia 1.2.5
 - Fixed To Boldly Go not awarding bonuses when the science reward slider isn't set to 100% (thanks Smu).
+- Combine popups triggered with the same text/purpose.
+- Fixed minor issues with currency popups.
 
 Strategia 1.2.4
 - No longer lose reputation bonuses when upgrading/downgrading within the Free Ice Cream I/II/III strategies (thanks ibanix).
