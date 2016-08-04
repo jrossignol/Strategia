@@ -1,4 +1,5 @@
-Strategia 1.2.5
+Strategia 1.3.0
+- Added basic support for ResearchBodies (strategies for unresearched bodies are unavailable).
 - Fixed To Boldly Go not awarding bonuses when the science reward slider isn't set to 100% (thanks Smu).
 - Combine popups triggered with the same text/purpose.
 - Fixed minor issues with currency popups.
