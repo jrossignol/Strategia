@@ -3,6 +3,7 @@ Strategia 1.3.0
 - Fixed To Boldly Go not awarding bonuses when the science reward slider isn't set to 100% (thanks Smu).
 - Combine popups triggered with the same text/purpose.
 - Fixed minor issues with currency popups.
+- Made contracts work better with Contract Configurator 1.15.x and better.
 
 Strategia 1.2.4
 - No longer lose reputation bonuses when upgrading/downgrading within the Free Ice Cream I/II/III strategies (thanks ibanix).
