@@ -33,23 +33,8 @@ namespace Strategia
             }
             else if (id == "PlanetaryProgram")
             {
-                Debug.Log("Non-rocky from pre-fab:");
-                foreach (PSystemBody body in PSystemManager.Instance.systemPrefab.GetComponentsInChildren<PSystemBody>(true))
-                {
-                    if (body.pqsVersion == null)
-                    {
-                        Debug.Log("    " + body.name);
-                    }
-                }
-
-                Debug.Log("Non-rocky from regular list:");
                 foreach (CelestialBody body in FlightGlobals.Bodies[0].orbitingBodies)
                 {
-                    if (body.pqsController == null)
-                    {
-                        Debug.Log("    " + body.name);
-                    }
-
                     if (body != home)
                     {
                         if (body.Radius > BARYCENTER_THRESHOLD)
