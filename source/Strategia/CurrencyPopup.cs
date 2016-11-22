@@ -229,16 +229,17 @@ namespace Strategia
                         popup.direction = -1;
                         popup.anchorType = AnchorType.Fixed;
                         popup.screenPosition.y = Screen.height - 32.0f;
+                        float verticalRatio = 1.0f; // TODO - should be based on UI size
                         if (popup.currency == Currency.Funds)
                         {
-                            popup.screenPosition.x = (float)Screen.width / 2.0f - 220.0f / ScreenSafeUI.VerticalRatio;
+                            popup.screenPosition.x = (float)Screen.width / 2.0f - 220.0f / verticalRatio;
                         }
                         else if (popup.currency == Currency.Reputation)
                         {
                             popup.screenPosition.x = (float)Screen.width / 2.0f;
                         }
                         else
-                            popup.screenPosition.x = (float)Screen.width / 2.0f + 220.0f / ScreenSafeUI.VerticalRatio;
+                            popup.screenPosition.x = (float)Screen.width / 2.0f + 220.0f / verticalRatio;
                         {
                         }
                     }

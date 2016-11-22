@@ -7,7 +7,7 @@ using UnityEngine;
 using UnityEngine.UI;
 using KSP;
 using KSP.UI.Screens;
-using Strategies;
+using TMPro;
 
 namespace Strategia
 {
@@ -45,7 +45,7 @@ namespace Strategia
 
                 // Clean up the strategy max text
                 Transform stratCountTransform = KSP.UI.Screens.Administration.Instance.transform.FindDeepChild("ActiveStratCount");
-                Text stratCountText = stratCountTransform.GetComponent<Text>();
+                TextMeshProUGUI stratCountText = stratCountTransform.GetComponent<TextMeshProUGUI>();
                 int limit = Administration.Instance.MaxActiveStrategies - 1;
                 if (!stratCountText.text.Contains("Max: " + limit))
                 {

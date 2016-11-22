@@ -43,31 +43,6 @@ namespace Strategia
             DepartmentConfig gene = null;
             DepartmentConfig wernher = null;
 
-            // Destroy the pesky main light from Gene and Wernher
-            foreach (DepartmentConfig department in config.Departments)
-            {
-                Light mainlight = department.AvatarPrefab.GetComponentsInChildren<Light>(true).Where(l => l.name == "mainlight").FirstOrDefault();
-                if (mainlight != null)
-                {
-                    Destroy(mainlight);
-                }
-                Light backlight = department.AvatarPrefab.GetComponentsInChildren<Light>(true).Where(l => l.name == "backlight").FirstOrDefault();
-                if (backlight != null)
-                {
-                    Destroy(backlight);
-                }
-
-                // Save Gene and Wernher so we can do a reorg
-                if (department.AvatarPrefab.name == "Instructor_Gene")
-                {
-                    gene = department;
-                }
-                else if (department.AvatarPrefab.name == "Instructor_Wernher")
-                {
-                    wernher = department;
-                }
-            }
-
             // Re-order stuff
             if (wernher != null)
             {

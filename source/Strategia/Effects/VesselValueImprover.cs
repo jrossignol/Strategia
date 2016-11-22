@@ -70,7 +70,7 @@ namespace Strategia
                 GameEvents.onVesselChange.Add(new EventData<Vessel>.OnEvent(OnVesselChange));
                 GameEvents.onFlightReady.Add(new EventVoid.OnEvent(OnFlightReady));
                 GameEvents.onPartAttach.Add(new EventData<GameEvents.HostTargetAction<Part, Part>>.OnEvent(OnPartAttach));
-                GameEvents.onPartJointBreak.Add(new EventData<PartJoint>.OnEvent(OnPartJointBreak));
+                GameEvents.onPartJointBreak.Add(new EventData<PartJoint, float>.OnEvent(OnPartJointBreak));
                 GameEvents.onCrewTransferred.Add(new EventData<GameEvents.HostedFromToAction<ProtoCrewMember, Part>>.OnEvent(OnCrewTransferred));
                 GameEvents.onVesselWasModified.Add(new EventData<Vessel>.OnEvent(OnVesselWasModified));
             }
@@ -81,7 +81,7 @@ namespace Strategia
             GameEvents.onVesselChange.Remove(new EventData<Vessel>.OnEvent(OnVesselChange));
             GameEvents.onFlightReady.Remove(new EventVoid.OnEvent(OnFlightReady));
             GameEvents.onPartAttach.Remove(new EventData<GameEvents.HostTargetAction<Part, Part>>.OnEvent(OnPartAttach));
-            GameEvents.onPartJointBreak.Remove(new EventData<PartJoint>.OnEvent(OnPartJointBreak));
+            GameEvents.onPartJointBreak.Remove(new EventData<PartJoint, float>.OnEvent(OnPartJointBreak));
             GameEvents.onCrewTransferred.Remove(new EventData<GameEvents.HostedFromToAction<ProtoCrewMember, Part>>.OnEvent(OnCrewTransferred));
             GameEvents.onVesselWasModified.Remove(new EventData<Vessel>.OnEvent(OnVesselWasModified));
         }
@@ -104,7 +104,7 @@ namespace Strategia
             }
         }
 
-        private void OnPartJointBreak(PartJoint p)
+        private void OnPartJointBreak(PartJoint p, float force)
         {
             if (HighLogic.LoadedScene == GameScenes.FLIGHT)
             {
