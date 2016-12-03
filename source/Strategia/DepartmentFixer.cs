@@ -40,8 +40,21 @@ namespace Strategia
                 Where(fi => fi.FieldType == typeof(StrategySystemConfig)).First();
             StrategySystemConfig config = (StrategySystemConfig)configField.GetValue(StrategySystem.Instance);
 
+            // Find the departments
             DepartmentConfig gene = null;
             DepartmentConfig wernher = null;
+            foreach (DepartmentConfig department in config.Departments)
+            {
+                // Save Gene and Wernher so we can do a reorg
+                if (department.AvatarPrefab.name == "Instructor_Gene")
+                {
+                    gene = department;
+                }
+                else if (department.AvatarPrefab.name == "Instructor_Wernher")
+                {
+                    wernher = department;
+                }
+            }
 
             // Re-order stuff
             if (wernher != null)

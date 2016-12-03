@@ -1,5 +1,6 @@
 Strategia 1.4.1
 - Fix issue with Stagnated Research not being selectable (thanks Stratickus).
+- Adjust order of Gene/Wernher in the admin building.
 
 Strategia 1.4.0
 - Rebuild for KSP 1.2.x.
