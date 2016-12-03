@@ -70,7 +70,7 @@ namespace Strategia
                 }
 
                 // Get a listing of all tech with parts
-                IEnumerable<AvailablePart> parts = PartLoader.Instance.parts;
+                IEnumerable<AvailablePart> parts = PartLoader.Instance.loadedParts;
                 allTech = new List<string>();
                 foreach (ConfigNode techNode in techTree.GetNodes("RDNode"))
                 {
