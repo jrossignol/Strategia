@@ -143,7 +143,7 @@ namespace Strategia
             string costLine = "";
             if (InitialCostFunds != 0)
             {
-                costLine += "<color=#B4D455>£ " + (InitialCostFunds - fundsDiscount).ToString("N0") + "</color>";
+                costLine += "<color=#B4D455><sprite=2 tint=1> " + (InitialCostFunds - fundsDiscount).ToString("N0") + "</color>";
                 if (fundsDiscount > 0.0f)
                 {
                     costLine += "<color=#B4D455> (-" + fundsDiscount.ToString("N0") + ")</color>";
@@ -152,7 +152,7 @@ namespace Strategia
             }
             if (InitialCostScience != 0)
             {
-                costLine += "<color=#6DCFF6>© " + (InitialCostScience - scienceDiscount).ToString("N0") + "</color>";
+                costLine += "<color=#6DCFF6><sprite=1 tint=1> " + (InitialCostScience - scienceDiscount).ToString("N0") + "</color>";
                 if (scienceDiscount > 0.0f)
                 {
                     costLine += "<color=#B4D455> (-" + scienceDiscount.ToString("N0") + ")</color>";
@@ -161,7 +161,7 @@ namespace Strategia
             }
             if (InitialCostReputation != 0)
             {
-                costLine += "<color=#E0D503>¡ " + (InitialCostReputation - reputationDiscount).ToString("N0") + "</color>";
+                costLine += "<color=#E0D503><sprite=0 tint=1> " + (InitialCostReputation - reputationDiscount).ToString("N0") + "</color>";
                 if (reputationDiscount > 0.0f)
                 {
                     costLine += "<color=#B4D455> (-" + reputationDiscount.ToString("N0") + ")</color>";

@@ -69,15 +69,15 @@ namespace Strategia
             string costLine = "";
             if (InitialCostFunds != 0)
             {
-                costLine += "<color=#B4D455>£ " + InitialCostFunds.ToString("N0") + "    </color>";
+                costLine += "<color=#B4D455><sprite=2 tint=1> " + InitialCostFunds.ToString("N0") + "    </color>";
             }
             if (InitialCostScience != 0)
             {
-                costLine += "<color=#6DCFF6>© " + InitialCostScience.ToString("N0") + "    </color>";
+                costLine += "<color=#6DCFF6><sprite=1 tint=1> " + InitialCostScience.ToString("N0") + "    </color>";
             }
             if (InitialCostReputation != 0)
             {
-                costLine += "<color=#E0D503>¡ " + InitialCostReputation.ToString("N0") + "    </color>";
+                costLine += "<color=#E0D503><sprite=0 tint=1> " + InitialCostReputation.ToString("N0") + "    </color>";
             }
             if (!string.IsNullOrEmpty(costLine))
             {
@@ -154,15 +154,15 @@ namespace Strategia
                 result += "<b><color=#8BED8B>Advances: </color></b>";
                 if (advanceFunds > 0)
                 {
-                    result += "<color=#B4D455>£ " + advanceFunds.ToString("N0") + "    </color>";
+                    result += "<color=#B4D455><sprite=2 tint=1> " + advanceFunds.ToString("N0") + "    </color>";
                 }
                 if (advanceScience > 0)
                 {
-                    result += "<color=#6DCFF6>© " + advanceScience.ToString("N0") + "    </color>";
+                    result += "<color=#6DCFF6><sprite=1 tint=1> " + advanceScience.ToString("N0") + "    </color>";
                 }
                 if (advanceReputation > 0)
                 {
-                    result += "<color=#E0D503>¡ " + advanceReputation.ToString("N0") + "    </color>";
+                    result += "<color=#E0D503><sprite=0 tint=1> " + advanceReputation.ToString("N0") + "    </color>";
                 }
                 result += "\n";
             }
@@ -178,15 +178,15 @@ namespace Strategia
                 result += "<b><color=#8BED8B>Rewards: </color></b>";
                 if (rewardFunds > 0)
                 {
-                    result += "<color=#B4D455>£ " + rewardFunds.ToString("N0") + "    </color>";
+                    result += "<color=#B4D455><sprite=2 tint=1> " + rewardFunds.ToString("N0") + "    </color>";
                 }
                 if (rewardScience > 0)
                 {
-                    result += "<color=#6DCFF6>© " + rewardScience.ToString("N0") + "    </color>";
+                    result += "<color=#6DCFF6><sprite=1 tint=1> " + rewardScience.ToString("N0") + "    </color>";
                 }
                 if (rewardReputation > 0)
                 {
-                    result += "<color=#E0D503>¡ " + rewardReputation.ToString("N0") + "    </color>";
+                    result += "<color=#E0D503><sprite=0 tint=1> " + rewardReputation.ToString("N0") + "    </color>";
                 }
                 result += "\n";
             }
@@ -203,15 +203,15 @@ namespace Strategia
                 result += "<b><color=#ED0B0B>Penalties: </color></b>";
                 if (failureFunds > 0)
                 {
-                    result += "<color=#B4D455>£ -" + failureFunds.ToString("N0") + "    </color>";
+                    result += "<color=#B4D455><sprite=2 tint=1> -" + failureFunds.ToString("N0") + "    </color>";
                 }
                 if (failureScience > 0)
                 {
-                    result += "<color=#6DCFF6>© -" + failureScience.ToString("N0") + "    </color>";
+                    result += "<color=#6DCFF6><sprite=1 tint=1> -" + failureScience.ToString("N0") + "    </color>";
                 }
                 if (failureReputation > 0)
                 {
-                    result += "<color=#E0D503>¡ -" + failureReputation.ToString("N0") + "    </color>";
+                    result += "<color=#E0D503><sprite=0 tint=1> -" + failureReputation.ToString("N0") + "    </color>";
                 }
                 result += "\n";
             }

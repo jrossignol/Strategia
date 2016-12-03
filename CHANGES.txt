@@ -1,7 +1,8 @@
 Strategia 1.4.1
 - Massive Scale Launches strategy now incrementally gives the bonuses (you can still get the level 1 bonus if you don't meet the threshold for level 3).
-- Fix issue with Stagnated Research not being selectable (thanks NorcalPlanner).
+- Fix issue with Stagnated Research not being selectable (thanks Stratickus).
 - Adjust order of Gene/Wernher in the admin building.
+- Use correct currency symbols.
 
 Strategia 1.4.0
 - Rebuild for KSP 1.2.x.
