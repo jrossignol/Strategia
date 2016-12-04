@@ -207,7 +207,6 @@ namespace Strategia
         void OnFacilityContextMenuSpawn(KSCFacilityContextMenu menu)
         {
             string name = (string)facilityName.GetValue(menu);
-            Debug.Log("got popup = " + name);
             if (name == "Administration Building")
             {
                 StartCoroutine(FixStrategyText(menu));
