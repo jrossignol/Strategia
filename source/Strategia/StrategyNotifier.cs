@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Reflection;
 using System.Text;
 using UnityEngine;
 using KSP;
@@ -22,6 +23,8 @@ namespace Strategia
         void Start()
         {
             StartCoroutine(CheckStrategyState());
+
+            GameEvents.onFacilityContextMenuSpawn.Add(new EventData<KSCFacilityContextMenu>.OnEvent(OnFacilityContextMenuSpawn));
         }
 
         IEnumerator<YieldInstruction> CheckStrategyState()
@@ -197,6 +200,38 @@ namespace Strategia
                 {
                     messageStrategies[pair.name] = bool.Parse(pair.value);
                 }
+            }
+        }
+
+        static FieldInfo facilityName = typeof(KSCFacilityContextMenu).GetFields(BindingFlags.NonPublic | BindingFlags.Instance).Where(fi => fi.Name == "facilityName").First();
+        void OnFacilityContextMenuSpawn(KSCFacilityContextMenu menu)
+        {
+            string name = (string)facilityName.GetValue(menu);
+            Debug.Log("got popup = " + name);
+            if (name == "Administration Building")
+            {
+                StartCoroutine(FixStrategyText(menu));
+            }
+        }
+
+        IEnumerator<YieldInstruction> FixStrategyText(KSCFacilityContextMenu menu)
+        {
+            int currentLevel = (int)Math.Round(ScenarioUpgradeableFacilities.GetFacilityLevel(SpaceCenterFacility.Administration) *
+                ScenarioUpgradeableFacilities.GetFacilityLevelCount(SpaceCenterFacility.Administration)) + 1;
+
+            string currentLevelText = StringBuilderCache.Format("* Max Active Strategies:  {0}", currentLevel);
+            string nextLevelText = StringBuilderCache.Format("<color=#a8ff04>* Max Active Strategies:  {0}</color>", currentLevel+1);
+
+            while (true)
+            {
+                if (!menu)
+                {
+                    yield break;
+                }
+
+                menu.levelStatsText.text = menu.levelStatsText.text.StartsWith("<color") ? nextLevelText : currentLevelText;
+
+                yield return null;
             }
         }
     }
