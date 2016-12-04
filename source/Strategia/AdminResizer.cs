@@ -39,8 +39,14 @@ namespace Strategia
                 Transform aspectFitter = KSP.UI.Screens.Administration.Instance.transform.FindDeepChild("bg and aspectFitter");
                 if (aspectFitter != null)
                 {
+                    float maxWidth = 1424f;
+                    if (Display.displays.Length == 3)
+                    {
+                        maxWidth = Math.Min(Display.displays[1].renderingWidth, maxWidth);
+                    }
+
                     RectTransform rect = aspectFitter.GetComponent<RectTransform>();
-                    rect.sizeDelta = new Vector2(Math.Min(1424f, Screen.width), rect.sizeDelta.y);
+                    rect.sizeDelta = new Vector2(Math.Min(maxWidth, Screen.width), rect.sizeDelta.y);
                 }
 
                 // Clean up the strategy max text
