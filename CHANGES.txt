@@ -1,6 +1,6 @@
 Strategia 1.4.1
 - Massive Scale Launches strategy now incrementally gives the bonuses (you can still get the level 1 bonus if you don't meet the threshold for level 3).
-- Remove satellite contracts from Engineer focus.
+- Minor Operations department balance (thanks Stratickus).
 - Fix issue with Stagnated Research not being selectable (thanks Stratickus).
 - Adjust order of Gene/Wernher in the admin building.
 - Use correct currency symbols.
