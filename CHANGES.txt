@@ -1,4 +1,4 @@
-Strategia 1.4.1
+Strategia 1.5.0
 - Massive Scale Launches strategy now incrementally gives the bonuses (you can still get the level 1 bonus if you don't meet the threshold for level 3).
 - Show the correct max number of strategies on the description text of the Administration building.
 - Minor Operations department balance (thanks Stratickus).
