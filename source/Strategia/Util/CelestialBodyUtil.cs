@@ -4,6 +4,7 @@ using System.Linq;
 using System.Text;
 using UnityEngine;
 using KSP;
+using ContractConfigurator;
 
 namespace Strategia
 {
@@ -101,14 +102,14 @@ namespace Strategia
         {
             CelestialBody first = bodies.First();
             CelestialBody last = bodies.Last();
-            string result = first.theName;
+            string result = first.CleanDisplayName();
             foreach (CelestialBody body in bodies.Where(cb => cb != first && cb != last))
             {
-                result += ", " + body.theName;
+                result += ", " + body.CleanDisplayName(true);
             }
             if (last != first)
             {
-                result += " " + conjunction + " " + last.theName;
+                result += " " + conjunction + " " + last.CleanDisplayName(true);
             }
             return result;
         }

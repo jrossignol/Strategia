@@ -35,7 +35,7 @@ namespace Strategia
         public string RequirementText()
         {
             string mannedStr = manned == null ? "" : manned.Value ? "crewed " : "uncrewed ";
-            return "Must " + (invert ? "not have any " + mannedStr + "vessels" : "have a " + mannedStr + "vessel") + " en route to " + body.theName;
+            return "Must " + (invert ? "not have any " + mannedStr + "vessels" : "have a " + mannedStr + "vessel") + " en route to " + body.CleanDisplayName(true);
         }
 
         public bool RequirementMet(out string unmetReason)
@@ -56,7 +56,7 @@ namespace Strategia
                 bool enRoute = VesselIsEnroute(vessel);
                 if (enRoute && invert)
                 {
-                    unmetReason = vessel.vesselName + " is en route to " + body.theName;
+                    unmetReason = vessel.vesselName + " is en route to " + body.CleanDisplayName(true);
                     return false;
                 }
                 else if (enRoute && !invert)
@@ -71,7 +71,7 @@ namespace Strategia
             }
             else
             {
-                unmetReason = "No vessels are en route to " + body.theName;
+                unmetReason = "No vessels are en route to " + body.CleanDisplayName(true);
                 return false;
             }
         }

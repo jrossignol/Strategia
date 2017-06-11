@@ -34,7 +34,7 @@ namespace Strategia
             if (nonKSCScienceMultiplier > 0.0)
             {
                 CelestialBody home = FlightGlobals.Bodies.Where(cb => cb.isHomeWorld).First();
-                yield return ToPercentage(nonKSCScienceMultiplier, "N0") + " bonus to " + home.theName + " Science.";
+                yield return ToPercentage(nonKSCScienceMultiplier, "N0") + " bonus to " + home.CleanDisplayName(true) + " Science.";
             }
         }
 

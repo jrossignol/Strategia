@@ -104,7 +104,7 @@ namespace Strategia
                 string title = "Rewards from strategy '" + Parent.Title + "'";
                 string header = "Science from new " + ExplorationTypeNamePlural(explorationType) + ":\n";
                 string rewardMessage = "    " + (explorationType == ExplorationType.Biome ? biome.ToString() : biome.body.name) +
-                    ": <color=#B4D455><sprite=2 tint=1> " + rewardFunds.ToString("N0") + "</color>\n";
+                    ": <color=#B4D455><sprite=\"CurrencySpriteAsset\" name=\"Funds\" tint=1> " + rewardFunds.ToString("N0") + "</color>\n";
 
                 MessageSystem.Message message = MessageSystem.Instance.FindMessages(m => m.messageTitle == title).FirstOrDefault();
                 if (message == null)

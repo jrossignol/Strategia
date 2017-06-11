@@ -38,7 +38,7 @@ namespace Strategia
                 string title = "Strategia " + ainfoV.InformationalVersion + " Message";
                 string message = "Strategia requires Custom Barn Kit to function properly.  Strategia is currently disabled, and will automatically re-enable itself when Custom Barn Kit is installed.";
                 DialogGUIButton dialogOption = new DialogGUIButton("Okay", new Callback(DoNothing), true);
-                PopupDialog.SpawnPopupDialog(new MultiOptionDialog(message, title, UISkinManager.GetSkin("default"), dialogOption), false, UISkinManager.GetSkin("default"));
+                PopupDialog.SpawnPopupDialog(new MultiOptionDialog("StrategiaMsg", message, title, UISkinManager.GetSkin("default"), dialogOption), false, UISkinManager.GetSkin("default"));
             }
         }
 
@@ -236,7 +236,7 @@ namespace Strategia
         {
             string result = input.
                 Replace("$body", body.name).
-                Replace("$theBody", body.theName);
+                Replace("$theBody", body.CleanDisplayName());
 
             if (result.Contains("$theBodies"))
             {
