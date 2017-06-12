@@ -71,6 +71,25 @@ namespace Strategia
             }
         }
 
+        protected override void OnUnregister()
+        {
+            // Check for a deactivation
+            if (!Parent.IsActive)
+            {
+                switch (parameter)
+                {
+                    case Parameter.RepLossDeclined:
+                        if (originalValue != null)
+                        {
+                            HighLogic.CurrentGame.Parameters.Career.RepLossDeclined = originalValue.Value;
+                        }
+                        break;
+                    default:
+                        break;
+                }
+            }
+        }
+
         protected override void OnSave(ConfigNode node)
         {
             base.OnSave(node);
