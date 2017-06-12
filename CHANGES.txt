@@ -1,5 +1,6 @@
 Strategia 1.6.0
 - Rebuild for KSP 1.3.0.
+- Celestial body programs now increase the likelihood of receiving contracts related to the celestial body in question.
 - Fixed issue where removal of contract decline penalty on contract slot machine was permanent.
 
 Strategia 1.5.0
