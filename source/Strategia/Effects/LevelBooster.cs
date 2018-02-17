@@ -31,7 +31,7 @@ namespace Strategia
             string astronautStr = string.IsNullOrEmpty(trait) ? "astronauts" : (trait.ToLower() + "s");
 
             int level = Parent.GetLeveledListItem<int>(levels);
-            return "All " + genderStr + astronautStr + " perform as if they had " + level + " more level" + (level == 1 ? "" : "s") + " of experience.";
+            return "All " + genderStr + astronautStr + " perform as if they had " + level + " more level" + (level == 1 ? "" : "s") + " of experience, up to a maximum of 5.";
         }
 
         protected override void OnLoadFromConfig(ConfigNode node)
@@ -78,7 +78,10 @@ namespace Strategia
                     gender == null || p.gender == gender
                 ))
             {
-                pcm.experienceLevel = KerbalRoster.CalculateExperienceLevel(pcm.experience) + level;
+				// Crew portraits break down if they have to display more than five stars, complicating EVA immensely.
+				// To prevent this, we have to limit the total level to 5.
+				int newLevel = KerbalRoster.CalculateExperienceLevel (pcm.experience) + level;
+				pcm.experienceLevel = newLevel > 5 ? 5 : newLevel;
             }
 
             return;
