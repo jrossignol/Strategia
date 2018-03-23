@@ -43,7 +43,7 @@ namespace Strategia
 
         public string RequirementText()
         {
-            return facilityNames[facility] + " must be at least level " + level;
+            return level > 1 ? (facilityNames[facility] + " must be at least level " + level) : null;
         }
 
         public bool RequirementMet(out string unmetReason)

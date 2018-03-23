@@ -112,9 +112,6 @@ namespace Strategia
                     // Set the group tag
                     newStrategy.SetValue("groupTag", newStrategy.GetValue("groupTag") + StringUtil.IntegerToRoman(level));
 
-                    // Set the factor slider
-                    newStrategy.SetValue("factorSliderDefault", ((float)level / ConfigNodeUtil.ParseValue<int>(node, "factorSliderSteps")).ToString(), true);
-
                     // Set the icon
                     newStrategy.SetValue("icon", newStrategy.GetValue("icon") + level);
 

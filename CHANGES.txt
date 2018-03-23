@@ -1,6 +1,7 @@
 Strategia 1.7.0
 - Rebuild for KSP 1.4.1.
 - Fixed issue where the level boosting strategies could boost a level too high and break things (thanks Mihara).
+- Removed stock references to slider values in messages for strategies that weren't available due to insufficient Admin Building level.
 
 Strategia 1.6.0
 - Rebuild for KSP 1.3.0.

@@ -259,14 +259,6 @@ namespace Strategia
                 }
                 result += RequirementText(text, repMet);
             }
-            int minFacilityLevel = MinimumFacilityLevel();
-            if (minFacilityLevel > 1)
-            {
-                int currentLevel = (int)Math.Round(ScenarioUpgradeableFacilities.GetFacilityLevel(SpaceCenterFacility.Administration) *
-                    ScenarioUpgradeableFacilities.GetFacilityLevelCount(SpaceCenterFacility.Administration)) + 1;
-                result += RequirementText("Administration Facility Level " + minFacilityLevel,
-                    currentLevel >= minFacilityLevel);
-            }
 
             // Requirements from strategies
             foreach (StrategyEffect effect in Effects)
@@ -277,11 +269,14 @@ namespace Strategia
                     string unmetReason;
                     bool requirementMet = requirementEffect.RequirementMet(out unmetReason);
                     string text = requirementEffect.RequirementText();
-                    if (!requirementMet && !string.IsNullOrEmpty(unmetReason))
+                    if (!string.IsNullOrEmpty(text))
                     {
-                        text += " (" + unmetReason + ")";
+                        if (!requirementMet && !string.IsNullOrEmpty(unmetReason))
+                        {
+                            text += " (" + unmetReason + ")";
+                        }
+                        result += RequirementText(text, requirementMet);
                     }
-                    result += RequirementText(text, requirementMet);
                 }
             }
 
