@@ -80,8 +80,7 @@ namespace Strategia
             {
 				// Crew portraits break down if they have to display more than five stars, complicating EVA immensely.
 				// To prevent this, we have to limit the total level to 5.
-				int newLevel = KerbalRoster.CalculateExperienceLevel (pcm.experience) + level;
-				pcm.experienceLevel = newLevel > 5 ? 5 : newLevel;
+                pcm.experienceLevel = Math.Min(KerbalRoster.CalculateExperienceLevel(pcm.experience) + level, 5);
             }
 
             return;
