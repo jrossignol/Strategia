@@ -182,12 +182,6 @@ namespace Strategia
                         continue;
                     }
 
-                    string hash2 = string.Join("|", new string[]{
-                        contract.FundsCompletion.ToString(),
-                        contract.ScienceCompletion.ToString(),
-                        contract.ReputationCompletion.ToString(),
-                        TransactionReasons.ContractReward.ToString()
-                    });
                     // Check contract values - allow zero values because on reward funds/science/rep all come in seperately 
                     if (qry.reason == TransactionReasons.ContractAdvance &&
                             contract.FundsAdvance == funds && science == 0.0 && rep == 0.0 ||
