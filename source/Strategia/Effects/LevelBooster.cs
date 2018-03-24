@@ -5,6 +5,7 @@ using System.Reflection;
 using System.Text;
 using UnityEngine;
 using KSP;
+using KSP.UI.Screens.Flight;
 using Strategies;
 using Strategies.Effects;
 using ContractConfigurator;
@@ -47,6 +48,7 @@ namespace Strategia
             {
                 GameEvents.onVesselChange.Add(new EventData<Vessel>.OnEvent(OnVesselChange));
                 GameEvents.onFlightReady.Add(new EventVoid.OnEvent(OnFlightReady));
+                GameEvents.onKerbalLevelUp.Add(new EventData<ProtoCrewMember>.OnEvent(OnKerbalLevelUp));
             }
         }
 
@@ -54,6 +56,7 @@ namespace Strategia
         {
             GameEvents.onVesselChange.Remove(new EventData<Vessel>.OnEvent(OnVesselChange));
             GameEvents.onFlightReady.Remove(new EventVoid.OnEvent(OnFlightReady));
+            GameEvents.onKerbalLevelUp.Add(new EventData<ProtoCrewMember>.OnEvent(OnKerbalLevelUp));
         }
 
         private void OnFlightReady()
@@ -66,24 +69,42 @@ namespace Strategia
             HandleVessel(vessel);
         }
 
+        private void OnKerbalLevelUp(ProtoCrewMember pcm)
+        {
+            // If in flight, assume a level up means that our crew is to be handled by this strategy
+            if (HighLogic.LoadedScene == GameScenes.FLIGHT)
+            {
+                HandleCrew(pcm);
+            }
+        }
+
         private void HandleVessel(Vessel vessel)
+        {
+            // Update the level for all crew in the vessel
+            foreach (ProtoCrewMember pcm in VesselUtil.GetVesselCrew(vessel))
+            {
+                HandleCrew(pcm);
+            }
+        }
+
+        private void HandleCrew(ProtoCrewMember pcm)
         {
             // Get the level
             int level = Parent.GetLeveledListItem<int>(levels);
 
-            // Update the level for all crew that match up
-            foreach (ProtoCrewMember pcm in VesselUtil.GetVesselCrew(vessel).
-                Where(p =>
-                    string.IsNullOrEmpty(trait) || p.experienceTrait.Config.Name == trait &&
-                    gender == null || p.gender == gender
-                ))
+            if (string.IsNullOrEmpty(trait) || pcm.experienceTrait.Config.Name == trait &&
+                gender == null || pcm.gender == gender)
             {
-				// Crew portraits break down if they have to display more than five stars, complicating EVA immensely.
-				// To prevent this, we have to limit the total level to 5.
+                // Crew portraits break down if they have to display more than five stars, complicating EVA immensely.
+                // To prevent this, we have to limit the total level to 5.
                 pcm.experienceLevel = Math.Min(KerbalRoster.CalculateExperienceLevel(pcm.experience) + level, 5);
-            }
 
-            return;
+                // Force an update of the portrait, if present
+                if (pcm.KerbalRef != null)
+                {
+                    KerbalPortraitGallery.Instance.UpdatePortrait(pcm.KerbalRef);
+                }
+            }
         }
     }
 }

@@ -1,3 +1,6 @@
+Strategia 1.7.1
+- Fixed some issues with the kerbal portraits not refreshing properly when the level is dynamically changed (thanks zwinst).
+
 Strategia 1.7.0
 - Rebuild for KSP 1.4.1.
 - Fixed issue where the level boosting strategies could boost a level too high and break things (thanks Mihara).
