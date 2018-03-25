@@ -1,5 +1,6 @@
 Strategia 1.7.1
 - Fixed some issues with the kerbal portraits not refreshing properly when the level is dynamically changed (thanks zwinst).
+- Fixed error handling when tech tree can't be loaded (thanks zwinst).
 
 Strategia 1.7.0
 - Rebuild for KSP 1.4.1.

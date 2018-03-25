@@ -100,7 +100,10 @@ namespace Strategia
 
         protected float CurrentMultiplier()
         {
-            SetupTech();
+            if (!SetupTech())
+            {
+                return 1.0f;
+            }
 
             int count = 0;
             foreach (string techId in allTech)
