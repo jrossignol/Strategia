@@ -232,7 +232,7 @@ namespace Strategia
                 string text = "At least " + InitialCostFunds.ToString("N0") + " funds";
                 if (!fundsMet)
                 {
-                    text += " (Current funds: " + Math.Round(currentFunds) + ")";
+                    text += " (Current funds: " + Math.Round(currentFunds).ToString("N0") + ")";
                 }
                 result += RequirementText(text, fundsMet);
             }
@@ -243,7 +243,7 @@ namespace Strategia
                 string text = "At least " + InitialCostScience.ToString("N0") + " science";
                 if (!scienceMet)
                 {
-                    text += " (Current science: " + Math.Round(currentScience) + ")";
+                    text += " (Current science: " + Math.Round(currentScience).ToString("N0") + ")";
                 }
                 result += RequirementText(text, scienceMet);
             }
@@ -255,7 +255,7 @@ namespace Strategia
                 string text = "At least " + reputationNeeded.ToString("N0") + " reputation";
                 if (!repMet)
                 {
-                    text += " (Current reputation: " + Math.Round(currentReputation) + ")";
+                    text += " (Current reputation: " + Math.Round(currentReputation).ToString("N0") + ")";
                 }
                 result += RequirementText(text, repMet);
             }

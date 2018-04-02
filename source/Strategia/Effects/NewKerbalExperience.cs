@@ -25,11 +25,11 @@ namespace Strategia
         static NewKerbalExperience()
         {
             Debug.Log("Strategia: Setting up Kerbal Experience");
-            KerbalRoster.AddExperienceType(SPECIAL_XP + "1", "Special training on", 0.0f, 2.0f);
-            KerbalRoster.AddExperienceType(SPECIAL_XP + "2", "Special training on", 0.0f, 8.0f);
-            KerbalRoster.AddExperienceType(SPECIAL_XP + "3", "Special training on", 0.0f, 16.0f);
-            KerbalRoster.AddExperienceType(SPECIAL_XP + "4", "Special training on", 0.0f, 32.0f);
-            KerbalRoster.AddExperienceType(SPECIAL_XP + "5", "Special training on", 0.0f, 64.0f);
+            KerbalRoster.AddExperienceType(SPECIAL_XP + "1", "Special training", 0.0f, 2.0f);
+            KerbalRoster.AddExperienceType(SPECIAL_XP + "2", "Special training", 0.0f, 8.0f);
+            KerbalRoster.AddExperienceType(SPECIAL_XP + "3", "Special training", 0.0f, 16.0f);
+            KerbalRoster.AddExperienceType(SPECIAL_XP + "4", "Special training", 0.0f, 32.0f);
+            KerbalRoster.AddExperienceType(SPECIAL_XP + "5", "Special training", 0.0f, 64.0f);
         }
 
         int level;
@@ -46,7 +46,7 @@ namespace Strategia
             string genderStr = gender != null ? gender.Value.ToString().ToLower() + " " : "";
             string astronautStr = string.IsNullOrEmpty(trait) ? "astronauts" : (trait.ToLower() + "s");
 
-            return "Hired " + genderStr + astronautStr + " start at level " + Parent.Level() + ".";
+            return "Hired " + genderStr + astronautStr + " start at level " + level + ".";
         }
 
         protected override void OnLoadFromConfig(ConfigNode node)
@@ -99,7 +99,7 @@ namespace Strategia
                 }
 
                 // Get the experience level
-                int value = Parent.Level();
+                int value = level;
                 string type = SPECIAL_XP + value.ToString();
 
                 // Do the awarding
