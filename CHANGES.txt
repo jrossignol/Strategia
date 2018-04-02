@@ -1,7 +1,7 @@
 Strategia 1.7.1
 - Fixed some issues with the kerbal portraits not refreshing properly when the level is dynamically changed (thanks zwinst).
 - Fixed error handling when tech tree can't be loaded (thanks zwinst).
-- Fixed the astronaut training strategy that was broken in 1.7.1 (thanks MistaJunior).
+- Fixed the astronaut training strategy that was broken in 1.7.0 (thanks MistaJunior).
 - Fixed ugly number format in some places.
 
 Strategia 1.7.0
