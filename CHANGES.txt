@@ -1,3 +1,6 @@
+Strategia 1.7.2
+- Fixed logic for determining strategy level - this was causing some strategies to be the same for all levels (thanks ibanix).
+
 Strategia 1.7.1
 - Fixed some issues with the kerbal portraits not refreshing properly when the level is dynamically changed (thanks zwinst).
 - Fixed error handling when tech tree can't be loaded (thanks zwinst).
