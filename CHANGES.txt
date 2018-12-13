@@ -1,5 +1,6 @@
 Strategia 1.7.3
 - Rebuild for KSP 1.5.x.
+- Fixed active strategy text in facility right-click menu (thanks avalancha).
 
 Strategia 1.7.2
 - Fixed logic for determining strategy level - this was causing some strategies to be the same for all levels (thanks ibanix).
