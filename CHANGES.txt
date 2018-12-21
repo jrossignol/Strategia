@@ -1,3 +1,6 @@
+Strategia 1.7.4
+- Check hasSolidSurface flag for gas giants (thanks LucasHazelwood).
+
 Strategia 1.7.3
 - Rebuild for KSP 1.5.x.
 - Fixed active strategy text in facility right-click menu (thanks avalancha).
