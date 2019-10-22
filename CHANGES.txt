@@ -1,3 +1,7 @@
+Strategia 1.8.0
+- Rebuild for KSP 1.8.0
+- Minor typo correction (thanks Galenmacil).
+
 Strategia 1.7.4
 - Check hasSolidSurface flag for gas giants (thanks LucasHazelwood).
 - Added title to Strategia agent to prevent warnings in log (thanks denyasis).
