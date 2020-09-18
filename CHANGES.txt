@@ -1,6 +1,7 @@
 Strategia 1.9.0
 - Rebuild for KSP 1.10.0
 - Fix from TonkaCrash for issue where strategies for improving vessel values applied the improved value to different parts of the same type.
+- Fixed a minor issue where the Strategy notifier could report incorrect information.
 
 Strategia 1.8.0
 - Rebuild for KSP 1.8.0

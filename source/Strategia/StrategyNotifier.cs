@@ -176,7 +176,7 @@ namespace Strategia
             {
                 string strategy = pair.Key;
                 bool active = pair.Value;
-                strategyNode.AddValue(strategy, active);
+                msgNode.AddValue(strategy, active);
             }
         }
 
