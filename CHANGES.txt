@@ -1,4 +1,5 @@
-Strategia 1.9.1
+Strategia 1.10.0
+- Support replacing headImage (static images) for admin department.
 - Removed some old Reflection that is no longer needed.
 - Fixed an NRE when no avatar is specified in a department config.
 
