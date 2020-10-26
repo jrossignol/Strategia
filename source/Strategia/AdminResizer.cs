@@ -39,14 +39,21 @@ namespace Strategia
             if (ticks++ == 0)
             {
                 // Resize the root element that handles the width
+                LoggingUtil.LogDebug(this, "Modifying width of admin screen...");
                 Transform aspectFitter = KSP.UI.Screens.Administration.Instance.transform.FindDeepChild("bg and aspectFitter");
                 if (aspectFitter != null)
                 {
                     RectTransform rect = aspectFitter.GetComponent<RectTransform>();
-                    rect.sizeDelta = new Vector2(Math.Min(1424f, Screen.width), rect.sizeDelta.y);
+
+                    // Determine the ideal size
+                    int count = Math.Max(StrategySystem.Instance.SystemConfig.Departments.Count - 4, 0);
+                    float size = Math.Min(944f + (count * 232.0f), Screen.width);
+
+                    rect.sizeDelta = new Vector2(size, rect.sizeDelta.y);
                 }
 
                 // Clean up the strategy max text
+                LoggingUtil.LogDebug(this, "Cleaning up strategy max text...");
                 Transform stratCountTransform = KSP.UI.Screens.Administration.Instance.transform.FindDeepChild("ActiveStratCount");
                 TextMeshProUGUI stratCountText = stratCountTransform.GetComponent<TextMeshProUGUI>();
                 int limit = Administration.Instance.MaxActiveStrategies - 1;
@@ -60,39 +67,41 @@ namespace Strategia
                 Transform scrollListKerbals = KSP.UI.Screens.Administration.Instance.transform.FindDeepChild("scroll list kerbals");
                 foreach (DepartmentConfig department in StrategySystem.Instance.SystemConfig.Departments)
                 {
-                    LoggingUtil.LogDebug(this, "    looking at department {0} (headimagestr = {1})", department.HeadName, department.HeadImageString);
                     // If there is no avatar prefab but there is a head image, use that in place
                     if (department.AvatarPrefab == null)
                     {
-                        // Get the head image from the texture DB
+                        // Get the head image
                         Texture2D tex = department.HeadImage;
                         if (tex == null)
                         {
+                            // Pull from texture DB if possible
                             if (GameDatabase.Instance.ExistsTexture(department.HeadImageString))
                             {
-                                LoggingUtil.LogDebug(this, "    get texture from game db...");
                                 tex = GameDatabase.Instance.GetTexture(department.HeadImageString, false);
                             }
+                            // Otherwise just load it
                             else
                             {
-                                LoggingUtil.LogDebug(this, "    manual texture load...");
-                                ///needsUnload = true;
                                 tex = TextureUtil.LoadTexture(department.HeadImageString);
                             }
                         }
 
-                        LoggingUtil.LogDebug(this, "    looping through scroll list kerbals...");
-                        // Do stuff here
                         for (int i = 0; i < scrollListKerbals.childCount; i++)
                         {
                             Transform t = scrollListKerbals.GetChild(i);
                             KerbalListItem kerbalListItem = t.GetComponent<KerbalListItem>();
-                            LoggingUtil.LogDebug(this, "    examine kerbal list item {0}", kerbalListItem.title.text);
                             if (kerbalListItem.title.text.Contains(department.HeadName))
                             {
-                                LoggingUtil.LogDebug(this, "Found department {0}", department.HeadName);
+                                LoggingUtil.LogDebug(this, "Replacing admin building texture for department {0}", department.HeadName);
                                 kerbalListItem.kerbalImage.texture = tex;
                                 kerbalListItem.kerbalImage.material = kerbalListItem.kerbalImage.defaultMaterial;
+
+                                // Remove extra braces
+                                if (kerbalListItem.title.text.Contains("()"))
+                                {
+                                    kerbalListItem.title.text.Replace("()", "");
+                                }
+
                                 break;
                             }
                         }
