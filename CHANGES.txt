@@ -1,5 +1,6 @@
 Strategia 1.10.0
 - Support replacing headImage (static images) for admin department.
+- Better dynamic resizing based on count of departments.
 - Removed some old Reflection that is no longer needed.
 - Fixed an NRE when no avatar is specified in a department config.
 
